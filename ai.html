@@ -1,0 +1,90 @@
+<section id="ai-section" style="padding:50px; background: linear-gradient(135deg, #0f2027, #203a43, #2c5364); color:#fff;">
+  <h1 style="text-align:center; font-size:2.5rem; margin-bottom:30px;">⚡ AI Hub ⚡</h1>
+
+  <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:20px;">
+
+    <!-- AI Chat -->
+    <div style="background: rgba(255,255,255,0.05); padding:20px; border-radius:15px;">
+      <h2>🤖 AI Chat</h2>
+      <textarea id="chatInput" placeholder="Ask anything..." style="width:100%; padding:10px; border-radius:8px; margin:10px 0;"></textarea>
+      <button onclick="aiChat()" style="padding:10px 15px; border:none; border-radius:8px; background: linear-gradient(45deg,#00ff87,#60efff); cursor:pointer;">Send</button>
+      <div id="chatOutput" style="margin-top:10px; background: rgba(0,0,0,0.2); padding:10px; border-radius:8px; min-height:80px;">AI reply here...</div>
+    </div>
+
+    <!-- AI Image Generator -->
+    <div style="background: rgba(255,255,255,0.05); padding:20px; border-radius:15px;">
+      <h2>🖼️ AI Image Generator</h2>
+      <input id="imgPrompt" type="text" placeholder="Type a scene..." style="width:100%; padding:10px; border-radius:8px; margin:10px 0;">
+      <button onclick="aiImage()" style="padding:10px 15px; border:none; border-radius:8px; background: linear-gradient(45deg,#ff6a00,#ee0979); cursor:pointer;">Generate</button>
+      <div id="imgOutput" style="margin-top:10px; min-height:150px;">Image will appear here...</div>
+    </div>
+
+    <!-- AI Text Summarizer -->
+    <div style="background: rgba(255,255,255,0.05); padding:20px; border-radius:15px;">
+      <h2>📰 AI Text Summarizer</h2>
+      <textarea id="textInput" placeholder="Paste your text..." style="width:100%; padding:10px; border-radius:8px; margin:10px 0;"></textarea>
+      <button onclick="aiSummarize()" style="padding:10px 15px; border:none; border-radius:8px; background: linear-gradient(45deg,#ff00ff,#ff6a00); cursor:pointer;">Summarize</button>
+      <div id="summaryOutput" style="margin-top:10px; min-height:80px; background: rgba(0,0,0,0.2); padding:10px; border-radius:8px;">Summary here...</div>
+    </div>
+
+  </div>
+</section>
+
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script>
+  const OPENAI_API_KEY = "YOUR_OPENAI_API_KEY"; // এখানে তোমার API key দিবে
+
+  async function aiChat() {
+    const input = document.getElementById("chatInput").value;
+    const output = document.getElementById("chatOutput");
+    output.innerText = "Loading...";
+
+    try {
+      const response = await axios.post("https://api.openai.com/v1/chat/completions", {
+        model: "gpt-3.5-turbo",
+        messages: [{role:"user", content: input}]
+      }, { headers: { "Authorization": `Bearer ${OPENAI_API_KEY}` }});
+
+      output.innerText = response.data.choices[0].message.content;
+    } catch (error) {
+      output.innerText = "Error: " + error.message;
+    }
+  }
+
+  async function aiImage() {
+    const prompt = document.getElementById("imgPrompt").value;
+    const output = document.getElementById("imgOutput");
+    output.innerText = "Generating image...";
+
+    try {
+      const response = await axios.post("https://api.openai.com/v1/images/generations", {
+        model: "gpt-image-1",
+        prompt: prompt,
+        size: "512x512"
+      }, { headers: { "Authorization": `Bearer ${OPENAI_API_KEY}` }});
+
+      output.innerHTML = `<img src="${response.data.data[0].url}" style="width:100%; border-radius:10px;">`;
+    } catch (error) {
+      output.innerText = "Error: " + error.message;
+    }
+  }
+
+  async function aiSummarize() {
+    const text = document.getElementById("textInput").value;
+    const output = document.getElementById("summaryOutput");
+    output.innerText = "Summarizing...";
+
+    try {
+      const response = await axios.post("https://api.openai.com/v1/chat/completions", {
+        model: "gpt-3.5-turbo",
+        messages: [
+          {role:"user", content: "Summarize this text: " + text}
+        ]
+      }, { headers: { "Authorization": `Bearer ${OPENAI_API_KEY}` }});
+
+      output.innerText = response.data.choices[0].message.content;
+    } catch (error) {
+      output.innerText = "Error: " + error.message;
+    }
+  }
+</script>
