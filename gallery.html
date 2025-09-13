@@ -1,5 +1,62 @@
-<section>
-  <h2>📸 Gallery</h2>
-  <img src="images/gallery1.jpg" width="200">
-  <img src="images/gallery2.jpg" width="200">
-</section>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>World Photo Gallery</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #6a11cb, #2575fc);
+      text-align: center;
+      color: white;
+    }
+
+    h1 {
+      padding: 20px;
+      font-size: 2.5rem;
+      text-shadow: 2px 2px 8px rgba(0,0,0,0.5);
+    }
+
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 18px;
+      padding: 20px;
+    }
+
+    .gallery img {
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .gallery img:hover {
+      transform: scale(1.05);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🌍 World Photo Gallery</h1>
+
+  <div class="gallery">
+    <img src="https://source.unsplash.com/600x400/?bangladesh" alt="Bangladesh">
+    <img src="https://source.unsplash.com/600x400/?india" alt="India">
+    <img src="https://source.unsplash.com/600x400/?japan" alt="Japan">
+    <img src="https://source.unsplash.com/600x400/?france" alt="France">
+    <img src="https://source.unsplash.com/600x400/?italy" alt="Italy">
+    <img src="https://source.unsplash.com/600x400/?brazil" alt="Brazil">
+    <img src="https://source.unsplash.com/600x400/?usa" alt="USA">
+    <img src="https://source.unsplash.com/600x400/?china" alt="China">
+    <img src="https://source.unsplash.com/600x400/?uk" alt="UK">
+    <img src="https://source.unsplash.com/600x400/?egypt" alt="Egypt">
+  </div>
+
+</body>
+</html>
