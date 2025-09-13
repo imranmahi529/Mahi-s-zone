@@ -1,13 +1,13 @@
-<section id="ai-section" style="padding:50px; background: linear-gradient(135deg, #0f2027, #203a43, #2c5364); color:#fff;">
-  <h1 style="text-align:center; font-size:2.5rem; margin-bottom:30px;">⚡ AI Hub ⚡</h1>
+<section id="ai-section" style="padding:50px; background: linear-gradient(135deg,#0f2027,#203a43,#2c5364); color:#fff;">
+  <h1 style="text-align:center; font-size:2.5rem; margin-bottom:30px;">⚡ Auto AI Hub ⚡</h1>
 
   <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:20px;">
 
     <!-- AI Chat -->
     <div style="background: rgba(255,255,255,0.05); padding:20px; border-radius:15px;">
       <h2>🤖 AI Chat</h2>
-      <textarea id="chatInput" placeholder="Ask anything..." style="width:100%; padding:10px; border-radius:8px; margin:10px 0;"></textarea>
-      <button onclick="aiChat()" style="padding:10px 15px; border:none; border-radius:8px; background: linear-gradient(45deg,#00ff87,#60efff); cursor:pointer;">Send</button>
+      <textarea id="chatInput" placeholder="Type your question..." style="width:100%; padding:10px; border-radius:8px; margin:10px 0;"></textarea>
+      <button onclick="autoAIChat()" style="padding:10px 15px; border:none; border-radius:8px; background: linear-gradient(45deg,#00ff87,#60efff); cursor:pointer;">Send</button>
       <div id="chatOutput" style="margin-top:10px; background: rgba(0,0,0,0.2); padding:10px; border-radius:8px; min-height:80px;">AI reply here...</div>
     </div>
 
@@ -15,76 +15,62 @@
     <div style="background: rgba(255,255,255,0.05); padding:20px; border-radius:15px;">
       <h2>🖼️ AI Image Generator</h2>
       <input id="imgPrompt" type="text" placeholder="Type a scene..." style="width:100%; padding:10px; border-radius:8px; margin:10px 0;">
-      <button onclick="aiImage()" style="padding:10px 15px; border:none; border-radius:8px; background: linear-gradient(45deg,#ff6a00,#ee0979); cursor:pointer;">Generate</button>
+      <button onclick="autoAIImage()" style="padding:10px 15px; border:none; border-radius:8px; background: linear-gradient(45deg,#ff6a00,#ee0979); cursor:pointer;">Generate</button>
       <div id="imgOutput" style="margin-top:10px; min-height:150px;">Image will appear here...</div>
     </div>
 
-    <!-- AI Text Summarizer -->
+    <!-- AI Summarizer -->
     <div style="background: rgba(255,255,255,0.05); padding:20px; border-radius:15px;">
       <h2>📰 AI Text Summarizer</h2>
       <textarea id="textInput" placeholder="Paste your text..." style="width:100%; padding:10px; border-radius:8px; margin:10px 0;"></textarea>
-      <button onclick="aiSummarize()" style="padding:10px 15px; border:none; border-radius:8px; background: linear-gradient(45deg,#ff00ff,#ff6a00); cursor:pointer;">Summarize</button>
+      <button onclick="autoAISummarize()" style="padding:10px 15px; border:none; border-radius:8px; background: linear-gradient(45deg,#ff00ff,#ff6a00); cursor:pointer;">Summarize</button>
       <div id="summaryOutput" style="margin-top:10px; min-height:80px; background: rgba(0,0,0,0.2); padding:10px; border-radius:8px;">Summary here...</div>
     </div>
 
   </div>
 </section>
 
-<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script>
-  const OPENAI_API_KEY = "YOUR_OPENAI_API_KEY"; // এখানে তোমার API key দিবে
+  // Simple Auto AI Demo Functions
 
-  async function aiChat() {
+  function autoAIChat() {
     const input = document.getElementById("chatInput").value;
     const output = document.getElementById("chatOutput");
-    output.innerText = "Loading...";
+    output.innerText = "Thinking...";
 
-    try {
-      const response = await axios.post("https://api.openai.com/v1/chat/completions", {
-        model: "gpt-3.5-turbo",
-        messages: [{role:"user", content: input}]
-      }, { headers: { "Authorization": `Bearer ${OPENAI_API_KEY}` }});
-
-      output.innerText = response.data.choices[0].message.content;
-    } catch (error) {
-      output.innerText = "Error: " + error.message;
-    }
+    // Auto Response Logic
+    setTimeout(() => {
+      const replies = [
+        `I see you said: "${input}"!`,
+        `Interesting! "${input}" sounds cool.`,
+        `Hmm... "${input}" 🤔 Let me think.`,
+        `"${input}"? That’s fascinating!`,
+        `Got it! You wrote: "${input}"`
+      ];
+      output.innerText = replies[Math.floor(Math.random() * replies.length)];
+    }, 800);
   }
 
-  async function aiImage() {
+  function autoAIImage() {
     const prompt = document.getElementById("imgPrompt").value;
     const output = document.getElementById("imgOutput");
-    output.innerText = "Generating image...";
-
-    try {
-      const response = await axios.post("https://api.openai.com/v1/images/generations", {
-        model: "gpt-image-1",
-        prompt: prompt,
-        size: "512x512"
-      }, { headers: { "Authorization": `Bearer ${OPENAI_API_KEY}` }});
-
-      output.innerHTML = `<img src="${response.data.data[0].url}" style="width:100%; border-radius:10px;">`;
-    } catch (error) {
-      output.innerText = "Error: " + error.message;
-    }
+    output.innerHTML = "Generating image...";
+    setTimeout(() => {
+      // Random demo image placeholder
+      const colors = ["ff6a00","00ff87","60efff","ff00ff","ff6a6a"];
+      const color = colors[Math.floor(Math.random() * colors.length)];
+      output.innerHTML = `<img src="https://via.placeholder.com/400x250/${color}/000000?text=${encodeURIComponent(prompt)}" style="width:100%; border-radius:10px;">`;
+    }, 1000);
   }
 
-  async function aiSummarize() {
+  function autoAISummarize() {
     const text = document.getElementById("textInput").value;
     const output = document.getElementById("summaryOutput");
     output.innerText = "Summarizing...";
-
-    try {
-      const response = await axios.post("https://api.openai.com/v1/chat/completions", {
-        model: "gpt-3.5-turbo",
-        messages: [
-          {role:"user", content: "Summarize this text: " + text}
-        ]
-      }, { headers: { "Authorization": `Bearer ${OPENAI_API_KEY}` }});
-
-      output.innerText = response.data.choices[0].message.content;
-    } catch (error) {
-      output.innerText = "Error: " + error.message;
-    }
+    setTimeout(() => {
+      const words = text.split(" ");
+      const summary = words.slice(0, Math.min(20, words.length)).join(" ") + (words.length > 20 ? "..." : "");
+      output.innerText = "📰 Summary: " + summary;
+    }, 800);
   }
 </script>
