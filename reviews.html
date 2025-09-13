@@ -1,5 +1,51 @@
-<section>
-  <h2>💬 Review</h2>
-  <textarea placeholder="আপনার মতামত লিখুন"></textarea><br>
-  <button>Submit</button>
-</section>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Review Page</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body class="review-body">
+
+  <header class="review-header">
+    <h1>🌟 User Reviews 🌟</h1>
+    <p>Share your thoughts & see what others say!</p>
+  </header>
+
+  <section class="review-container">
+    <!-- Review Form -->
+    <div class="review-form">
+      <h2>Leave a Review</h2>
+      <form>
+        <input type="text" placeholder="Your Name" required>
+        <textarea placeholder="Write your review..." required></textarea>
+        <button type="submit">Submit Review</button>
+      </form>
+    </div>
+
+    <!-- Reviews List -->
+    <div class="review-list">
+      <h2>What People Say</h2>
+
+      <div class="review-card">
+        <h3>Imran Hussain</h3>
+        <p>"Amazing website! The features are really unique & stylish 💖"</p>
+      </div>
+
+      <div class="review-card">
+        <h3>Topu</h3>
+        <p>"Loved the design, background looks so attractive 😍🔥"</p>
+      </div>
+
+      <div class="review-card">
+        <h3>Russel</h3>
+        <p>"User-friendly and smooth experience, keep it up! 👍"</p>
+      </div>
+
+    </div>
+  </section>
+
+</body>
+</html>
