@@ -3,27 +3,108 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Games | Mahi's Zone</title>
+  <title>Mahi's Games</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <header>
-    <h1>🎮 Game Zone</h1>
-    <nav>
-      <a href="index.html">Home</a>
-      <a href="about.html">About</a>
-      <a href="games.html">Games</a>
-      <a href="gallery.html">Gallery</a>
-      <a href="shop.html">Shop</a>
-      <a href="reviews.html">Reviews</a>
-      <a href="contact.html">Contact</a>
-    </nav>
-  </header>
 
-  <section>
-    <h2>গেম খেলুন</h2>
-    <p><a href="games/game1.html">Game 1</a></p>
-    <p><a href="games/game2.html">Game 2</a></p>
+  <!-- Games Section -->
+  <section class="games-section">
+    <h2>🎮 Play Games</h2>
+
+    <!-- Game 1: Number Guessing -->
+    <div class="game" id="game1">
+      <h3>Game 1: Number Guessing</h3>
+      <input type="number" id="guess" min="1" max="10">
+      <button onclick="checkGuess()">Guess</button>
+      <p id="result"></p>
+    </div>
+
+    <!-- Game 2: Rock Paper Scissors -->
+    <div class="game" id="game2">
+      <h3>Game 2: Rock Paper Scissors</h3>
+      <button onclick="rps('rock')">✊ Rock</button>
+      <button onclick="rps('paper')">✋ Paper</button>
+      <button onclick="rps('scissors')">✌ Scissors</button>
+      <p id="rps-result"></p>
+    </div>
+
+    <!-- Game 3: Click Counter -->
+    <div class="game" id="game3">
+      <h3>Game 3: Click Counter</h3>
+      <button onclick="countClicks()">Click Me!</button>
+      <p>Clicks: <span id="clicks">0</span></p>
+    </div>
+
+    <!-- Game 4: Quiz Game -->
+    <div class="game" id="game4">
+      <h3>Game 4: Simple Quiz</h3>
+      <p>What is the capital of Bangladesh?</p>
+      <button onclick="quizAnswer('Dhaka')">Dhaka</button>
+      <button onclick="quizAnswer('Sylhet')">Sylhet</button>
+      <p id="quiz-result"></p>
+    </div>
+
+    <!-- Game 5: Memory Flip -->
+    <div class="game" id="game5">
+      <h3>Game 5: Memory Flip</h3>
+      <button onclick="flipCard(1)">🂠 Card 1</button>
+      <button onclick="flipCard(2)">🂠 Card 2</button>
+      <p id="memory-result"></p>
+    </div>
   </section>
+
+  <script>
+  // Game 1: Number Guessing
+  function checkGuess() {
+    let num = Math.floor(Math.random() * 10) + 1;
+    let guess = document.getElementById("guess").value;
+    document.getElementById("result").innerText =
+      guess == num ? "🎉 Correct!" : "❌ Wrong! The number was " + num;
+  }
+
+  // Game 2: Rock Paper Scissors
+  function rps(userChoice) {
+    let choices = ["rock", "paper", "scissors"];
+    let comp = choices[Math.floor(Math.random() * 3)];
+    let result = "";
+    if (userChoice === comp) result = "😐 Draw! Computer also chose " + comp;
+    else if (
+      (userChoice === "rock" && comp === "scissors") ||
+      (userChoice === "paper" && comp === "rock") ||
+      (userChoice === "scissors" && comp === "paper")
+    ) result = "🎉 You Win! Computer chose " + comp;
+    else result = "❌ You Lose! Computer chose " + comp;
+
+    document.getElementById("rps-result").innerText = result;
+  }
+
+  // Game 3: Click Counter
+  let clicks = 0;
+  function countClicks() {
+    clicks++;
+    document.getElementById("clicks").innerText = clicks;
+  }
+
+  // Game 4: Quiz
+  function quizAnswer(ans) {
+    if (ans === "Dhaka") document.getElementById("quiz-result").innerText = "✅ Correct!";
+    else document.getElementById("quiz-result").innerText = "❌ Wrong!";
+  }
+
+  // Game 5: Memory Flip
+  let flipped = [];
+  function flipCard(card) {
+    flipped.push(card);
+    if (flipped.length === 2) {
+      if (flipped[0] === flipped[1])
+        document.getElementById("memory-result").innerText = "✅ Match!";
+      else
+        document.getElementById("memory-result").innerText = "❌ Not a Match!";
+      flipped = [];
+    }
+  }
+  </script>
+
 </body>
 </html>
