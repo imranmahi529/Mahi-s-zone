@@ -133,3 +133,85 @@ section {
   margin: 0;
   font-size: 1rem;
 }
+
+/* Extra Homepage Section */
+.mahi-homepage {
+  background: linear-gradient(135deg, #1e1e2f, #232946);
+  color: white;
+  text-align: center;
+  padding: 60px 20px;
+  font-family: 'Poppins', sans-serif;
+}
+
+.mahi-homepage .hero h1 {
+  font-size: 2.8em;
+  margin-bottom: 15px;
+  animation: glow 2s infinite alternate;
+}
+
+.mahi-homepage .hero span {
+  color: #ff4ecd;
+}
+
+.mahi-homepage .hero p {
+  font-size: 1.2em;
+  margin-bottom: 20px;
+  opacity: 0.9;
+}
+
+.mahi-homepage .btn {
+  padding: 12px 25px;
+  background: #ff4ecd;
+  color: white;
+  text-decoration: none;
+  border-radius: 30px;
+  transition: 0.3s;
+}
+.mahi-homepage .btn:hover {
+  background: #ff79a6;
+  transform: scale(1.1);
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 15px;
+  margin: 50px 0;
+}
+
+.feature-card {
+  background: #2a2a3d;
+  padding: 20px;
+  border-radius: 12px;
+  font-size: 1.2em;
+  transition: 0.3s;
+  cursor: pointer;
+}
+.feature-card:hover {
+  background: #ff4ecd;
+  transform: translateY(-8px);
+}
+
+.social-links {
+  margin: 30px 0;
+}
+.social-links a {
+  margin: 0 10px;
+  text-decoration: none;
+  color: #ffde59;
+  font-weight: bold;
+}
+.social-links a:hover {
+  color: #ff79a6;
+}
+
+footer {
+  margin-top: 40px;
+  font-size: 0.9em;
+  opacity: 0.8;
+}
+
+@keyframes glow {
+  from { text-shadow: 0 0 10px #ff4ecd; }
+  to { text-shadow: 0 0 20px #ff79a6, 0 0 30px #ff4ecd; }
+}
