@@ -1,5 +1,86 @@
-<section>
-  <h2>🛒 Shop</h2>
-  <p>👕 T-Shirt – 500 BDT <button>Buy Now</button></p>
-  <p>⌚ Watch – 2500 BDT <button>Buy Now</button></p>
-</section>
+<!-- Shop Section -->
+<div class="shop-section">
+  <h2>Our Shop</h2>
+  <div class="shop-card">
+    <div class="shop-image">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/0/05/Facebook_Logo_%282019%29.png" alt="Facebook Shop">
+    </div>
+    <div class="shop-info">
+      <h3>Visit My Facebook Shop</h3>
+      <p>Click the button below to explore our products directly on Facebook Shop.</p>
+      <a href="https://www.facebook.com/share/19qt4fXXTs/?mibextid=wwXIfr" target="_blank" class="shop-button">Go to Shop</a>
+    </div>
+  </div>
+</div>
+
+<!-- CSS -->
+<style>
+.shop-section {
+  max-width: 800px;
+  margin: 50px auto;
+  text-align: center;
+  font-family: 'Arial', sans-serif;
+}
+
+.shop-section h2 {
+  font-size: 36px;
+  color: #333;
+  margin-bottom: 30px;
+  text-transform: uppercase;
+}
+
+.shop-card {
+  display: flex;
+  flex-wrap: wrap;
+  background: linear-gradient(135deg, #4267B2, #1877F2);
+  color: white;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.shop-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+}
+
+.shop-image img {
+  width: 200px;
+  margin: 20px;
+  border-radius: 15px;
+  border: 3px solid white;
+}
+
+.shop-info {
+  flex: 1;
+  padding: 20px;
+  text-align: left;
+}
+
+.shop-info h3 {
+  font-size: 28px;
+  margin-bottom: 10px;
+}
+
+.shop-info p {
+  font-size: 16px;
+  margin-bottom: 20px;
+}
+
+.shop-button {
+  display: inline-block;
+  padding: 12px 25px;
+  background-color: #FFC107;
+  color: #333;
+  font-weight: bold;
+  text-decoration: none;
+  border-radius: 50px;
+  transition: background 0.3s ease, transform 0.3s ease;
+}
+
+.shop-button:hover {
+  background-color: #FFA000;
+  transform: scale(1.05);
+}
+</style>
