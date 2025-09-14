@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>World News</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background: linear-gradient(to right, #141e30, #243b55);
+      color: #fff;
+    }
+
+    h1 {
+      text-align: center;
+      padding: 20px;
+      font-size: 2.5rem;
+      color: #ffcc00;
+      text-shadow: 2px 2px 8px rgba(0,0,0,0.7);
+    }
+
+    .news-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 20px;
+      padding: 20px;
+    }
+
+    .news-card {
+      background: url('https://www.transparenttextures.com/patterns/asfalt-light.png'), #1e293b;
+      border-radius: 15px;
+      padding: 20px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.6);
+      transition: 0.3s;
+    }
+
+    .news-card:hover {
+      transform: scale(1.05);
+    }
+
+    .news-header {
+      font-size: 1.3rem;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: #00eaff;
+    }
+
+    .news-text {
+      font-size: 1rem;
+      line-height: 1.5;
+      color: #f1f1f1;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🌍 World News Section</h1>
+
+  <div class="news-container">
+    <!-- USA -->
+    <div class="news-card">
+      <div class="news-header">🇺🇸 USA</div>
+      <div class="news-text">The U.S. economy continues to grow despite inflation concerns. President addresses global climate issues.</div>
+    </div>
+
+    <!-- UK -->
+    <div class="news-card">
+      <div class="news-header">🇬🇧 United Kingdom</div>
+      <div class="news-text">The UK parliament is debating new trade deals post-Brexit while focusing on energy prices and stability.</div>
+    </div>
+
+    <!-- Bangladesh -->
+    <div class="news-card">
+      <div class="news-header">🇧🇩 Bangladesh</div>
+      <div class="news-text">Bangladesh is investing in renewable energy projects and digital transformation to boost the economy.</div>
+    </div>
+
+    <!-- India -->
+    <div class="news-card">
+      <div class="news-header">🇮🇳 India</div>
+      <div class="news-text">India successfully launched a new satellite to enhance communication and weather monitoring services.</div>
+    </div>
+
+    <!-- Japan -->
+    <div class="news-card">
+      <div class="news-header">🇯🇵 Japan</div>
+      <div class="news-text">Japan prepares for advanced robotics expo showcasing innovations in AI and technology.</div>
+    </div>
+
+    <!-- Saudi Arabia -->
+    <div class="news-card">
+      <div class="news-header">🇸🇦 Saudi Arabia</div>
+      <div class="news-text">Saudi Arabia continues work on futuristic city NEOM, aiming to attract global investment.</div>
+    </div>
+  </div>
+
+</body>
+</html>
