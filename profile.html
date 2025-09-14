@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Firebase Profile System</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #1d2b64, #f8cdda);
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+    .profile-card {
+      background: rgba(255,255,255,0.1);
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+      text-align: center;
+      width: 400px;
+      backdrop-filter: blur(10px);
+    }
+    .profile-card img {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      border: 3px solid #fff;
+      margin-bottom: 15px;
+    }
+    .profile-card h2 {
+      margin: 0;
+      font-size: 24px;
+    }
+    .profile-card p {
+      font-size: 14px;
+      opacity: 0.8;
+    }
+    .stats {
+      display: flex;
+      justify-content: space-around;
+      margin: 20px 0;
+    }
+    .stat {
+      background: rgba(255,255,255,0.2);
+      padding: 10px;
+      border-radius: 12px;
+      flex: 1;
+      margin: 0 5px;
+    }
+    .stat h3 {
+      margin: 0;
+      font-size: 20px;
+    }
+    .login-form {
+      margin-top: 20px;
+      text-align: left;
+    }
+    .login-form input {
+      width: 100%;
+      padding: 10px;
+      margin: 8px 0;
+      border: none;
+      border-radius: 8px;
+    }
+    .login-form button {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 8px;
+      background: #ff758c;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .login-form button:hover {
+      background: #ff416c;
+    }
+  </style>
+</head>
+<body>
+  <div class="profile-card">
+    <img src="https://i.ibb.co/4pDNDk1/avatar.png" alt="Profile">
+    <h2 id="username">Guest User</h2>
+    <p id="bio">Welcome to my website!</p>
+
+    <div class="stats">
+      <div class="stat">
+        <h3 id="followers">0</h3>
+        <p>Followers</p>
+      </div>
+      <div class="stat">
+        <h3 id="following">0</h3>
+        <p>Following</p>
+      </div>
+      <div class="stat">
+        <h3 id="views">0</h3>
+        <p>Views</p>
+      </div>
+    </div>
+
+    <div class="login-form">
+      <h3>Login</h3>
+      <input type="email" id="email" placeholder="Email">
+      <input type="password" id="password" placeholder="Password">
+      <button onclick="login()">Login</button>
+      <button onclick="signup()">Sign Up</button>
+      <button onclick="logout()">Logout</button>
+    </div>
+  </div>
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js"></script>
+
+  <script>
+    // 🔑 এখানে তোমার Firebase Config বসাতে হবে
+    const firebaseConfig = {
+      apiKey: "YOUR_API_KEY",
+      authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+      databaseURL: "https://YOUR_PROJECT_ID.firebaseio.com",
+      projectId: "YOUR_PROJECT_ID",
+      storageBucket: "YOUR_PROJECT_ID.appspot.com",
+      messagingSenderId: "SENDER_ID",
+      appId: "APP_ID"
+    };
+
+    // Firebase init
+    const app = firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.database();
+
+    // Visitor Views count
+    const viewsRef = db.ref("views");
+    viewsRef.transaction(count => (count || 0) + 1);
+    viewsRef.on("value", snapshot => {
+      document.getElementById("views").innerText = snapshot.val() || 0;
+    });
+
+    // Signup
+    function signup() {
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+      auth.createUserWithEmailAndPassword(email, password)
+        .then(user => {
+          alert("Signup Successful!");
+        })
+        .catch(error => alert(error.message));
+    }
+
+    // Login
+    function login() {
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+      auth.signInWithEmailAndPassword(email, password)
+        .then(user => {
+          document.getElementById("username").innerText = email.split("@")[0];
+          document.getElementById("bio").innerText = "Logged in as " + email;
+          alert("Login Successful!");
+        })
+        .catch(error => alert(error.message));
+    }
+
+    // Logout
+    function logout() {
+      auth.signOut().then(() => {
+        document.getElementById("username").innerText = "Guest User";
+        document.getElementById("bio").innerText = "Welcome to my website!";
+      });
+    }
+  </script>
+</body>
+</html>
