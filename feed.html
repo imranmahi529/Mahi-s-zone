@@ -7,29 +7,53 @@
   <style>
     body {
       margin: 0;
-      padding: 0;
       font-family: Arial, sans-serif;
-      background: #000;
-      color: #fff;
-      overflow-x: hidden;
+      background: linear-gradient(135deg, #ff0066, #6600ff);
+      color: white;
+      overflow: hidden;
+    }
+    header {
+      text-align: center;
+      padding: 15px;
+      background: rgba(0,0,0,0.4);
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1000;
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      font-size: 20px;
+      font-weight: bold;
+    }
+    header span {
+      cursor: pointer;
+      padding: 5px 10px;
+      border-radius: 8px;
+    }
+    header span.active {
+      background: #fff;
+      color: #000;
     }
     .feed {
       height: 100vh;
-      scroll-snap-type: y mandatory;
       overflow-y: scroll;
+      scroll-snap-type: y mandatory;
+      margin-top: 60px;
     }
     .video-container {
-      position: relative;
       height: 100vh;
       scroll-snap-align: start;
       display: flex;
       justify-content: center;
       align-items: center;
-      background: #000;
+      position: relative;
     }
-    video {
+    iframe, video {
+      width: 100%;
       height: 100%;
-      width: auto;
+      border: none;
+      object-fit: cover;
     }
     .actions {
       position: absolute;
@@ -48,9 +72,33 @@
   </style>
 </head>
 <body>
-  <div class="feed">
-    <div class="video-container">
-      <video src="video1.mp4" controls loop></video>
+  <!-- Navigation -->
+  <header>
+    <span id="foryou" class="active">For You</span>
+    <span id="following">Following</span>
+  </header>
+
+  <!-- Video Feed -->
+  <div id="feed" class="feed">
+    <!-- For You videos -->
+    <div class="video-container foryou">
+      <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1&mute=1" allowfullscreen></iframe>
+      <div class="actions">
+        <span>❤️</span>
+        <span>💬</span>
+        <span>🔗</span>
+      </div>
+    </div>
+    <div class="video-container foryou">
+      <iframe src="https://www.youtube.com/embed/3JZ_D3ELwOQ?autoplay=1&mute=1" allowfullscreen></iframe>
+      <div class="actions">
+        <span>❤️</span>
+        <span>💬</span>
+        <span>🔗</span>
+      </div>
+    </div>
+    <div class="video-container foryou">
+      <iframe src="https://www.youtube.com/embed/LXb3EKWsInQ?autoplay=1&mute=1" allowfullscreen></iframe>
       <div class="actions">
         <span>❤️</span>
         <span>💬</span>
@@ -58,17 +106,17 @@
       </div>
     </div>
 
-    <div class="video-container">
-      <video src="video2.mp4" controls loop></video>
+    <!-- Following videos -->
+    <div class="video-container following" style="display:none;">
+      <iframe src="https://www.youtube.com/embed/tgbNymZ7vqY?autoplay=1&mute=1" allowfullscreen></iframe>
       <div class="actions">
         <span>❤️</span>
         <span>💬</span>
         <span>🔗</span>
       </div>
     </div>
-
-    <div class="video-container">
-      <video src="video3.mp4" controls loop></video>
+    <div class="video-container following" style="display:none;">
+      <iframe src="https://www.youtube.com/embed/kJQP7kiw5Fk?autoplay=1&mute=1" allowfullscreen></iframe>
       <div class="actions">
         <span>❤️</span>
         <span>💬</span>
@@ -76,5 +124,26 @@
       </div>
     </div>
   </div>
+
+  <script>
+    const forYouBtn = document.getElementById('foryou');
+    const followingBtn = document.getElementById('following');
+    const forYouVideos = document.querySelectorAll('.foryou');
+    const followingVideos = document.querySelectorAll('.following');
+
+    forYouBtn.addEventListener('click', () => {
+      forYouBtn.classList.add('active');
+      followingBtn.classList.remove('active');
+      forYouVideos.forEach(v => v.style.display = "flex");
+      followingVideos.forEach(v => v.style.display = "none");
+    });
+
+    followingBtn.addEventListener('click', () => {
+      followingBtn.classList.add('active');
+      forYouBtn.classList.remove('active');
+      forYouVideos.forEach(v => v.style.display = "none");
+      followingVideos.forEach(v => v.style.display = "flex");
+    });
+  </script>
 </body>
 </html>
