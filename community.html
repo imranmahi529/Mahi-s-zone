@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <title>Stylish Community Chat / Forum</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * {box-sizing: border-box;}
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: #333;
+    }
+
+    header {
+      text-align: center;
+      padding: 25px;
+      font-size: 2rem;
+      color: #fff;
+      font-weight: 600;
+      text-shadow: 2px 2px 6px rgba(0,0,0,0.3);
+      background: rgba(0,0,0,0.2);
+      backdrop-filter: blur(5px);
+    }
+
+    .forum-container {
+      display: flex;
+      max-width: 1200px;
+      margin: 30px auto;
+      gap: 20px;
+      padding: 0 10px;
+    }
+
+    /* Sidebar for channels */
+    .sidebar {
+      flex: 1;
+      background: rgba(255,255,255,0.15);
+      border-radius: 15px;
+      padding: 20px;
+      backdrop-filter: blur(8px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+      color: #fff;
+    }
+
+    .sidebar h3 {
+      margin-top: 0;
+      color: #ffd700;
+      text-shadow: 1px 1px 4px rgba(0,0,0,0.3);
+    }
+
+    .channel {
+      padding: 12px;
+      margin: 8px 0;
+      border-radius: 10px;
+      cursor: pointer;
+      background: rgba(255,255,255,0.1);
+      transition: 0.3s;
+    }
+
+    .channel:hover {
+      background: rgba(255,255,255,0.25);
+      transform: translateX(5px);
+    }
+
+    /* Chat / Forum area */
+    .chat-area {
+      flex: 3;
+      background: rgba(255,255,255,0.15);
+      border-radius: 20px;
+      padding: 20px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+      display: flex;
+      flex-direction: column;
+      height: 500px;
+    }
+
+    .messages {
+      flex: 1;
+      overflow-y: auto;
+      margin-bottom: 15px;
+      padding-right: 10px;
+    }
+
+    .message {
+      margin-bottom: 15px;
+      padding: 10px 15px;
+      border-radius: 15px;
+      background: rgba(255,255,255,0.2);
+      backdrop-filter: blur(5px);
+      display: inline-block;
+      max-width: 80%;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    }
+
+    .message .user {
+      font-weight: 600;
+      color: #ffd700;
+      margin-right: 5px;
+    }
+
+    .input-area {
+      display: flex;
+      gap: 10px;
+    }
+
+    .input-area input {
+      flex: 1;
+      padding: 12px 15px;
+      border-radius: 15px;
+      border: none;
+      font-size: 16px;
+      outline: none;
+      background: rgba(255,255,255,0.25);
+      color: #fff;
+      backdrop-filter: blur(5px);
+    }
+
+    .input-area input::placeholder {
+      color: #e0e0e0;
+    }
+
+    .input-area button {
+      padding: 12px 18px;
+      border: none;
+      border-radius: 15px;
+      background: #ffd700;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .input-area button:hover {
+      background: #e6c200;
+    }
+
+    /* Scrollbar Stylish */
+    .messages::-webkit-scrollbar {
+      width: 8px;
+    }
+    .messages::-webkit-scrollbar-thumb {
+      background: rgba(255,255,255,0.3);
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+
+<header>🌐 Stylish Community Chat / Forum</header>
+
+<div class="forum-container">
+
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <h3>Channels</h3>
+    <div class="channel" onclick="changeChannel('general')">💬 General</div>
+    <div class="channel" onclick="changeChannel('politics')">🏛️ Politics</div>
+    <div class="channel" onclick="changeChannel('sports')">🏏 Sports</div>
+    <div class="channel" onclick="changeChannel('music')">🎵 Music</div>
+  </div>
+
+  <!-- Chat Area -->
+  <div class="chat-area">
+    <div id="messages" class="messages">
+      <div class="message"><span class="user">Admin:</span> সবাইকে স্বাগতম! General চ্যানেলে আলাপ শুরু করুন।</div>
+    </div>
+    <div class="input-area">
+      <input type="text" id="messageInput" placeholder="মেসেজ লিখুন...">
+      <button onclick="sendMessage()">Send</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  let currentChannel = 'general';
+  const messagesDiv = document.getElementById('messages');
+  const input = document.getElementById('messageInput');
+
+  function changeChannel(channel) {
+    currentChannel = channel;
+    messagesDiv.innerHTML = `<div class="message"><span class="user">System:</span> ${channel} চ্যানেলে স্বাগতম!</div>`;
+  }
+
+  function sendMessage() {
+    const text = input.value.trim();
+    if(text === '') return;
+    const messageDiv = document.createElement('div');
+    messageDiv.className = 'message';
+    messageDiv.innerHTML = `<span class="user">You:</span> ${text}`;
+    messagesDiv.appendChild(messageDiv);
+    input.value = '';
+    messagesDiv.scrollTop = messagesDiv.scrollHeight;
+  }
+
+  input.addEventListener("keypress", function(e) {
+    if(e.key === "Enter") sendMessage();
+  });
+</script>
+
+</body>
+</html>
