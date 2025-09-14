@@ -1,166 +1,158 @@
 <!DOCTYPE html>
 <html lang="bn">
 <head>
-  <meta charset="UTF-8">
-  <title>World Music Player</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      background: linear-gradient(to right, #141e30, #243b55);
-      color: white;
-    }
+<meta charset="UTF-8">
+<title>World Music Player</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(to right, #141e30, #243b55);
+    margin: 0;
+    color: #fff;
+  }
 
-    header {
-      text-align: center;
-      padding: 20px;
-      font-size: 2rem;
-      background: #ff6f61;
-      font-weight: bold;
-    }
+  header {
+    text-align: center;
+    padding: 25px;
+    font-size: 2rem;
+    font-weight: bold;
+    background: #ff6f61;
+  }
 
-    .player-container {
-      max-width: 600px;
-      margin: 30px auto;
-      background: rgba(0,0,0,0.6);
-      border-radius: 15px;
-      padding: 20px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-    }
+  .player-container {
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 20px;
+    background: rgba(0,0,0,0.6);
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+  }
 
-    .track-info {
-      text-align: center;
-      margin-bottom: 15px;
-    }
+  .track-info {
+    text-align: center;
+    margin-bottom: 15px;
+  }
 
-    .track-info h2 {
-      margin: 5px 0;
-    }
+  .track-info h2 {
+    margin: 5px 0;
+  }
 
-    audio, video {
-      width: 100%;
-      margin: 10px 0;
-      border-radius: 10px;
-    }
+  audio {
+    width: 100%;
+    margin: 10px 0;
+    border-radius: 10px;
+  }
 
-    .controls {
-      display: flex;
-      justify-content: space-around;
-      align-items: center;
-      margin-top: 10px;
-    }
+  .controls {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 10px;
+  }
 
-    .controls button {
-      padding: 10px 15px;
-      font-size: 16px;
-      border: none;
-      border-radius: 50%;
-      cursor: pointer;
-      background: #ff6f61;
-      color: white;
-      transition: 0.2s;
-    }
+  .controls button {
+    padding: 10px 15px;
+    font-size: 16px;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    background: #ff6f61;
+    color: white;
+    transition: 0.2s;
+  }
 
-    .controls button:hover {
-      transform: scale(1.2);
-    }
+  .controls button:hover {
+    transform: scale(1.2);
+  }
 
-    select {
-      width: 100%;
-      padding: 8px;
-      margin-top: 10px;
-      border-radius: 8px;
-      border: none;
-      font-size: 16px;
-    }
-  </style>
+  select {
+    width: 100%;
+    padding: 10px;
+    margin-top: 15px;
+    border-radius: 8px;
+    border: none;
+    font-size: 16px;
+  }
+</style>
 </head>
 <body>
 
-  <header>🌍 World Music Player</header>
+<header>🌍 World Music Player</header>
 
-  <div class="player-container">
-    <div class="track-info">
-      <h2 id="track-title">বাংলাদেশ গান</h2>
-      <p id="track-country">🇧🇩 Bangladesh</p>
-    </div>
-
-    <!-- Audio Player -->
-    <audio id="audio-player" controls>
-      <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
-      Your browser does not support the audio element.
-    </audio>
-
-    <div class="controls">
-      <button onclick="prevTrack()">⏮️</button>
-      <button onclick="playPause()">⏯️</button>
-      <button onclick="nextTrack()">⏭️</button>
-    </div>
-
-    <select id="track-select" onchange="changeTrack()">
-      <option value="0">🇧🇩 Bangladesh - গান ১</option>
-      <option value="1">🇮🇳 India - গান ১</option>
-      <option value="2">🇵🇹 Portugal - গান ১</option>
-      <option value="3">🇺🇸 USA - গান ১</option>
-      <option value="4">🇬🇧 UK - গান ১</option>
-      <option value="5">🇮🇹 Italy - গান ১</option>
-    </select>
+<div class="player-container">
+  <div class="track-info">
+    <h2 id="track-title">বাংলাদেশ গান</h2>
+    <p id="track-country">🇧🇩 Bangladesh</p>
   </div>
 
-  <script>
-    const tracks = [
-      { title: "বাংলাদেশ গান", country: "🇧🇩 Bangladesh", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" },
-      { title: "ভারত গান", country: "🇮🇳 India", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" },
-      { title: "পর্তুগাল গান", country: "🇵🇹 Portugal", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3" },
-      { title: "যুক্তরাষ্ট্র গান", country: "🇺🇸 USA", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3" },
-      { title: "যুক্তরাজ্য গান", country: "🇬🇧 UK", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3" },
-      { title: "ইতালি গান", country: "🇮🇹 Italy", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3" },
-    ];
+  <audio id="audio-player" controls>
+    <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>
 
-    let currentTrack = 0;
-    const audioPlayer = document.getElementById("audio-player");
-    const trackTitle = document.getElementById("track-title");
-    const trackCountry = document.getElementById("track-country");
-    const trackSelect = document.getElementById("track-select");
+  <div class="controls">
+    <button onclick="prevTrack()">⏮️</button>
+    <button onclick="playPause()">⏯️</button>
+    <button onclick="nextTrack()">⏭️</button>
+  </div>
 
-    function loadTrack(index) {
-      currentTrack = index;
-      audioPlayer.src = tracks[index].src;
-      trackTitle.textContent = tracks[index].title;
-      trackCountry.textContent = tracks[index].country;
-      trackSelect.value = index;
-      audioPlayer.play();
-    }
+  <select id="track-select" onchange="changeTrack()">
+    <option value="0">🇧🇩 বাংলাদেশ গান</option>
+    <option value="1">🇮🇳 ভারত গান</option>
+    <option value="2">🇵🇹 পর্তুগাল গান</option>
+    <option value="3">🇺🇸 যুক্তরাষ্ট্র গান</option>
+    <option value="4">🇬🇧 যুক্তরাজ্য গান</option>
+    <option value="5">🇮🇹 ইতালি গান</option>
+  </select>
+</div>
 
-    function nextTrack() {
-      let next = currentTrack + 1;
-      if(next >= tracks.length) next = 0;
-      loadTrack(next);
-    }
+<script>
+  const tracks = [
+    {title: "বাংলাদেশ গান", country: "🇧🇩 Bangladesh", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"},
+    {title: "ভারত গান", country: "🇮🇳 India", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3"},
+    {title: "পর্তুগাল গান", country: "🇵🇹 Portugal", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3"},
+    {title: "যুক্তরাষ্ট্র গান", country: "🇺🇸 USA", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3"},
+    {title: "যুক্তরাজ্য গান", country: "🇬🇧 UK", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3"},
+    {title: "ইতালি গান", country: "🇮🇹 Italy", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3"},
+  ];
 
-    function prevTrack() {
-      let prev = currentTrack - 1;
-      if(prev < 0) prev = tracks.length - 1;
-      loadTrack(prev);
-    }
+  let currentTrack = 0;
+  const audioPlayer = document.getElementById("audio-player");
+  const trackTitle = document.getElementById("track-title");
+  const trackCountry = document.getElementById("track-country");
+  const trackSelect = document.getElementById("track-select");
 
-    function playPause() {
-      if(audioPlayer.paused) {
-        audioPlayer.play();
-      } else {
-        audioPlayer.pause();
-      }
-    }
+  function loadTrack(index) {
+    currentTrack = index;
+    audioPlayer.src = tracks[index].src;
+    trackTitle.textContent = tracks[index].title;
+    trackCountry.textContent = tracks[index].country;
+    trackSelect.value = index;
+    audioPlayer.play();
+  }
 
-    function changeTrack() {
-      loadTrack(trackSelect.value);
-    }
+  function nextTrack() {
+    let next = currentTrack + 1;
+    if(next >= tracks.length) next = 0;
+    loadTrack(next);
+  }
 
-    // Auto-play next track when current ends
-    audioPlayer.addEventListener("ended", nextTrack);
-  </script>
+  function prevTrack() {
+    let prev = currentTrack - 1;
+    if(prev < 0) prev = tracks.length - 1;
+    loadTrack(prev);
+  }
+
+  function playPause() {
+    if(audioPlayer.paused) audioPlayer.play();
+    else audioPlayer.pause();
+  }
+
+  function changeTrack() {
+    loadTrack(trackSelect.value);
+  }
+
+  audioPlayer.addEventListener("ended", nextTrack);
+</script>
 
 </body>
 </html>
-
-imran hussain mahi -🇧🇩
