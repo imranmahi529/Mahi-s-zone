@@ -1,215 +1,47 @@
-<!doctype html>
-<html lang="bn">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Live Chat — Mahi</title>
-  <style>
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      background: linear-gradient(135deg, #667eea, #764ba2);
-      margin: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-    }
-    .chat-container {
-      width: 400px;
-      height: 650px;
-      background: #fff;
-      border-radius: 16px;
-      box-shadow: 0 8px 30px rgba(0,0,0,0.2);
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
-    }
-    .header {
-      background: linear-gradient(90deg, #764ba2, #667eea);
-      color: white;
-      padding: 16px;
-      font-weight: 700;
-      text-align: center;
-      font-size: 18px;
-      letter-spacing: 1px;
-    }
-    .messages {
-      flex: 1;
-      padding: 14px;
-      overflow-y: auto;
-      background: #f7f9fc;
-    }
-    .msg {
-      margin: 8px 0;
-      padding: 10px 14px;
-      border-radius: 14px;
-      max-width: 70%;
-      font-size: 15px;
-      line-height: 1.4;
-      word-wrap: break-word;
-    }
-    .msg.you {
-      margin-left: auto;
-      background: #667eea;
-      color: #fff;
-      border-bottom-right-radius: 4px;
-    }
-    .msg.other {
-      background: #e4e6eb;
-      color: #111;
-      border-bottom-left-radius: 4px;
-    }
-    .meta {
-      font-size: 12px;
-      margin-bottom: 4px;
-      color: #555;
-      font-weight: 600;
-    }
-    .composer {
-      display: flex;
-      padding: 12px;
-      border-top: 1px solid #ddd;
-      background: #fff;
-    }
-    .composer input {
-      flex: 1;
-      padding: 12px;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      font-size: 14px;
-      outline: none;
-    }
-    .composer button {
-      margin-left: 8px;
-      padding: 12px 16px;
-      border: none;
-      border-radius: 8px;
-      background: #764ba2;
-      color: white;
-      font-weight: 600;
-      cursor: pointer;
-      transition: 0.2s;
-    }
-    .composer button:hover {
-      background: #5b5fc7;
-    }
-    .login {
-      padding: 20px;
-      text-align: center;
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-    }
-    .login input {
-      width: 80%;
-      padding: 12px;
-      border-radius: 10px;
-      border: 1px solid #ccc;
-      margin: 10px auto;
-      font-size: 14px;
-    }
-    .login button {
-      padding: 12px 20px;
-      border: none;
-      border-radius: 8px;
-      background: #667eea;
-      color: white;
-      font-weight: 600;
-      cursor: pointer;
-      transition: 0.3s;
-    }
-    .login button:hover {
-      background: #4b4fc0;
-    }
-  </style>
-</head>
-<body>
-  <div class="chat-container">
-    <div class="header">💬 Mahi Live Chat</div>
+<!-- ===== Live Streaming Section ===== -->
+<div class="container">
+  <div class="card">
+    <h3>🎥 Live Streaming Classes</h3>
+    <p>Join our interactive live classes, webinars, and Q&A sessions in real-time!</p>
 
-    <div id="loginArea" class="login">
-      <h3>Join Chat</h3>
-      <input id="usernameInput" placeholder="তোমার নাম লিখো" />
-      <button id="enterBtn">Enter Chat</button>
+    <!-- Live Video Embed -->
+    <div style="border-radius:15px; overflow:hidden; margin:10px 0;">
+      <iframe width="100%" height="315" src="https://www.youtube.com/embed/live_stream?channel=YOUR_CHANNEL_ID" 
+        title="YouTube live stream" frameborder="0" allowfullscreen>
+      </iframe>
     </div>
 
-    <div id="main" style="display:none;flex:1;flex-direction:column;">
-      <div id="messages" class="messages"></div>
-      <div class="composer">
-        <input id="messageInput" placeholder="মেসেজ লিখো..." />
-        <button id="sendBtn">Send</button>
+    <!-- Live Chat -->
+    <div class="card" style="background:rgba(255,255,255,0.05);">
+      <h4>💬 Live Chat</h4>
+      <div id="chatBox" style="max-height:150px; overflow-y:auto; background:rgba(0,0,0,0.2); padding:10px; border-radius:10px;">
+        <p><b>Student1:</b> Hi Sir! Will you explain grammar today?</p>
+        <p><b>Teacher:</b> Yes, we’ll cover that in detail! 😊</p>
       </div>
+      <input type="text" id="chatInput" placeholder="Type your message..." style="width:70%; padding:8px; border-radius:8px;">
+      <button onclick="sendMsg()">Send</button>
     </div>
+
+    <!-- Upcoming Schedule -->
+    <div class="card" style="margin-top:15px;">
+      <h4>📅 Upcoming Live Sessions</h4>
+      <ul class="lessons">
+        <li>🗓️ Sept 20 – Spoken English Basics</li>
+        <li>🗓️ Sept 22 – Bangla Literature Q&A</li>
+        <li>🗓️ Sept 25 – Portuguese Beginner Class</li>
+      </ul>
+      <button onclick="alert('Reminder set!')">🔔 Remind Me</button>
+    </div>
+
   </div>
+</div>
 
-  <!-- Firebase SDK -->
-  <script type="module">
-    // 🔹 তোমার Firebase config বসাও এখানে
-    const firebaseConfig = {
-      apiKey: "YOUR_API_KEY",
-      authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-      projectId: "YOUR_PROJECT_ID",
-      storageBucket: "YOUR_PROJECT_ID.appspot.com",
-      messagingSenderId: "SENDER_ID",
-      appId: "APP_ID"
-    };
-
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-app.js";
-    import { getFirestore, collection, addDoc, query, orderBy, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-firestore.js";
-
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
-
-    const enterBtn = document.getElementById('enterBtn');
-    const usernameInput = document.getElementById('usernameInput');
-    const loginArea = document.getElementById('loginArea');
-    const main = document.getElementById('main');
-    const messagesDiv = document.getElementById('messages');
-    const messageInput = document.getElementById('messageInput');
-    const sendBtn = document.getElementById('sendBtn');
-
-    let currentUser = null;
-
-    // Login
-    enterBtn.onclick = () => {
-      currentUser = usernameInput.value.trim() || "Guest";
-      loginArea.style.display = "none";
-      main.style.display = "flex";
-      startChat();
-    };
-
-    // Send message
-    sendBtn.onclick = async () => {
-      const text = messageInput.value.trim();
-      if(!text) return;
-      await addDoc(collection(db, "messages"), {
-        name: currentUser,
-        text: text,
-        createdAt: serverTimestamp()
-      });
-      messageInput.value = "";
-    };
-
-    messageInput.addEventListener("keydown", (e) => {
-      if(e.key === "Enter") sendBtn.click();
-    });
-
-    // Show messages
-    function startChat() {
-      const q = query(collection(db, "messages"), orderBy("createdAt"));
-      onSnapshot(q, (snap) => {
-        messagesDiv.innerHTML = "";
-        snap.forEach((doc) => {
-          const d = doc.data();
-          const div = document.createElement("div");
-          div.className = "msg " + (d.name === currentUser ? "you" : "other");
-          div.innerHTML = `<div class="meta">${d.name}</div><div>${d.text}</div>`;
-          messagesDiv.appendChild(div);
-        });
-        messagesDiv.scrollTop = messagesDiv.scrollHeight;
-      });
-    }
-  </script>
-</body>
-</html>
+<script>
+function sendMsg(){
+  let msg = document.getElementById("chatInput").value;
+  if(msg.trim() !== ""){
+    document.getElementById("chatBox").innerHTML += "<p><b>You:</b> "+msg+"</p>";
+    document.getElementById("chatInput").value="";
+  }
+}
+</script>
