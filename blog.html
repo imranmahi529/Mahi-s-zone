@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>বাংলা ব্লগ ও আর্টিকেল</title>
+<style>
+    * {margin:0; padding:0; box-sizing:border-box; font-family: 'SolaimanLipi', sans-serif;}
+    body {
+        background: linear-gradient(-45deg, #fbc2eb, #a6c1ee, #fad0c4, #ffecd2);
+        background-size: 400% 400%;
+        animation: gradientBG 15s ease infinite;
+        padding:20px;
+        color:#333;
+    }
+    @keyframes gradientBG{
+        0%{background-position:0% 50%;}
+        50%{background-position:100% 50%;}
+        100%{background-position:0% 50%;}
+    }
+    h1 {text-align:center; margin-bottom:30px; color:#4b0082; text-shadow:1px 1px 3px #fff;}
+    .container {display:flex; gap:20px; flex-wrap:wrap;}
+    .main-content {flex:3;}
+    .sidebar {flex:1; background:rgba(255,255,255,0.8); padding:15px; border-radius:10px; box-shadow:0 5px 15px rgba(0,0,0,0.2);}
+    .article {background:rgba(255,255,255,0.9); margin-bottom:20px; padding:20px; border-radius:15px; box-shadow:0 8px 20px rgba(0,0,0,0.2); transition: transform 0.3s;}
+    .article:hover {transform: translateY(-5px);}
+    .article img {width:100%; border-radius:10px; margin-bottom:15px;}
+    .article h2 {margin-bottom:10px; color:#4b0082;}
+    .summary {margin-bottom:10px;}
+    .full-article {display:none; margin-top:10px; line-height:1.6;}
+    .read-more {color:#fff; background:#4b0082; padding:8px 12px; border:none; border-radius:5px; cursor:pointer; transition:0.3s;}
+    .read-more:hover {background:#6a0dad;}
+    .sidebar h3 {margin-bottom:15px; color:#4b0082;}
+    .sidebar ul {list-style:none;}
+    .sidebar ul li {margin-bottom:10px; cursor:pointer; transition:0.3s;}
+    .sidebar ul li:hover {color:#6a0dad;}
+    @media(max-width:900px){
+        .container {flex-direction:column;}
+        .sidebar {order:-1;}
+    }
+</style>
+</head>
+<body>
+
+<h1>বাংলা ব্লগ ও আর্টিকেল</h1>
+
+<div class="container">
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Article 1 -->
+        <div class="article">
+            <img src="https://i.ibb.co/2yH7fZd/blog1.jpg" alt="আর্টিকেল ছবি">
+            <h2>বাংলাদেশের ঐতিহ্যবাহী খাবার</h2>
+            <p class="summary">বাংলাদেশে নানা ধরনের ঐতিহ্যবাহী খাবার রয়েছে যা আমাদের সংস্কৃতির পরিচায়ক।</p>
+            <div class="full-article">
+                <p>বাংলাদেশের প্রতিটি অঞ্চলের নিজস্ব স্বাদ ও খাদ্যধারা রয়েছে। যেমন: রাজশাহীর মিষ্টি, সিলেটের ইলিশ মাছের পদ, চট্টগ্রামের স্পাইসি খাবার ইত্যাদি। এগুলো শুধুমাত্র স্বাদ নয়, সাংস্কৃতিক ঐতিহ্যেরও প্রতীক। আমরা যদি এগুলো রক্ষা করি, তা আমাদের ঐতিহ্যও সংরক্ষিত হয়।</p>
+            </div>
+            <button class="read-more" onclick="toggleArticle(this)">পুরো পড়ুন</button>
+        </div>
+
+        <!-- Article 2 -->
+        <div class="article">
+            <img src="https://i.ibb.co/8X2TgFq/blog2.jpg" alt="আর্টিকেল ছবি">
+            <h2>বাংলা সাহিত্যের পরিচিতি</h2>
+            <p class="summary">বাংলা সাহিত্য হাজার বছরের ঐতিহ্য বহন করে, যা বিশ্বসাহিত্যের অঙ্গ।</p>
+            <div class="full-article">
+                <p>বাংলা সাহিত্য বিভিন্ন যুগে বিভিন্ন রূপে বিকশিত হয়েছে। রবীন্দ্রনাথ ঠাকুর, কাজী নজরুল ইসলাম, সেলিনা হোসেন প্রমুখ সাহিত্যিকরা আমাদের সাহিত্যকে সমৃদ্ধ করেছেন। গল্প, কবিতা, নাটক ও প্রবন্ধে এই ঐতিহ্য পরিস্ফুটিত হয়। আধুনিক যুগে নতুন লেখকরা সাহিত্যকে নতুন ধারায় রূপান্তরিত করছেন।</p>
+            </div>
+            <button class="read-more" onclick="toggleArticle(this)">পুরো পড়ুন</button>
+        </div>
+
+        <!-- Article 3 -->
+        <div class="article">
+            <img src="https://i.ibb.co/kG0d2xN/blog3.jpg" alt="আর্টিকেল ছবি">
+            <h2>বাংলাদেশের পর্যটন স্থান</h2>
+            <p class="summary">প্রাকৃতিক সৌন্দর্য এবং ঐতিহ্যবাহী স্থাপনাগুলি বাংলাদেশকে পর্যটকদের জন্য আকর্ষণীয় করে।</p>
+            <div class="full-article">
+                <p>কক্সবাজার, সেন্টমার্টিন, সুন্দরবন, মহাস্থান গুহা সহ বাংলাদেশের অসংখ্য পর্যটন স্থান রয়েছে। পর্যটকরা এখানকার প্রাকৃতিক সৌন্দর্য, ইতিহাস এবং স্থানীয় খাবারের স্বাদ উপভোগ করতে পারেন। এই স্থানগুলো শুধুমাত্র ভ্রমণ নয়, শিক্ষা ও সংস্কৃতির জন্যও গুরুত্বপূর্ণ।</p>
+            </div>
+            <button class="read-more" onclick="toggleArticle(this)">পুরো পড়ুন</button>
+        </div>
+    </div>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <h3>জনপ্রিয় পোস্ট</h3>
+        <ul>
+            <li>বাংলাদেশের ঐতিহ্যবাহী খাবার</li>
+            <li>বাংলা সাহিত্যের পরিচিতি</li>
+            <li>বাংলাদেশের পর্যটন স্থান</li>
+        </ul>
+
+        <h3>শ্রেণী</h3>
+        <ul>
+            <li>সাহিত্য</li>
+            <li>সংস্কৃতি</li>
+            <li>ভ্রমণ</li>
+        </ul>
+
+        <h3>সাম্প্রতিক পোস্ট</h3>
+        <ul>
+            <li>বাংলাদেশের ঐতিহ্যবাহী খাবার</li>
+            <li>বাংলা সাহিত্যের পরিচিতি</li>
+            <li>বাংলাদেশের পর্যটন স্থান</li>
+        </ul>
+    </div>
+</div>
+
+<script>
+    function toggleArticle(btn){
+        const fullArticle = btn.previousElementSibling;
+        if(fullArticle.style.display === "block"){
+            fullArticle.style.display = "none";
+            btn.textContent = "পুরো পড়ুন";
+        } else {
+            fullArticle.style.display = "block";
+            btn.textContent = "বন্ধ করুন";
+        }
+    }
+</script>
+
+</body>
+</html>
+
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>বাংলা ব্লগ ও আর্টিকেল - 100+ Features</title>
+<style>
+    *{margin:0; padding:0; box-sizing:border-box; font-family:'SolaimanLipi',sans-serif;}
+    body{
+        background: linear-gradient(-45deg,#fbc2eb,#a6c1ee,#fad0c4,#ffecd2);
+        background-size:400% 400%;
+        animation: gradientBG 20s ease infinite;
+        color:#333; padding:20px;
+    }
+    @keyframes gradientBG{
+        0%{background-position:0% 50%;}
+        50%{background-position:100% 50%;}
+        100%{background-position:0% 50%;}
+    }
+    h1{text-align:center; color:#4b0082; margin-bottom:30px; text-shadow:1px 1px 3px #fff;}
+    .container{display:flex; gap:20px; flex-wrap:wrap;}
+    .main{flex:3;}
+    .sidebar{flex:1; background:rgba(255,255,255,0.8); padding:15px; border-radius:10px; box-shadow:0 5px 15px rgba(0,0,0,0.2);}
+    .article{background:rgba(255,255,255,0.9); margin-bottom:20px; padding:20px; border-radius:15px; box-shadow:0 8px 20px rgba(0,0,0,0.2); transition: transform 0.3s; position:relative;}
+    .article:hover{transform:translateY(-5px);}
+    .article img{width:100%; border-radius:10px; margin-bottom:15px;}
+    .article h2{margin-bottom:10px; color:#4b0082;}
+    .summary{margin-bottom:10px;}
+    .full-article{display:none; margin-top:10px; line-height:1.6;}
+    .read-more{color:#fff; background:#4b0082; padding:8px 12px; border:none; border-radius:5px; cursor:pointer; transition:0.3s;}
+    .read-more:hover{background:#6a0dad;}
+    .sidebar h3{margin-bottom:15px; color:#4b0082;}
+    .sidebar ul{list-style:none;}
+    .sidebar ul li{margin-bottom:10px; cursor:pointer; transition:0.3s;}
+    .sidebar ul li:hover{color:#6a0dad;}
+    /* Dark Mode */
+    body.dark-mode{background:#1a1a1a; color:#f1f1f1;}
+    body.dark-mode .article{background:rgba(50,50,50,0.9);}
+    body.dark-mode .sidebar{background:rgba(50,50,50,0.8);}
+    body.dark-mode .read-more{background:#6a0dad;}
+    /* Floating anime character */
+    .anime-guide{position:fixed; bottom:20px; right:20px; width:100px; height:100px; background:url('https://i.ibb.co/2sPv2Jk/guide.png') no-repeat center/contain; animation: floatAnime 3s infinite alternate;}
+    @keyframes floatAnime{0%{transform:translateY(0);}100%{transform:translateY(-10px);}}
+    /* Gamification placeholder */
+    .badge{position:absolute; top:10px; right:10px; background:#ffb347; color:#fff; padding:5px 10px; border-radius:5px; font-size:12px; animation: bounce 1s infinite alternate;}
+    @keyframes bounce{0%{transform:translateY(0);}100%{transform:translateY(-5px);}}
+    @media(max-width:900px){.container{flex-direction:column;} .sidebar{order:-1;}}
+</style>
+</head>
+<body>
+
+<h1>বাংলা ব্লগ ও আর্টিকেল - 100+ Features</h1>
+
+<!-- Dark Mode Toggle -->
+<button class="read-more" onclick="toggleDarkMode()">ডার্ক মোড / লাইট মোড</button>
+
+<div class="container">
+    <!-- Main Content -->
+    <div class="main">
+        <!-- Sample Article 1 -->
+        <div class="article">
+            <span class="badge">নতুন</span>
+            <img src="https://i.ibb.co/2yH7fZd/blog1.jpg" alt="আর্টিকেল ছবি">
+            <h2>বাংলাদেশের ঐতিহ্যবাহী খাবার</h2>
+            <p class="summary">বাংলাদেশে নানা ধরনের ঐতিহ্যবাহী খাবার রয়েছে যা আমাদের সংস্কৃতির পরিচায়ক।</p>
+            <div class="full-article">
+                <p>বাংলাদেশের প্রতিটি অঞ্চলের নিজস্ব স্বাদ ও খাদ্যধারা রয়েছে। রাজশাহীর মিষ্টি, সিলেটের ইলিশ মাছের পদ, চট্টগ্রামের স্পাইসি খাবার ইত্যাদি। এগুলো শুধুমাত্র স্বাদ নয়, সাংস্কৃতিক ঐতিহ্যেরও প্রতীক।</p>
+                <p>Extra features placeholder: mini quiz, poll, flashcards, audio, video, interactive infographics।</p>
+            </div>
+            <button class="read-more" onclick="toggleArticle(this)">পুরো পড়ুন</button>
+        </div>
+
+        <!-- Sample Article 2 -->
+        <div class="article">
+            <span class="badge">Hot</span>
+            <img src="https://i.ibb.co/8X2TgFq/blog2.jpg" alt="আর্টিকেল ছবি">
+            <h2>বাংলা সাহিত্যের পরিচিতি</h2>
+            <p class="summary">বাংলা সাহিত্য হাজার বছরের ঐতিহ্য বহন করে, যা বিশ্বসাহিত্যের অঙ্গ।</p>
+            <div class="full-article">
+                <p>রবীন্দ্রনাথ ঠাকুর, কাজী নজরুল ইসলাম, সেলিনা হোসেন প্রমুখ সাহিত্যিকরা আমাদের সাহিত্যকে সমৃদ্ধ করেছেন। গল্প, কবিতা, নাটক ও প্রবন্ধে এই ঐতিহ্য পরিস্ফুটিত হয়।</p>
+                <p>Extra features placeholder: animated quotes, read-aloud, related articles, interactive polls, gamification points।</p>
+            </div>
+            <button class="read-more" onclick="toggleArticle(this)">পুরো পড়ুন</button>
+        </div>
+
+        <!-- Placeholder for more articles up to 100+ features -->
+        <!-- Copy .article div multiple times and customize badges, summary, full-article, and placeholders -->
+    </div>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <h3>জনপ্রিয় পোস্ট</h3>
+        <ul>
+            <li>বাংলাদেশের ঐতিহ্যবাহী খাবার</li>
+            <li>বাংলা সাহিত্যের পরিচিতি</li>
+            <li>বাংলাদেশের পর্যটন স্থান</li>
+        </ul>
+        <h3>শ্রেণী</h3>
+        <ul>
+            <li>সাহিত্য</li>
+            <li>সংস্কৃতি</li>
+            <li>ভ্রমণ</li>
+        </ul>
+        <h3>সাম্প্রতিক পোস্ট</h3>
+        <ul>
+            <li>বাংলাদেশের ঐতিহ্যবাহী খাবার</li>
+            <li>বাংলা সাহিত্যের পরিচিতি</li>
+            <li>বাংলাদেশের পর্যটন স্থান</li>
+        </ul>
+    </div>
+</div>
+
+<!-- Floating Anime Guide Character -->
+<div class="anime-guide"></div>
+
+<script>
+function toggleArticle(btn){
+    const fullArticle = btn.previousElementSibling;
+    if(fullArticle.style.display==="block"){
+        fullArticle.style.display="none";
+        btn.textContent="পুরো পড়ুন";
+    } else {
+        fullArticle.style.display="block";
+        btn.textContent="বন্ধ করুন";
+    }
+}
+function toggleDarkMode(){
+    document.body.classList.toggle("dark-mode");
+}
+</script>
+
+</body>
+</html>
