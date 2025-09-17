@@ -1,14 +1,14 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="bn">
 <head>
 <meta charset="UTF-8">
-<title>Online Poll & Quiz</title>
+<title>অনলাইন ভোট ও কুইজ</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <style>
   body {
-    font-family: 'Arial', sans-serif;
-    background: linear-gradient(135deg,#141E30,#243B55);
+    font-family: 'Siyam Rupali', Arial, sans-serif;
+    background: linear-gradient(135deg,#0f2027,#203a43,#2c5364);
     color: #fff;
     margin: 0;
     padding: 0;
@@ -18,22 +18,20 @@
     text-align: center;
   }
   h1 {
-    font-size: 36px;
+    font-size: 34px;
     margin-bottom: 30px;
     text-shadow: 0 0 10px cyan;
   }
   .card {
-    background: rgba(255,255,255,0.05);
-    padding: 20px;
+    background: rgba(255,255,255,0.08);
+    padding: 25px;
     margin: 20px auto;
     border-radius: 20px;
-    max-width: 500px;
+    max-width: 600px;
     box-shadow: 0 0 20px rgba(0,255,255,0.3);
     transition: transform 0.3s;
   }
-  .card:hover {
-    transform: scale(1.05);
-  }
+  .card:hover { transform: scale(1.02); }
   .options button {
     display: block;
     width: 100%;
@@ -51,12 +49,7 @@
     transform: scale(1.05);
     box-shadow: 0 0 10px cyan;
   }
-  #pollResult {
-    margin-top: 20px;
-    max-width: 400px;
-    margin-left:auto;
-    margin-right:auto;
-  }
+  canvas { margin-top: 15px; }
   #quizTimer {
     font-size: 20px;
     margin-bottom: 10px;
@@ -71,55 +64,142 @@
 </head>
 <body>
 <section class="section">
-  <h1>📊 Online Poll & Quiz</h1>
+  <h1>📊 অনলাইন ভোট ও কুইজ</h1>
 
-  <!-- Poll Card -->
+  <!-- Polls -->
   <div class="card animate__animated animate__fadeIn">
-    <h2>Poll: What is your favorite programming language?</h2>
+    <h2>ভোট ১: আপনার সবচেয়ে পছন্দের খাবার কোনটি?</h2>
     <div class="options">
-      <button onclick="vote('Python')">Python</button>
-      <button onclick="vote('JavaScript')">JavaScript</button>
-      <button onclick="vote('C++')">C++</button>
-      <button onclick="vote('Java')">Java</button>
+      <button onclick="vote('poll1','পোলাও')">🍛 পোলাও</button>
+      <button onclick="vote('poll1','বিরিয়ানি')">🍲 বিরিয়ানি</button>
+      <button onclick="vote('poll1','ফাস্টফুড')">🍔 ফাস্টফুড</button>
+      <button onclick="vote('poll1','মাছ ভাত')">🐟 মাছ ভাত</button>
     </div>
-    <canvas id="pollResult"></canvas>
+    <canvas id="poll1"></canvas>
   </div>
 
-  <!-- Quiz Card -->
-  <div class="card animate__animated animate__fadeIn">
-    <h2>Quiz: What does HTML stand for?</h2>
-    <div id="quizTimer">Time Left: <span id="time">15</span>s</div>
+  <div class="card">
+    <h2>ভোট ২: আপনার প্রিয় খেলা কোনটি?</h2>
     <div class="options">
-      <button onclick="checkAnswer(this, 'Correct')">Hyper Text Markup Language</button>
-      <button onclick="checkAnswer(this, 'Wrong')">Home Tool Markup Language</button>
-      <button onclick="checkAnswer(this, 'Wrong')">Hyperlinks Text Mark Language</button>
-      <button onclick="checkAnswer(this, 'Wrong')">High Text Markup Language</button>
+      <button onclick="vote('poll2','⚽ ফুটবল')">⚽ ফুটবল</button>
+      <button onclick="vote('poll2','🏏 ক্রিকেট')">🏏 ক্রিকেট</button>
+      <button onclick="vote('poll2','🏀 বাস্কেটবল')">🏀 বাস্কেটবল</button>
+      <button onclick="vote('poll2','🎾 টেনিস')">🎾 টেনিস</button>
     </div>
-    <div id="score">Score: <span id="userScore">0</span></div>
+    <canvas id="poll2"></canvas>
+  </div>
+
+  <div class="card">
+    <h2>ভোট ৩: কোন ধরণের সিনেমা পছন্দ করেন?</h2>
+    <div class="options">
+      <button onclick="vote('poll3','🎬 অ্যাকশন')">🎬 অ্যাকশন</button>
+      <button onclick="vote('poll3','😂 কমেডি')">😂 কমেডি</button>
+      <button onclick="vote('poll3','😭 ড্রামা')">😭 ড্রামা</button>
+      <button onclick="vote('poll3','👻 হরর')">👻 হরর</button>
+    </div>
+    <canvas id="poll3"></canvas>
+  </div>
+
+  <div class="card">
+    <h2>ভোট ৪: আজ আপনার মুড কেমন?</h2>
+    <div class="options">
+      <button onclick="vote('poll4','😊 খুশি')">😊 খুশি</button>
+      <button onclick="vote('poll4','😔 মন খারাপ')">😔 মন খারাপ</button>
+      <button onclick="vote('poll4','😎 কুল')">😎 কুল</button>
+      <button onclick="vote('poll4','😴 ঘুম পাচ্ছে')">😴 ঘুম পাচ্ছে</button>
+    </div>
+    <canvas id="poll4"></canvas>
+  </div>
+
+  <div class="card">
+    <h2>ভোট ৫: কোন প্রযুক্তি সবচেয়ে প্রয়োজনীয়?</h2>
+    <div class="options">
+      <button onclick="vote('poll5','📱 মোবাইল')">📱 মোবাইল</button>
+      <button onclick="vote('poll5','💻 কম্পিউটার')">💻 কম্পিউটার</button>
+      <button onclick="vote('poll5','🌐 ইন্টারনেট')">🌐 ইন্টারনেট</button>
+      <button onclick="vote('poll5','🤖 কৃত্রিম বুদ্ধিমত্তা')">🤖 কৃত্রিম বুদ্ধিমত্তা</button>
+    </div>
+    <canvas id="poll5"></canvas>
+  </div>
+
+  <!-- Quizzes -->
+  <div class="card">
+    <h2>কুইজ ১: বাংলাদেশের রাজধানী কোথায়?</h2>
+    <div id="quizTimer">⏳ সময় বাকি: <span id="time">15</span> সেকেন্ড</div>
+    <div class="options">
+      <button onclick="checkAnswer(this, 'Correct')">ঢাকা</button>
+      <button onclick="checkAnswer(this, 'Wrong')">চট্টগ্রাম</button>
+      <button onclick="checkAnswer(this, 'Wrong')">খুলনা</button>
+      <button onclick="checkAnswer(this, 'Wrong')">সিলেট</button>
+    </div>
+    <div id="score">স্কোর: <span id="userScore">0</span></div>
+  </div>
+
+  <div class="card">
+    <h2>কুইজ ২: বাংলাদেশের জাতীয় ফুল কোনটি?</h2>
+    <div class="options">
+      <button onclick="checkAnswer(this, 'Wrong')">শাপলা</button>
+      <button onclick="checkAnswer(this, 'Correct')">শাপলা</button>
+      <button onclick="checkAnswer(this, 'Wrong')">গোলাপ</button>
+      <button onclick="checkAnswer(this, 'Wrong')">জবা</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>কুইজ ৩: আমাদের জাতীয় খেলা কোনটি?</h2>
+    <div class="options">
+      <button onclick="checkAnswer(this, 'Wrong')">ফুটবল</button>
+      <button onclick="checkAnswer(this, 'Wrong')">ক্রিকেট</button>
+      <button onclick="checkAnswer(this, 'Correct')">কাবাডি</button>
+      <button onclick="checkAnswer(this, 'Wrong')">লুডু</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>কুইজ ৪: সূর্যের সবচেয়ে কাছের গ্রহ কোনটি?</h2>
+    <div class="options">
+      <button onclick="checkAnswer(this, 'Correct')">বুধ</button>
+      <button onclick="checkAnswer(this, 'Wrong')">শুক্র</button>
+      <button onclick="checkAnswer(this, 'Wrong')">পৃথিবী</button>
+      <button onclick="checkAnswer(this, 'Wrong')">মঙ্গল</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>কুইজ ৫: জাতিসংঘের সদর দপ্তর কোথায়?</h2>
+    <div class="options">
+      <button onclick="checkAnswer(this, 'Wrong')">লন্ডন</button>
+      <button onclick="checkAnswer(this, 'Wrong')">জেনেভা</button>
+      <button onclick="checkAnswer(this, 'Correct')">নিউইয়র্ক</button>
+      <button onclick="checkAnswer(this, 'Wrong')">প্যারিস</button>
+    </div>
   </div>
 </section>
 
 <script>
   // Poll System
-  const pollData = {Python:0, JavaScript:0, C++:0, Java:0};
-  const ctx = document.getElementById('pollResult').getContext('2d');
-  const pollChart = new Chart(ctx, {
-    type: 'bar',
-    data: {
-      labels: Object.keys(pollData),
-      datasets: [{
-        label: '# of Votes',
-        data: Object.values(pollData),
-        backgroundColor: ['#ff416c','#ff4b2b','#1fd1f9','#00ffa6']
-      }]
-    },
-    options: { responsive:true, scales:{y:{beginAtZero:true}}}
+  const polls = {
+    poll1: { "পোলাও":0, "বিরিয়ানি":0, "ফাস্টফুড":0, "মাছ ভাত":0 },
+    poll2: { "⚽ ফুটবল":0, "🏏 ক্রিকেট":0, "🏀 বাস্কেটবল":0, "🎾 টেনিস":0 },
+    poll3: { "🎬 অ্যাকশন":0, "😂 কমেডি":0, "😭 ড্রামা":0, "👻 হরর":0 },
+    poll4: { "😊 খুশি":0, "😔 মন খারাপ":0, "😎 কুল":0, "😴 ঘুম পাচ্ছে":0 },
+    poll5: { "📱 মোবাইল":0, "💻 কম্পিউটার":0, "🌐 ইন্টারনেট":0, "🤖 কৃত্রিম বুদ্ধিমত্তা":0 }
+  };
+
+  const charts = {};
+  Object.keys(polls).forEach(id=>{
+    const ctx = document.getElementById(id).getContext('2d');
+    charts[id] = new Chart(ctx, {
+      type:'bar',
+      data:{ labels:Object.keys(polls[id]), datasets:[{label:'ভোট সংখ্যা', data:Object.values(polls[id]), backgroundColor:['#ff416c','#ff4b2b','#1fd1f9','#00ffa6']}] },
+      options:{ responsive:true, scales:{y:{beginAtZero:true}}}
+    });
   });
 
-  function vote(option){
-    pollData[option]++;
-    pollChart.data.datasets[0].data = Object.values(pollData);
-    pollChart.update();
+  function vote(pollId, option){
+    polls[pollId][option]++;
+    charts[pollId].data.datasets[0].data = Object.values(polls[pollId]);
+    charts[pollId].update();
   }
 
   // Quiz System
@@ -134,7 +214,7 @@
       timerElement.innerText = timeLeft;
     } else {
       clearInterval(countdown);
-      alert('Time is up!');
+      alert('⏰ সময় শেষ!');
     }
   },1000);
 
