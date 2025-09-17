@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ভবিষ্যত গড়ো</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: "Noto Sans Bengali", sans-serif;
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      color: white;
+    }
+    section {
+      padding: 60px 20px;
+      text-align: center;
+    }
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+      color: #ffdf6c;
+    }
+    p.subtitle {
+      font-size: 1.2rem;
+      margin-bottom: 40px;
+    }
+    .card-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+      padding: 0 10px;
+    }
+    .card {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      padding: 25px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+      transition: transform 0.4s ease, background 0.4s ease;
+      backdrop-filter: blur(10px);
+    }
+    .card:hover {
+      transform: translateY(-10px) scale(1.05);
+      background: rgba(255, 255, 255, 0.2);
+    }
+    .card h2 {
+      font-size: 1.5rem;
+      margin-bottom: 15px;
+      color: #ffdf6c;
+    }
+    .card p {
+      font-size: 1rem;
+      line-height: 1.5;
+    }
+    .goal-box {
+      margin-top: 40px;
+      background: rgba(255,255,255,0.1);
+      padding: 20px;
+      border-radius: 15px;
+      max-width: 500px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    input, button {
+      padding: 10px 15px;
+      border: none;
+      border-radius: 8px;
+      margin: 5px;
+      font-size: 1rem;
+    }
+    input {
+      width: 70%;
+    }
+    button {
+      background: #ffdf6c;
+      color: black;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    button:hover {
+      background: #ffd000;
+    }
+    .progress {
+      margin-top: 20px;
+      background: rgba(0,0,0,0.4);
+      border-radius: 10px;
+      overflow: hidden;
+      height: 20px;
+    }
+    .progress-bar {
+      height: 20px;
+      width: 0%;
+      background: #ffdf6c;
+      transition: width 0.5s ease;
+    }
+    .quote-box {
+      margin-top: 50px;
+      padding: 20px;
+      border-left: 5px solid #ffdf6c;
+      background: rgba(0,0,0,0.3);
+      border-radius: 10px;
+      display: inline-block;
+    }
+  </style>
+</head>
+<body>
+  <section id="future">
+    <h1>🌟 তোমার ভবিষ্যত গড়ো 🌟</h1>
+    <p class="subtitle">শেখো, স্বপ্ন দেখো, আর নিজের স্বপ্নকে বাস্তবে রূপ দাও</p>
+
+    <div class="card-container">
+      <div class="card">
+        <h2>ক্যারিয়ার গাইডলাইন</h2>
+        <p>ডাক্তার, ইঞ্জিনিয়ার, প্রোগ্রামার, উদ্যোক্তা—যা হতে চাও তার জন্য ধাপে ধাপে নির্দেশনা।</p>
+      </div>
+
+      <div class="card">
+        <h2>স্কিল ডেভেলপমেন্ট</h2>
+        <p>ভাষা শিক্ষা, ডিজিটাল স্কিল, ফ্রিল্যান্সিং, লিডারশিপসহ ভবিষ্যতের জন্য প্রয়োজনীয় দক্ষতা।</p>
+      </div>
+
+      <div class="card">
+        <h2>প্রেরণা</h2>
+        <p>প্রতিদিন নতুন মোটিভেশনাল উক্তি যা তোমাকে এগিয়ে যেতে সাহায্য করবে।</p>
+      </div>
+    </div>
+
+    <!-- Goal Tracker -->
+    <div class="goal-box">
+      <h2>🎯 তোমার লক্ষ্য লিখো</h2>
+      <input type="text" id="goalInput" placeholder="তোমার লক্ষ্য লিখো...">
+      <button onclick="setGoal()">সেভ করো</button>
+      <div id="goalText"></div>
+      <div class="progress">
+        <div class="progress-bar" id="progressBar"></div>
+      </div>
+      <button onclick="updateProgress()">✅ অগ্রগতি যোগ করো</button>
+    </div>
+
+    <!-- Quote -->
+    <div class="quote-box" id="quoteBox">
+      💡 "আজকের পরিশ্রমই তোমার আগামী দিনের সাফল্য।"
+    </div>
+    <br>
+    <button onclick="newQuote()">নতুন উক্তি দেখাও</button>
+  </section>
+
+  <script>
+    let progress = 0;
+    const quotes = [
+      "আজকের পরিশ্রমই তোমার আগামী দিনের সাফল্য।",
+      "হার মানলে তুমি শেষ, চেষ্টা করলে তুমি জিতবে।",
+      "ভবিষ্যত তাদেরই যারা স্বপ্ন দেখে।",
+      "শেখা কখনও শেষ হয় না।",
+      "কাজ করো নীরবে, সফলতা শব্দ করবে।"
+    ];
+
+    function setGoal() {
+      const goal = document.getElementById("goalInput").value;
+      if(goal) {
+        document.getElementById("goalText").innerHTML = "🎯 লক্ষ্য: " + goal;
+      }
+    }
+
+    function updateProgress() {
+      if(progress < 100) {
+        progress += 20;
+        document.getElementById("progressBar").style.width = progress + "%";
+      }
+    }
+
+    function newQuote() {
+      const random = Math.floor(Math.random() * quotes.length);
+      document.getElementById("quoteBox").innerHTML = "💡 " + quotes[random];
+    }
+  </script>
+</body>
+</html>
