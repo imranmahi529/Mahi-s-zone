@@ -125,3 +125,114 @@
 
 </body>
 </html>
+
+																	    🎓WORK🎓
+
+<section id="excel-practice">
+  <h2 style="text-align:center; color:#ffd000;">📊 Excel & Data Practice</h2>
+  <div class="content-box">
+    <p>
+      এখানে তুমি ছোট ছোট ডেটা এনালাইসিস প্র্যাকটিস করতে পারবে। নিজে ডেটা লিখে সিস্টেমে ফলাফল দেখতে পারবে।  
+      উদাহরণ: ব্যবসায়িক বাজেট, খরচের হিসাব, চার্ট তৈরি ইত্যাদি।  
+    </p>
+    <textarea id="excelData" style="width:100%; height:200px; padding:10px; border-radius:10px;" placeholder="ডেটা এখানে লিখো (Comma বা Tab দ্বারা Column আলাদা করো)"></textarea>
+    <button onclick="showData()" style="margin-top:10px; padding:10px 20px; background:#ffd000; border:none; border-radius:10px; cursor:pointer;">দেখাও</button>
+    <div id="dataOutput" style="margin-top:20px; background:rgba(0,0,0,0.3); padding:15px; border-radius:10px;"></div>
+  </div>
+
+  <script>
+    function showData() {
+      let raw = document.getElementById("excelData").value;
+      let rows = raw.split('\n');
+      let table = '<table border="1" cellpadding="5" cellspacing="0" style="width:100%; border-collapse:collapse;">';
+      rows.forEach(row => {
+        table += '<tr>';
+        let cols = row.split(',');
+        cols.forEach(col => {
+          table += '<td>' + col.trim() + '</td>';
+        });
+        table += '</tr>';
+      });
+      table += '</table>';
+      document.getElementById("dataOutput").innerHTML = table;
+    }
+  </script>
+</section>
+
+<section id="budget-simulator">
+  <h2 style="text-align:center; color:#ffd000;">💰 Budget & Investment Simulator</h2>
+  <div class="content-box">
+    <p>
+      এখানে তুমি টাকা ইনপুট দিয়ে দেখতে পারবে কিভাবে বিনিয়োগ করলে লাভ বা ক্ষতি হবে।  
+    </p>
+    <input type="number" id="amount" placeholder="টাকা লিখো" style="padding:10px; border-radius:10px; width:50%;">
+    <button onclick="calculateInvestment()" style="padding:10px 20px; background:#ffd000; border:none; border-radius:10px; cursor:pointer;">Simulate</button>
+    <div id="investmentOutput" style="margin-top:20px;"></div>
+  </div>
+
+  <script>
+    function calculateInvestment() {
+      let amount = parseFloat(document.getElementById("amount").value);
+      if(isNaN(amount)) {
+        document.getElementById("investmentOutput").innerHTML = "সঠিক টাকা লিখো।";
+        return;
+      }
+      let profit = (amount * 0.1).toFixed(2);
+      let loss = (amount * 0.05).toFixed(2);
+      document.getElementById("investmentOutput").innerHTML = `
+        যদি ভালোভাবে বিনিয়োগ করো: লাভ = ${profit} টাকা<br>
+        যদি ঝুঁকি থাকে: ক্ষতি = ${loss} টাকা
+      `;
+    }
+  </script>
+</section>
+
+<section id="goal-tracker">
+  <h2 style="text-align:center; color:#ffd000;">🎯 Daily Goal Tracker</h2>
+  <div class="content-box">
+    <p>নিজের প্রতিদিনের কাজ লিখে Complete চেক করতে পারবে।</p>
+    <input type="text" id="dailyGoal" placeholder="আজকের কাজ লিখো..." style="padding:10px; width:60%; border-radius:10px;">
+    <button onclick="addGoal()" style="padding:10px 20px; background:#ffd000; border:none; border-radius:10px; cursor:pointer;">Add Goal</button>
+    <ul id="goalList" style="margin-top:20px;"></ul>
+  </div>
+
+  <script>
+    function addGoal() {
+      let goalText = document.getElementById("dailyGoal").value;
+      if(goalText.trim() === "") return;
+      let li = document.createElement("li");
+      li.textContent = goalText;
+      li.style.cursor = "pointer";
+      li.onclick = function() {
+        this.style.textDecoration = this.style.textDecoration === "line-through" ? "none" : "line-through";
+      };
+      document.getElementById("goalList").appendChild(li);
+      document.getElementById("dailyGoal").value = "";
+    }
+  </script>
+</section>
+
+<section id="resume-builder">
+  <h2 style="text-align:center; color:#ffd000;">📄 Resume Builder</h2>
+  <div class="content-box">
+    <p>এখানে নাম, শিক্ষা ও অভিজ্ঞতা লিখে নিজের সিভি তৈরি করতে পারবে।</p>
+    <input type="text" id="name" placeholder="তোমার নাম" style="padding:10px; width:48%; border-radius:10px;"><br><br>
+    <textarea id="education" placeholder="শিক্ষাগত যোগ্যতা লিখো..." style="width:100%; height:100px; border-radius:10px; padding:10px;"></textarea><br><br>
+    <textarea id="experience" placeholder="অভিজ্ঞতা লিখো..." style="width:100%; height:100px; border-radius:10px; padding:10px;"></textarea><br>
+    <button onclick="generateResume()" style="padding:10px 20px; background:#ffd000; border:none; border-radius:10px; cursor:pointer;">Generate Resume</button>
+    <div id="resumeOutput" style="margin-top:20px; background:rgba(0,0,0,0.3); padding:15px; border-radius:10px;"></div>
+  </div>
+
+  <script>
+    function generateResume() {
+      let name = document.getElementById("name").value;
+      let edu = document.getElementById("education").value;
+      let exp = document.getElementById("experience").value;
+      document.getElementById("resumeOutput").innerHTML = `
+        <h3>${name}</h3>
+        <b>শিক্ষাগত যোগ্যতা:</b><br>${edu.replace(/\n/g,"<br>")}<br><br>
+        <b>অভিজ্ঞতা:</b><br>${exp.replace(/\n/g,"<br>")}
+      `;
+    }
+  </script>
+</section>
