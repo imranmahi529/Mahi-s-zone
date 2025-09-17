@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mahi's Zone Certificate Dashboard</title>
+<title>Mahi's Zone - Advanced Certificate Dashboard</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display&family=Cormorant+Garamond&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -26,16 +26,18 @@ h1,h2,h3{margin:0;padding:0;text-align:center;}
 .xp-bar{margin-top:5px;width:80px;height:8px;background: rgba(255,255,255,0.2);border-radius:5px;overflow:hidden;}
 #xpProgress{width:10%;height:100%;background: linear-gradient(90deg,#ffd700,#ff9900);border-radius:5px;transition: width 0.5s ease, background 0.5s ease;}
 
+/* Certificate Content */
 .certificate-content h2{font-size:2rem;color:#fff;margin:15px 0;}
 .certificate-content h3{font-size:1.5rem;color:#ffd700;margin:10px 0;}
 .signature{margin-top:30px;font-style:italic;color:#fff;}
 .qr-code img{margin-top:20px;border-radius:10px;}
 
+/* Inputs & Buttons */
 .certificate-inputs{margin-top:30px;text-align:center;}
 .certificate-inputs input{padding:10px 15px;border-radius:8px;border:none;margin:5px;width:180px;}
 .certificate-inputs button{padding:10px 25px;margin:5px;border:none;border-radius:10px;font-weight:bold;cursor:pointer;}
-.certificate-inputs button:nth-child(3){background:#ffd700;color:#000;}
-.certificate-inputs button:nth-child(4){background:#00ff9c;color:#000;}
+.certificate-inputs button.generate-btn{background:#ffd700;color:#000;}
+.certificate-inputs button.download-btn{background:#00ff9c;color:#000;}
 
 /* Dynamic Sections */
 .dynamic-sections{display:flex;flex-wrap:wrap;gap:20px;margin-top:50px;}
@@ -45,14 +47,16 @@ h1,h2,h3{margin:0;padding:0;text-align:center;}
 .badge-card{background: var(--badge-glow); color:#000; font-weight:bold; font-size:1.2rem; animation: badgeGlow 2s infinite alternate; box-shadow:0 0 15px #ffd700,0 0 30px #ff9900,0 0 50px #ff0099;}
 @keyframes badgeGlow{0%{transform:scale(1);box-shadow:0 0 10px #ffd700,0 0 20px #ff9900,0 0 40px #ff0099;}50%{transform:scale(1.05);box-shadow:0 0 20px #ffd700,0 0 40px #ff9900,0 0 60px #ff0099;}100%{transform:scale(1);box-shadow:0 0 15px #ffd700,0 0 30px #ff9900,0 0 50px #ff0099;}}
 
-/* Stats */
+/* Stats Section */
 .stats{display:flex;justify-content:space-around;margin-top:50px;flex-wrap:wrap;}
 .stat-card{background:#222;padding:20px;border-radius:20px;text-align:center;flex:1 1 200px;margin:10px;box-shadow:0 10px 30px rgba(0,0,0,0.5);transition: transform 0.3s ease;}
 .stat-card:hover{transform:translateY(-8px);}
 .stat-card h3{color:#ffd700;font-size:1.5rem;}
 .stat-card p{font-size:1.2rem;color:#fff;}
 </style>
+</head>
 <body>
+
 <section id="certificate-dashboard">
   <div class="certificate-box">
     <div class="ribbon">Certificate of Completion</div>
@@ -69,19 +73,17 @@ h1,h2,h3{margin:0;padding:0;text-align:center;}
     <div class="certificate-inputs">
       <input type="text" id="nameInput" placeholder="তোমার নাম লিখো">
       <input type="text" id="courseInput" placeholder="কোর্সের নাম লিখো">
-      <button onclick="generateCertificate()">Generate Certificate</button>
-      <button onclick="downloadPDF()">Download PDF</button>
+      <button class="generate-btn" onclick="generateCertificate()">Generate Certificate</button>
+      <button class="download-btn" onclick="downloadPDF()">Download PDF</button>
     </div>
   </div>
 
-  <!-- Dynamic Sections -->
   <div class="dynamic-sections">
     <div class="recent-certificates"><h2>Recent Graduates</h2><div id="recentList"></div></div>
     <div class="leaderboard"><h2>Top XP Users</h2><div id="leaderList"></div></div>
     <div class="badge-collection"><h2>Earned Badges</h2><div id="badgeList"></div></div>
   </div>
 
-  <!-- Stats -->
   <div class="stats">
     <div class="stat-card"><h3 id="totalUsers">0</h3><p>Total Users</p></div>
     <div class="stat-card"><h3 id="totalCertificates">0</h3><p>Total Certificates</p></div>
@@ -90,13 +92,13 @@ h1,h2,h3{margin:0;padding:0;text-align:center;}
 </section>
 
 <script>
-let users=[]; let badges=[{level:1,name:"🌟 Beginner"},{level:3,name:"🎨 Designer"},{level:5,name:"💻 Coder"},{level:7,name:"🚀 Fast Learner"},{level:10,name:"🏆 Mahi's Zone Master"}];
+let users=[]; 
+let badges=[{level:1,name:"🌟 Beginner"},{level:3,name:"🎨 Designer"},{level:5,name:"💻 Coder"},{level:7,name:"🚀 Fast Learner"},{level:10,name:"🏆 Mahi's Zone Master"}];
 
 function generateCertificate(){
   let name=document.getElementById("nameInput").value||"[Your Name]";
   let course=document.getElementById("courseInput").value||"[Course Name]";
   let date=new Date().toLocaleDateString();
-
   document.getElementById("userName").textContent=name;
   document.getElementById("courseName").textContent=course;
   document.getElementById("date").textContent=date;
@@ -147,7 +149,7 @@ function updateBadges(name,level){
 
 function updateStats(){
   document.getElementById("totalUsers").textContent=users.length;
-  document.getElementById("totalCertificates").textContent=users.reduce((a,b)=>a+1,0);
+  document.getElementById("totalCertificates").textContent=users.length;
   let topLevel=Math.max(...users.map(u=>u.level),0);
   document.getElementById("topLevel").textContent=topLevel;
 }
@@ -163,3 +165,451 @@ async function downloadPDF(){
 </script>
 </body>
 </html>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mahi's Zone - Animated Certificate</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/particles.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+<style>
+body{margin:0;font-family:'Playfair Display',serif;background:#111;color:#fff;overflow-x:hidden;}
+#particles-js{position:fixed;width:100%;height:100%;z-index:-1;}
+.certificate-box{max-width:900px;margin:80px auto;padding:50px;background:linear-gradient(135deg,#ff9a9e,#fad0c4);border-radius:30px;box-shadow:0 20px 60px rgba(0,0,0,0.5);text-align:center;position:relative;overflow:hidden;}
+.ribbon{position:absolute;top:10px;left:50%;transform:translateX(-50%) rotate(-5deg);background:linear-gradient(90deg,#ffd700,#ff9900);padding:15px 60px;border-radius:10px;color:#000;font-weight:bold;font-size:1.6rem;animation: ribbonAnim 2s ease infinite alternate;}
+@keyframes ribbonAnim{0%{transform:translateX(-50%) rotate(-5deg);}100%{transform:translateX(-50%) rotate(5deg);}}
+.certificate-content h2{color:#fff;font-size:2rem;margin:15px 0;}
+.certificate-content h3{color:#ffd700;font-size:1.5rem;margin:10px 0;}
+.certificate-inputs input, .certificate-inputs button{padding:10px 15px;margin:5px;border-radius:8px;border:none;}
+.certificate-inputs button.generate-btn{background:#ffd700;color:#000;font-weight:bold;}
+.certificate-inputs button.download-btn{background:#00ff9c;color:#000;font-weight:bold;}
+</style>
+</head>
+<body>
+<div id="particles-js"></div>
+<div class="certificate-box">
+  <div class="ribbon">Certificate of Completion</div>
+  <div class="certificate-content">
+    <p>This is to certify that</p>
+    <h2 id="userName">[Your Name]</h2>
+    <p>has successfully completed</p>
+    <h3 id="courseName">[Course Name]</h3>
+    <p>on <span id="date">[Date]</span></p>
+  </div>
+  <div class="certificate-inputs">
+    <input type="text" id="nameInput" placeholder="তোমার নাম লিখো">
+    <input type="text" id="courseInput" placeholder="কোর্সের নাম লিখো">
+    <button class="generate-btn" onclick="generateCertificate()">Generate</button>
+    <button class="download-btn" onclick="downloadPDF()">Download PDF</button>
+  </div>
+</div>
+
+<script>
+particlesJS("particles-js",{particles:{number:{value:80},color:{value:"#fff"},shape:{type:"circle"},opacity:{value:0.5},size:{value:3},line_linked:{enable:true,distance:120,color:"#fff",opacity:0.3,width:1},move:{enable:true,speed:3}}});
+let users=[]; 
+function generateCertificate(){
+let name=document.getElementById("nameInput").value||"[Your Name]";
+let course=document.getElementById("courseInput").value||"[Course Name]";
+let date=new Date().toLocaleDateString();
+document.getElementById("userName").textContent=name;
+document.getElementById("courseName").textContent=course;
+document.getElementById("date").textContent=date;
+confetti({particleCount:200,spread:150,origin:{y:0.6}});
+users.push({name,course,date});
+}
+async function downloadPDF(){
+const { jsPDF }=window.jspdf;
+let certificate=document.querySelector(".certificate-box");
+let canvas=await html2canvas(certificate,{scale:2});
+let imgData=canvas.toDataURL('image/png');
+let pdf=new jsPDF({orientation:'landscape',unit:'px',format:[canvas.width,canvas.height]});
+pdf.addImage(imgData,'PNG',0,0,canvas.width,canvas.height);pdf.save("mahiszone-certificate.pdf");
+}
+</script>
+</body>
+</html>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mahi's Zone - Floating Badges Certificate</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+<style>
+body{margin:0;font-family:'Playfair Display',serif;background:#111;color:#fff;}
+.certificate-box{max-width:950px;margin:50px auto;padding:50px;background:linear-gradient(135deg,#6a11cb,#2575fc);border-radius:30px;box-shadow:0 20px 60px rgba(0,0,0,0.5);position:relative;text-align:center;}
+.ribbon{position:absolute;top:-10px;left:50%;transform:translateX(-50%) rotate(-5deg);background:linear-gradient(90deg,#ffd700,#ff9900);padding:12px 50px;font-weight:bold;color:#000;font-size:1.5rem;border-radius:5px;box-shadow:0 5px 15px rgba(0,0,0,0.3);animation: ribbonMove 2s ease infinite alternate;}
+@keyframes ribbonMove{0%{transform:translateX(-50%) rotate(-5deg);}100%{transform:translateX(-50%) rotate(5deg);}}
+.certificate-content h2{color:#fff;font-size:2rem;margin:15px 0;}
+.certificate-content h3{color:#ffd700;font-size:1.5rem;margin:10px 0;}
+.badge{display:inline-block;margin:10px;padding:10px 25px;background:radial-gradient(circle,#ffd700,#ff9900,#ff0099);border-radius:50px;font-weight:bold;color:#000;animation: floatBadge 3s infinite alternate;}
+@keyframes floatBadge{0%{transform:translateY(0);}100%{transform:translateY(-15px);}}
+.certificate-inputs input{padding:10px 15px;margin:5px;border-radius:8px;border:none;}
+.certificate-inputs button{padding:10px 20px;margin:5px;border-radius:8px;border:none;font-weight:bold;cursor:pointer;}
+.generate-btn{background:#ffd700;color:#000;}
+.download-btn{background:#00ff9c;color:#000;}
+.recent-certificates, .leaderboard{margin-top:30px;}
+.cert-card,.leader-card{background: linear-gradient(135deg,#ff9a9e,#fad0c4);padding:15px;margin:10px;border-radius:20px;box-shadow:0 10px 30px rgba(0,0,0,0.5);transition: transform 0.3s ease;}
+.cert-card:hover,.leader-card:hover{transform:translateY(-8px);}
+</style>
+</head>
+<body>
+
+<div class="certificate-box">
+  <div class="ribbon">Certificate of Achievement</div>
+  <div class="certificate-content">
+    <p>This is to certify that</p>
+    <h2 id="userName">[Your Name]</h2>
+    <p>has successfully completed</p>
+    <h3 id="courseName">[Course Name]</h3>
+    <p>on <span id="date">[Date]</span></p>
+    <div class="badges">
+      <div class="badge">🌟 Beginner</div>
+      <div class="badge">🎨 Designer</div>
+      <div class="badge">💻 Coder</div>
+    </div>
+  </div>
+  <div class="certificate-inputs">
+    <input type="text" id="nameInput" placeholder="তোমার নাম লিখো">
+    <input type="text" id="courseInput" placeholder="কোর্সের নাম লিখো">
+    <button class="generate-btn" onclick="generateCertificate()">Generate</button>
+    <button class="download-btn" onclick="downloadPDF()">Download PDF</button>
+  </div>
+</div>
+
+<div class="recent-certificates">
+<h2>Recent Certificates</h2>
+<div id="recentList"></div>
+</div>
+<div class="leaderboard">
+<h2>Leaderboard</h2>
+<div id="leaderList"></div>
+</div>
+
+<script>
+let users=[]; 
+let badgesList=[{level:1,name:"🌟 Beginner"},{level:3,name:"🎨 Designer"},{level:5,name:"💻 Coder"},{level:7,name:"🚀 Fast Learner"},{level:10,name:"🏆 Mahi's Zone Master"}];
+
+function generateCertificate(){
+  let name=document.getElementById("nameInput").value||"[Your Name]";
+  let course=document.getElementById("courseInput").value||"[Course Name]";
+  let date=new Date().toLocaleDateString();
+  document.getElementById("userName").textContent=name;
+  document.getElementById("courseName").textContent=course;
+  document.getElementById("date").textContent=date;
+
+  let prevLevel=users.find(u=>u.name===name)?.level||0;
+  let level=prevLevel+1;
+  let existing=users.find(u=>u.name===name);
+  if(existing){existing.level=level; existing.course=course; existing.date=date;}
+  else{users.push({name,course,date,level});}
+
+  confetti({particleCount:300,spread:150,origin:{y:0.6}});
+  updateRecentCertificates(); updateLeaderboard();
+}
+
+function updateRecentCertificates(){
+  let recentDiv=document.getElementById("recentList"); recentDiv.innerHTML="";
+  users.slice(-5).reverse().forEach(u=>{
+    let div=document.createElement("div"); div.className="cert-card";
+    div.innerHTML=`<strong>${u.name}</strong> – ${u.course} – Level ${u.level} – ${u.date}`;
+    recentDiv.appendChild(div);
+  });
+}
+
+function updateLeaderboard(){
+  let leaderDiv=document.getElementById("leaderList"); leaderDiv.innerHTML="";
+  let sorted=[...users].sort((a,b)=>b.level-a.level).slice(0,5);
+  sorted.forEach((u,i)=>{
+    let div=document.createElement("div"); div.className="leader-card";
+    let medal=i===0?'🥇':i===1?'🥈':i===2?'🥉':'';
+    div.innerHTML=`${medal} ${u.name} – Level ${u.level}`;
+    leaderDiv.appendChild(div);
+  });
+}
+
+async function downloadPDF(){
+  const { jsPDF }=window.jspdf;
+  let certificate=document.querySelector(".certificate-box");
+  let canvas=await html2canvas(certificate,{scale:2});
+  let imgData=canvas.toDataURL('image/png');
+  let pdf=new jsPDF({orientation:'landscape',unit:'px',format:[canvas.width,canvas.height]});
+  pdf.addImage(imgData,'PNG',0,0,canvas.width,canvas.height);pdf.save("mahiszone-certificate.pdf");
+}
+</script>
+</body>
+</html>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mahi's Zone - Confetti Certificate</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+<style>
+body{margin:0;font-family:'Playfair Display',serif;background:#111;color:#fff;}
+#certificate-box{max-width:950px;margin:50px auto;padding:50px;background:linear-gradient(135deg,#ff512f,#dd2476);border-radius:30px;box-shadow:0 20px 60px rgba(0,0,0,0.5);position:relative;text-align:center;overflow:hidden;}
+.ribbon{position:absolute;top:-10px;left:50%;transform:translateX(-50%) rotate(-5deg);background:linear-gradient(90deg,#ffd700,#ff9900);padding:12px 50px;font-weight:bold;color:#000;font-size:1.5rem;border-radius:5px;box-shadow:0 5px 15px rgba(0,0,0,0.3);animation:ribbonAnim 2s ease infinite alternate;}
+@keyframes ribbonAnim{0%{transform:translateX(-50%) rotate(-5deg);}100%{transform:translateX(-50%) rotate(5deg);}}
+.certificate-content h2{color:#fff;font-size:2rem;margin:15px 0;}
+.certificate-content h3{color:#ffd700;font-size:1.5rem;margin:10px 0;}
+.badge{display:inline-block;margin:10px;padding:10px 25px;background:radial-gradient(circle,#ffd700,#ff9900,#ff0099);border-radius:50px;font-weight:bold;color:#000;animation: floatBadge 2s infinite alternate;}
+@keyframes floatBadge{0%{transform:translateY(0);}100%{transform:translateY(-12px);}}
+.xp-bar{width:80%;height:12px;background:rgba(255,255,255,0.2);border-radius:10px;margin:15px auto;overflow:hidden;}
+#xpProgress{width:0%;height:100%;background:linear-gradient(90deg,#ffd700,#ff9900);border-radius:10px;transition:width 0.5s ease;}
+.certificate-inputs input{padding:10px 15px;margin:5px;border-radius:8px;border:none;}
+.certificate-inputs button{padding:10px 20px;margin:5px;border-radius:8px;border:none;font-weight:bold;cursor:pointer;}
+.generate-btn{background:#ffd700;color:#000;}
+.download-btn{background:#00ff9c;color:#000;}
+.recent-certificates, .leaderboard{margin-top:30px;}
+.cert-card,.leader-card{background: linear-gradient(135deg,#6a11cb,#2575fc);padding:15px;margin:10px;border-radius:20px;box-shadow:0 10px 30px rgba(0,0,0,0.5);transition: transform 0.3s ease, box-shadow 0.3s ease;}
+.cert-card:hover,.leader-card:hover{transform:translateY(-8px);box-shadow:0 20px 50px rgba(255,255,255,0.6);}
+.leader-card{animation: glowLeader 2s infinite alternate;}
+@keyframes glowLeader{0%{box-shadow:0 10px 30px rgba(255,255,255,0.5);}100%{box-shadow:0 10px 40px rgba(255,255,0,0.8);}}
+</style>
+</head>
+<body>
+
+<div id="certificate-box">
+  <div class="ribbon">Certificate of Achievement</div>
+  <div class="certificate-content">
+    <p>This is to certify that</p>
+    <h2 id="userName">[Your Name]</h2>
+    <p>has successfully completed</p>
+    <h3 id="courseName">[Course Name]</h3>
+    <p>on <span id="date">[Date]</span></p>
+    <div class="badges">
+      <div class="badge">🌟 Beginner</div>
+      <div class="badge">🎨 Designer</div>
+      <div class="badge">💻 Coder</div>
+    </div>
+    <div class="xp-bar"><div id="xpProgress"></div></div>
+  </div>
+  <div class="certificate-inputs">
+    <input type="text" id="nameInput" placeholder="তোমার নাম লিখো">
+    <input type="text" id="courseInput" placeholder="কোর্সের নাম লিখো">
+    <button class="generate-btn" onclick="generateCertificate()">Generate</button>
+    <button class="download-btn" onclick="downloadPDF()">Download PDF</button>
+  </div>
+</div>
+
+<div class="recent-certificates">
+<h2>Recent Certificates</h2>
+<div id="recentList"></div>
+</div>
+<div class="leaderboard">
+<h2>Leaderboard</h2>
+<div id="leaderList"></div>
+</div>
+
+<script>
+let users=[]; 
+let badgesList=[{level:1,name:"🌟 Beginner"},{level:3,name:"🎨 Designer"},{level:5,name:"💻 Coder"},{level:7,name:"🚀 Fast Learner"},{level:10,name:"🏆 Mahi's Zone Master"}];
+
+function generateCertificate(){
+  let name=document.getElementById("nameInput").value||"[Your Name]";
+  let course=document.getElementById("courseInput").value||"[Course Name]";
+  let date=new Date().toLocaleDateString();
+  document.getElementById("userName").textContent=name;
+  document.getElementById("courseName").textContent=course;
+  document.getElementById("date").textContent=date;
+
+  let prevLevel=users.find(u=>u.name===name)?.level||0;
+  let level=prevLevel+1;
+  document.getElementById("xpProgress").style.width=Math.min(level*10,100)+"%";
+
+  let existing=users.find(u=>u.name===name);
+  if(existing){existing.level=level; existing.course=course; existing.date=date;}
+  else{users.push({name,course,date,level});}
+
+  confetti({particleCount:400,spread:160,origin:{y:0.6}});
+  updateRecentCertificates(); updateLeaderboard();
+}
+
+function updateRecentCertificates(){
+  let recentDiv=document.getElementById("recentList"); recentDiv.innerHTML="";
+  users.slice(-5).reverse().forEach(u=>{
+    let div=document.createElement("div"); div.className="cert-card";
+    div.innerHTML=`<strong>${u.name}</strong> – ${u.course} – Level ${u.level} – ${u.date}`;
+    recentDiv.appendChild(div);
+  });
+}
+
+function updateLeaderboard(){
+  let leaderDiv=document.getElementById("leaderList"); leaderDiv.innerHTML="";
+  let sorted=[...users].sort((a,b)=>b.level-a.level).slice(0,5);
+  sorted.forEach((u,i)=>{
+    let div=document.createElement("div"); div.className="leader-card";
+    let medal=i===0?'🥇':i===1?'🥈':i===2?'🥉':'';
+    div.innerHTML=`${medal} ${u.name} – Level ${u.level}`;
+    leaderDiv.appendChild(div);
+  });
+}
+
+async function downloadPDF(){
+  const { jsPDF }=window.jspdf;
+  let certificate=document.querySelector("#certificate-box");
+  let canvas=await html2canvas(certificate,{scale:2});
+  let imgData=canvas.toDataURL('image/png');
+  let pdf=new jsPDF({orientation:'landscape',unit:'px',format:[canvas.width,canvas.height]});
+  pdf.addImage(imgData,'PNG',0,0,canvas.width,canvas.height);pdf.save("mahiszone-certificate.pdf");
+}
+</script>
+</body>
+</html>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mahi's Zone - 3D Neon Certificate</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+<style>
+body{margin:0;font-family:'Orbitron',sans-serif;background:#000;color:#fff;overflow-x:hidden;}
+#certificate-box{max-width:950px;margin:50px auto;padding:50px;background:linear-gradient(135deg,#1f1c2c,#928dab);border-radius:30px;box-shadow:0 20px 60px rgba(0,0,0,0.8);position:relative;text-align:center;overflow:hidden;}
+.ribbon{position:absolute;top:-10px;left:50%;transform:translateX(-50%) rotate(-5deg);background:linear-gradient(90deg,#0ff,#0f0);padding:12px 50px;font-weight:bold;color:#000;font-size:1.6rem;border-radius:5px;box-shadow:0 5px 15px rgba(0,255,255,0.3);animation:ribbonAnim 2s ease infinite alternate;}
+@keyframes ribbonAnim{0%{transform:translateX(-50%) rotate(-5deg);}100%{transform:translateX(-50%) rotate(5deg);}}
+.certificate-content h2{color:#0ff;font-size:2.2rem;margin:15px 0;text-shadow:0 0 5px #0ff,0 0 10px #0ff,0 0 20px #0ff;}
+.certificate-content h3{color:#0f0;font-size:1.8rem;margin:10px 0;text-shadow:0 0 5px #0f0,0 0 10px #0f0,0 0 20px #0f0;}
+.badge{display:inline-block;margin:10px;padding:10px 25px;background:radial-gradient(circle,#0ff,#0f0,#ff0);border-radius:50px;font-weight:bold;color:#000;animation: floatBadge 3s infinite alternate;cursor:pointer;transition:transform 0.3s ease;}
+.badge:hover{transform:scale(1.2) rotate(10deg);box-shadow:0 0 20px #0ff,0 0 30px #0f0;}
+.xp-bar{width:80%;height:15px;background:rgba(255,255,255,0.2);border-radius:10px;margin:15px auto;overflow:hidden;}
+#xpProgress{width:0%;height:100%;background:linear-gradient(90deg,#0ff,#0f0);border-radius:10px;transition:width 0.5s ease;}
+.particles{position:absolute;top:0;left:0;width:100%;height:100%;z-index:-1;}
+.certificate-inputs input{padding:10px 15px;margin:5px;border-radius:8px;border:none;}
+.certificate-inputs button{padding:10px 20px;margin:5px;border-radius:8px;border:none;font-weight:bold;cursor:pointer;}
+.generate-btn{background:#0ff;color:#000;}
+.download-btn{background:#0f0;color:#000;}
+.recent-certificates, .leaderboard{margin-top:30px;}
+.cert-card,.leader-card{background: linear-gradient(135deg,#0ff,#0f0);padding:15px;margin:10px;border-radius:20px;box-shadow:0 10px 30px rgba(0,255,255,0.5);transition: transform 0.3s ease, box-shadow 0.3s ease;}
+.cert-card:hover,.leader-card:hover{transform:translateY(-8px);box-shadow:0 20px 50px rgba(0,255,255,0.8);}
+.leader-card{animation: glowLeader 2s infinite alternate;}
+@keyframes glowLeader{0%{box-shadow:0 10px 30px rgba(0,255,255,0.5);}100%{box-shadow:0 10px 50px rgba(0,255,255,1);}}
+@keyframes floatBadge{0%{transform:translateY(0);}100%{transform:translateY(-15px);}}
+</style>
+</head>
+<body>
+
+<canvas class="particles" id="particlesCanvas"></canvas>
+
+<div id="certificate-box">
+  <div class="ribbon">Certificate of Mastery</div>
+  <div class="certificate-content">
+    <p>This is to certify that</p>
+    <h2 id="userName">[Your Name]</h2>
+    <p>has successfully completed</p>
+    <h3 id="courseName">[Course Name]</h3>
+    <p>on <span id="date">[Date]</span></p>
+    <div class="badges">
+      <div class="badge">🌟 Beginner</div>
+      <div class="badge">🎨 Designer</div>
+      <div class="badge">💻 Coder</div>
+      <div class="badge">🚀 Fast Learner</div>
+      <div class="badge">🏆 Mahi's Zone Master</div>
+    </div>
+    <div class="xp-bar"><div id="xpProgress"></div></div>
+  </div>
+  <div class="certificate-inputs">
+    <input type="text" id="nameInput" placeholder="তোমার নাম লিখো">
+    <input type="text" id="courseInput" placeholder="কোর্সের নাম লিখো">
+    <button class="generate-btn" onclick="generateCertificate()">Generate</button>
+    <button class="download-btn" onclick="downloadPDF()">Download PDF</button>
+  </div>
+</div>
+
+<div class="recent-certificates">
+<h2>Recent Certificates</h2>
+<div id="recentList"></div>
+</div>
+<div class="leaderboard">
+<h2>Leaderboard</h2>
+<div id="leaderList"></div>
+</div>
+
+<script>
+// Particle Animation
+const canvas=document.getElementById('particlesCanvas');
+const ctx=canvas.getContext('2d');
+canvas.width=window.innerWidth;
+canvas.height=window.innerHeight;
+let particlesArray=[];
+class Particle{
+  constructor(){this.x=Math.random()*canvas.width;this.y=Math.random()*canvas.height;this.size=Math.random()*3+1;this.speedX=Math.random()*1-0.5;this.speedY=Math.random()*1-0.5;}
+  update(){this.x+=this.speedX;this.y+=this.speedY;if(this.x>canvas.width)this.x=0;if(this.x<0)this.x=canvas.width;if(this.y>canvas.height)this.y=0;if(this.y<0)this.y=canvas.height;}
+  draw(){ctx.fillStyle='rgba(0,255,255,0.7)';ctx.beginPath();ctx.arc(this.x,this.y,this.size,0,Math.PI*2);ctx.fill();}
+}
+function initParticles(){particlesArray=[];for(let i=0;i<100;i++){particlesArray.push(new Particle());}}
+function animateParticles(){ctx.clearRect(0,0,canvas.width,canvas.height);particlesArray.forEach(p=>{p.update();p.draw();});requestAnimationFrame(animateParticles);}
+initParticles();animateParticles();
+
+// Certificate Logic
+let users=[]; 
+function generateCertificate(){
+  let name=document.getElementById("nameInput").value||"[Your Name]";
+  let course=document.getElementById("courseInput").value||"[Course Name]";
+  let date=new Date().toLocaleDateString();
+  document.getElementById("userName").textContent=name;
+  document.getElementById("courseName").textContent=course;
+  document.getElementById("date").textContent=date;
+
+  let prevLevel=users.find(u=>u.name===name)?.level||0;
+  let level=prevLevel+1;
+  document.getElementById("xpProgress").style.width=Math.min(level*10,100)+"%";
+
+  let existing=users.find(u=>u.name===name);
+  if(existing){existing.level=level; existing.course=course; existing.date=date;}
+  else{users.push({name,course,date,level});}
+
+  confetti({particleCount:500,spread:160,origin:{y:0.6}});
+  updateRecentCertificates(); updateLeaderboard();
+}
+
+function updateRecentCertificates(){
+  let recentDiv=document.getElementById("recentList"); recentDiv.innerHTML="";
+  users.slice(-5).reverse().forEach(u=>{
+    let div=document.createElement("div"); div.className="cert-card";
+    div.innerHTML=`<strong>${u.name}</strong> – ${u.course} – Level ${u.level} – ${u.date}`;
+    recentDiv.appendChild(div);
+  });
+}
+
+function updateLeaderboard(){
+  let leaderDiv=document.getElementById("leaderList"); leaderDiv.innerHTML="";
+  let sorted=[...users].sort((a,b)=>b.level-a.level).slice(0,5);
+  sorted.forEach((u,i)=>{
+    let div=document.createElement("div"); div.className="leader-card";
+    let medal=i===0?'🥇':i===1?'🥈':i===2?'🥉':'';
+    div.innerHTML=`${medal} ${u.name} – Level ${u.level}`;
+    leaderDiv.appendChild(div);
+  });
+}
+
+async function downloadPDF(){
+  const { jsPDF }=window.jspdf;
+  let certificate=document.querySelector("#certificate-box");
+  let canvas=await html2canvas(certificate,{scale:2});
+  let imgData=canvas.toDataURL('image/png');
+  let pdf=new jsPDF({orientation:'landscape',unit:'px',format:[canvas.width,canvas.height]});
+  pdf.addImage(imgData,'PNG',0,0,canvas.width,canvas.height);pdf.save("mahiszone-certificate.pdf");
+}
+</script>
+</body>
+</html>
+
