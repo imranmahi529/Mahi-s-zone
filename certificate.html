@@ -1,16 +1,14 @@
 <section id="certificate">
-  <h2 style="text-align:center; color:#ffd700; margin-bottom:20px;">🏆 Certificate of Completion</h2>
+  <h2 style="text-align:center; color:#ffd700; margin-bottom:20px;">🏆 Mahi's Zone Certificate</h2>
   
   <div class="certificate-box">
-    <!-- Animated Ribbon -->
+    <!-- Ribbon -->
     <div class="ribbon"><span>Certificate of Completion</span></div>
     
-    <!-- XP Level Badge with Gradient 3D -->
+    <!-- XP Level Badge -->
     <div class="badge">
       <span id="xpLevel">Level 1</span>
-      <div class="xp-bar">
-        <div id="xpProgress"></div>
-      </div>
+      <div class="xp-bar"><div id="xpProgress"></div></div>
     </div>
 
     <div class="certificate-content">
@@ -20,7 +18,7 @@
       <h3 id="courseName">[Course Name]</h3>
       <p>on <span id="date">[Date]</span></p>
       <div class="signature">
-        <p>Imran Hossain Mahi</p>
+        <p>Mahi's Zone</p>
         <small>Founder & Mentor</small>
       </div>
       <div class="qr-code">
@@ -29,7 +27,7 @@
       </div>
     </div>
     
-    <!-- Input & Buttons -->
+    <!-- Inputs -->
     <div class="certificate-inputs">
       <input type="text" id="nameInput" placeholder="তোমার নাম লিখো">
       <input type="text" id="courseInput" placeholder="কোর্সের নাম লিখো">
@@ -40,24 +38,30 @@
 </section>
 
 <style>
+:root {
+  --bg-color: linear-gradient(135deg,#ff9a9e,#fad0c4);
+  --ribbon-color: linear-gradient(90deg,#ffd700,#ff9900);
+  --text-color:#fff;
+  --badge-bg: radial-gradient(circle,#ff0,#ff6600,#ff0099);
+}
 .certificate-box {
   max-width:950px;
   margin:auto;
   padding:50px 30px;
-  background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(0,0,0,0.1));
+  background: var(--bg-color);
   backdrop-filter: blur(18px);
   border-radius:30px;
   text-align:center;
   box-shadow:0 20px 60px rgba(0,0,0,0.5);
+  border:5px solid #ffd700;
   position:relative;
   overflow:hidden;
-  transition: all 0.3s ease;
 }
 .ribbon {
   position:absolute;
-  top: -10px; left:50%;
+  top:-10px; left:50%;
   transform: translateX(-50%) rotate(-5deg);
-  background: linear-gradient(90deg,#ffd700,#ff9900);
+  background: var(--ribbon-color);
   padding:12px 50px;
   font-weight:bold;
   color:#000;
@@ -72,10 +76,10 @@
   position:absolute;
   top:10px;
   right:10px;
-  background: linear-gradient(135deg,#ff0,#ff6600,#ff0099);
+  background: var(--badge-bg);
   padding:10px 25px;
   border-radius:50px;
-  color:#fff;
+  color:#000;
   font-weight:bold;
   font-family:'Playfair Display', serif;
   box-shadow:0 5px 20px rgba(0,0,0,0.4);
@@ -99,9 +103,9 @@
   transition: width 0.5s ease;
 }
 
-.certificate-content h2 { font-size:2rem; color:#fff; margin:15px 0; font-family:'Playfair Display', serif; }
+.certificate-content h2 { font-size:2rem; color:var(--text-color); margin:15px 0; font-family:'Playfair Display', serif; }
 .certificate-content h3 { font-size:1.5rem; color:#ffd700; margin:10px 0; font-family:'Cormorant Garamond', serif; }
-.signature { margin-top:30px; font-style:italic; color:#fff; }
+.signature { margin-top:30px; font-style:italic; color:var(--text-color); }
 .qr-code img { margin-top:20px; border-radius:10px; }
 .certificate-inputs { margin-top:30px; }
 .certificate-inputs input { padding:10px 15px; border-radius:8px; border:none; margin:5px; width:180px; }
@@ -124,13 +128,11 @@ function generateCertificate() {
   document.getElementById("courseName").textContent = course;
   document.getElementById("date").textContent = new Date().toLocaleDateString();
   
-  // Increase XP Level & Progress
   userLevel++;
   document.getElementById("xpLevel").textContent = "Level " + userLevel;
-  let progress = Math.min(userLevel * 10, 100); // Max 100%
+  let progress = Math.min(userLevel * 10, 100);
   document.getElementById("xpProgress").style.width = progress + "%";
   
-  // Confetti
   confetti({ particleCount: 250, spread: 120, origin: { y:0.6 } });
 }
 
@@ -141,6 +143,6 @@ async function downloadPDF() {
   let imgData = canvas.toDataURL('image/png');
   let pdf = new jsPDF({ orientation:'landscape', unit:'px', format:[canvas.width,canvas.height] });
   pdf.addImage(imgData,'PNG',0,0,canvas.width,canvas.height);
-  pdf.save("certificate.pdf");
+  pdf.save("mahiszone-certificate.pdf");
 }
 </script>
