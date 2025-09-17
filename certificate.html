@@ -1,0 +1,146 @@
+<section id="certificate">
+  <h2 style="text-align:center; color:#ffd700; margin-bottom:20px;">🏆 Certificate of Completion</h2>
+  
+  <div class="certificate-box">
+    <!-- Animated Ribbon -->
+    <div class="ribbon"><span>Certificate of Completion</span></div>
+    
+    <!-- XP Level Badge with Gradient 3D -->
+    <div class="badge">
+      <span id="xpLevel">Level 1</span>
+      <div class="xp-bar">
+        <div id="xpProgress"></div>
+      </div>
+    </div>
+
+    <div class="certificate-content">
+      <p>This is to certify that</p>
+      <h2 id="userName">[Your Name]</h2>
+      <p>has successfully completed</p>
+      <h3 id="courseName">[Course Name]</h3>
+      <p>on <span id="date">[Date]</span></p>
+      <div class="signature">
+        <p>Imran Hossain Mahi</p>
+        <small>Founder & Mentor</small>
+      </div>
+      <div class="qr-code">
+        <img src="https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=https://imranmahi.github.io" alt="QR Code">
+        <p style="font-size:12px;">Scan to Verify</p>
+      </div>
+    </div>
+    
+    <!-- Input & Buttons -->
+    <div class="certificate-inputs">
+      <input type="text" id="nameInput" placeholder="তোমার নাম লিখো">
+      <input type="text" id="courseInput" placeholder="কোর্সের নাম লিখো">
+      <button onclick="generateCertificate()">Generate Certificate</button>
+      <button onclick="downloadPDF()">Download PDF</button>
+    </div>
+  </div>
+</section>
+
+<style>
+.certificate-box {
+  max-width:950px;
+  margin:auto;
+  padding:50px 30px;
+  background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(0,0,0,0.1));
+  backdrop-filter: blur(18px);
+  border-radius:30px;
+  text-align:center;
+  box-shadow:0 20px 60px rgba(0,0,0,0.5);
+  position:relative;
+  overflow:hidden;
+  transition: all 0.3s ease;
+}
+.ribbon {
+  position:absolute;
+  top: -10px; left:50%;
+  transform: translateX(-50%) rotate(-5deg);
+  background: linear-gradient(90deg,#ffd700,#ff9900);
+  padding:12px 50px;
+  font-weight:bold;
+  color:#000;
+  font-size:1.3rem;
+  border-radius:5px;
+  box-shadow:0 5px 15px rgba(0,0,0,0.3);
+  animation: ribbonMove 2s ease infinite alternate;
+}
+@keyframes ribbonMove { 0%{transform:translateX(-50%) rotate(-5deg);} 100%{transform:translateX(-50%) rotate(5deg);} }
+
+.badge {
+  position:absolute;
+  top:10px;
+  right:10px;
+  background: linear-gradient(135deg,#ff0,#ff6600,#ff0099);
+  padding:10px 25px;
+  border-radius:50px;
+  color:#fff;
+  font-weight:bold;
+  font-family:'Playfair Display', serif;
+  box-shadow:0 5px 20px rgba(0,0,0,0.4);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+}
+.xp-bar {
+  margin-top:5px;
+  width:80px;
+  height:8px;
+  background: rgba(255,255,255,0.2);
+  border-radius:5px;
+  overflow:hidden;
+}
+#xpProgress {
+  width:10%;
+  height:100%;
+  background: linear-gradient(90deg,#ffd700,#ff9900);
+  border-radius:5px;
+  transition: width 0.5s ease;
+}
+
+.certificate-content h2 { font-size:2rem; color:#fff; margin:15px 0; font-family:'Playfair Display', serif; }
+.certificate-content h3 { font-size:1.5rem; color:#ffd700; margin:10px 0; font-family:'Cormorant Garamond', serif; }
+.signature { margin-top:30px; font-style:italic; color:#fff; }
+.qr-code img { margin-top:20px; border-radius:10px; }
+.certificate-inputs { margin-top:30px; }
+.certificate-inputs input { padding:10px 15px; border-radius:8px; border:none; margin:5px; width:180px; }
+.certificate-inputs button { padding:10px 25px; margin:5px; border:none; border-radius:10px; font-weight:bold; cursor:pointer; }
+.certificate-inputs button:nth-child(3) { background:#ffd700; color:#000; }
+.certificate-inputs button:nth-child(4) { background:#00ff9c; color:#000; }
+</style>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+
+<script>
+let userLevel = 1;
+
+function generateCertificate() {
+  let name = document.getElementById("nameInput").value || "[Your Name]";
+  let course = document.getElementById("courseInput").value || "[Course Name]";
+  document.getElementById("userName").textContent = name;
+  document.getElementById("courseName").textContent = course;
+  document.getElementById("date").textContent = new Date().toLocaleDateString();
+  
+  // Increase XP Level & Progress
+  userLevel++;
+  document.getElementById("xpLevel").textContent = "Level " + userLevel;
+  let progress = Math.min(userLevel * 10, 100); // Max 100%
+  document.getElementById("xpProgress").style.width = progress + "%";
+  
+  // Confetti
+  confetti({ particleCount: 250, spread: 120, origin: { y:0.6 } });
+}
+
+async function downloadPDF() {
+  const { jsPDF } = window.jspdf;
+  let certificate = document.querySelector(".certificate-box");
+  let canvas = await html2canvas(certificate, { scale:2 });
+  let imgData = canvas.toDataURL('image/png');
+  let pdf = new jsPDF({ orientation:'landscape', unit:'px', format:[canvas.width,canvas.height] });
+  pdf.addImage(imgData,'PNG',0,0,canvas.width,canvas.height);
+  pdf.save("certificate.pdf");
+}
+</script>
