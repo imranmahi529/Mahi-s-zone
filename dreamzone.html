@@ -1,295 +1,106 @@
-<!DOCTYPE html>
-<html lang="bn">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dream Zone – Ultimate</title>
-<style>
-/* ===== General ===== */
-* {margin:0;padding:0;box-sizing:border-box;font-family:'Arial',sans-serif;}
-body {background:#111;color:#fff;overflow-x:hidden;scroll-behavior:smooth;position:relative;}
+<!-- ===== Dream Zone – AI Personal Assistant + Dream Creator ===== -->
+<section id="dreamAssistant" class="reveal">
+  <h2>Dream Zone AI Personal Assistant</h2>
+  <div class="features">
 
-/* ===== Floating Particles ===== */
-#particles {
-  position:fixed;top:0;left:0;width:100%;height:100%;z-index:-2;
-  pointer-events:none;
-}
-.particle {
-  position:absolute;background:#0ff;border-radius:50%;
-  opacity:0.7;animation:float 10s linear infinite;
-}
-@keyframes float {
-  0%{transform:translateY(0) translateX(0) scale(0.5);}
-  50%{transform:translateY(-50vh) translateX(50vw) scale(1);}
-  100%{transform:translateY(-100vh) translateX(-50vw) scale(0.5);}
-}
+    <!-- 1️⃣ AI Chat Card -->
+    <div class="card">
+      <h3>Ask Your AI</h3>
+      <input type="text" id="assistantInput" placeholder="প্রশ্ন লিখুন..." />
+      <button onclick="askAssistant()">Ask</button>
+      <div id="assistantOutput" class="result"></div>
+    </div>
 
-/* ===== Rainbow Animated Background ===== */
-body::before {
-  content:"";position:fixed;top:0;left:0;width:100%;height:100%;z-index:-1;
-  background: linear-gradient(270deg, red, orange, yellow, green, blue, indigo, violet);
-  background-size: 1400% 1400%;animation: rainbowBG 30s ease infinite;
-}
-@keyframes rainbowBG {
-  0%{background-position:0% 50%}
-  50%{background-position:100% 50%}
-  100%{background-position:0% 50%}
-}
+    <!-- 2️⃣ Dream Board / Goal Tracker -->
+    <div class="card">
+      <h3>My Dream Board</h3>
+      <input type="text" id="dreamInput" placeholder="লক্ষ্য/স্বপ্ন লিখুন..." />
+      <button onclick="addDream()">Add Dream</button>
+      <ul id="dreamList"></ul>
+    </div>
 
-/* ===== Navbar ===== */
-.navbar {
-  position:fixed;top:0;width:100%;background:rgba(0,0,0,0.5);
-  display:flex;justify-content:center;flex-wrap:wrap;gap:10px;padding:12px;
-  backdrop-filter:blur(8px);z-index:999;
-}
-.navbar a {
-  color:#fff;font-weight:bold;text-decoration:none;padding:8px 14px;border-radius:8px;transition:0.3s;
-}
-.navbar a:hover {background:rgba(0,255,255,0.2);}
+    <!-- 3️⃣ Image Generator for Dream -->
+    <div class="card">
+      <h3>Generate Dream Image</h3>
+      <input type="text" id="dreamImgInput" placeholder="ছবির বর্ণনা লিখুন..." />
+      <button onclick="generateDreamImage()">Generate</button>
+      <div id="dreamImgOutput" class="result"></div>
+    </div>
 
-/* ===== Sections ===== */
-section {min-height:100vh;padding:140px 20px 40px;position:relative;}
-section h2 {
-  text-align:center;margin-bottom:30px;font-size:42px;
-  background:linear-gradient(90deg,cyan,magenta,yellow);-webkit-background-clip:text;color:transparent;
-  animation:textGlow 2s ease-in-out infinite alternate;
-}
-@keyframes textGlow {
-  0%{text-shadow:0 0 5px cyan,0 0 10px magenta;}
-  100%{text-shadow:0 0 20px yellow,0 0 40px cyan;}
-}
-
-/* ===== 3D Neon Cards ===== */
-.features {display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;}
-.card {
-  background: rgba(0,0,0,0.2);padding:25px;border-radius:20px;text-align:left;
-  cursor:pointer;transition: all 0.5s;position:relative;overflow:hidden;
-  border:2px solid rgba(0,255,255,0.5);box-shadow:0 0 20px rgba(0,255,255,0.3);
-}
-.card::before {
-  content:"";position:absolute;top:0;left:-100%;width:100%;height:100%;background:rgba(0,255,255,0.05);transition:0.5s;
-}
-.card:hover::before {left:0;}
-.card:hover {transform:translateY(-10px) scale(1.05);box-shadow:0 0 40px #0ff,0 0 60px #0ff;}
-.card h3 {margin-top:0;color:#0ff;font-size:24px;text-shadow:0 0 8px #0ff;}
-.card p {margin:10px 0;color:#fff;opacity:0.85;line-height:1.4;}
-
-/* ===== Input & Buttons ===== */
-input[type=text]{width:100%;padding:12px;border-radius:10px;border:none;margin-top:5px;}
-button{padding:10px 16px;border:none;border-radius:10px;background:#0ff;color:#000;font-weight:bold;cursor:pointer;transition:0.3s;text-shadow:0 0 5px #0ff;}
-button:hover{background:#0fa;}
-
-/* ===== Result ===== */
-.result{text-align:center;margin-top:12px;font-size:18px;color:#0f0;font-weight:bold;}
-
-/* ===== Timeline ===== */
-.timeline{border-left:4px solid #0ff;margin-left:20px;padding-left:20px;}
-.timeline div{margin-bottom:20px;font-size:18px;opacity:0;transform:translateX(-50px);transition:all 0.8s ease;}
-.timeline div.visible{opacity:1;transform:translateX(0);}
-
-/* ===== Skill Bars ===== */
-.skill{background:#222;border-radius:12px;overflow:hidden;margin-bottom:10px;}
-.skill-bar{height:24px;background:#0ff;width:0%;text-align:right;padding-right:5px;color:#000;font-weight:bold;border-radius:12px;transition:width 1.5s ease;}
-
-/* ===== Carousel / Testimonials ===== */
-.carousel{display:flex;overflow-x:auto;gap:20px;scroll-behavior:smooth;padding-bottom:10px;}
-.carousel::-webkit-scrollbar{display:none;}
-
-/* ===== Goal List ===== */
-ul#goalList{list-style:none;margin-top:10px;padding-left:0;}
-ul#goalList li{padding:8px;background:rgba(0,255,255,0.1);border-radius:10px;margin-bottom:6px;cursor:pointer;transition:0.3s;}
-ul#goalList li:hover{background:#0ff;color:#000;}
-
-/* ===== Scroll Reveal ===== */
-section.reveal{opacity:0;transform:translateY(50px);transition:all 1s ease;}
-section.reveal.visible{opacity:1;transform:translateY(0);}
-</style>
-</head>
-<body>
-
-<!-- ===== Particles ===== -->
-<div id="particles"></div>
-
-<!-- ===== Navbar ===== -->
-<div class="navbar">
-<a href="#portfolio">Portfolio</a>
-<a href="#timeline">Timeline</a>
-<a href="#skills">Skills</a>
-<a href="#aiqa">AI Q&A</a>
-<a href="#dreamboard">Dream Board</a>
-<a href="#contact">Contact</a>
-<a href="#projects">Projects</a>
-<a href="#testimonials">Testimonials</a>
-<a href="#map">Map</a>
-<a href="#tip">Daily Tip</a>
-</div>
-
-<!-- ===== 1. Portfolio / Resume ===== -->
-<section id="portfolio" class="reveal">
-<h2>আমার কাজ ও অভিজ্ঞতা</h2>
-<div class="features">
-<div class="card">
-<h3>Dream Website</h3>
-<p>Role: Frontend Developer</p>
-<p>Duration: Jan 2025 – May 2025</p>
-<p>Description: আধুনিক ওয়েবসাইট যেখানে Interactive Features ও Stunning Design আছে।</p>
-</div>
-<div class="card">
-<h3>TalkBox App</h3>
-<p>Role: Full Stack Developer</p>
-<p>Duration: Jun 2024 – Dec 2024</p>
-<p>Description: Chat Application যেখানে Text Messaging এবং Interactive UI রয়েছে।</p>
-</div>
-<div class="card">
-<h3>Portfolio Showcase</h3>
-<p>Role: Web Designer</p>
-<p>Duration: Mar 2023 – Nov 2023</p>
-<p>Description: Creative Interactive Portfolio তৈরি করা।</p>
-</div>
-</div>
+  </div>
 </section>
 
-<!-- ===== 2. Timeline / Story of Life ===== -->
-<section id="timeline" class="reveal">
-<h2>আমার জীবন ও প্রজেক্টের গল্প</h2>
-<div class="timeline">
-<div>2018 – Started learning web development</div>
-<div>2020 – First freelance project completed</div>
-<div>2025 – Dream Zone project launched</div>
-</div>
-</section>
-
-<!-- ===== 3. Skills & Achievements ===== -->
-<section id="skills" class="reveal">
-<h2>আমার দক্ষতা এবং অর্জন</h2>
-<div class="features">
-<div class="card">
-<h3>HTML</h3>
-<div class="skill"><div class="skill-bar" data-width="95%">95%</div></div>
-</div>
-<div class="card">
-<h3>CSS</h3>
-<div class="skill"><div class="skill-bar" data-width="90%">90%</div></div>
-</div>
-<div class="card">
-<h3>JavaScript</h3>
-<div class="skill"><div class="skill-bar" data-width="80%">80%</div></div>
-</div>
-<div class="card">
-<h3>React</h3>
-<div class="skill"><div class="skill-bar" data-width="70%">70%</div></div>
-</div>
-</div>
-</section>
-
-<!-- ===== 4. AI Q&A ===== -->
-<section id="aiqa" class="reveal">
-<h2>আমার সম্পর্কে প্রশ্ন করুন</h2>
-<div class="features">
-<div class="card">
-<p>আপনার প্রশ্ন লিখুন:</p>
-<input type="text" id="aiInput" placeholder="প্রশ্ন লিখুন...">
-<button onclick="askAI()">জিজ্ঞাসা করুন</button>
-<div id="aiResult" class="result"></div>
-</div>
-</div>
-</section>
-
-<!-- ===== 5. Dream Board / Goal Tracker ===== -->
-<section id="dreamboard" class="reveal">
-<h2>আমার স্বপ্ন ও লক্ষ্য</h2>
-<div class="features">
-<div class="card">
-<p>লক্ষ্য লিখুন এবং Add করুন:</p>
-<input type="text" id="goalInput" placeholder="লক্ষ্য লিখুন...">
-<button onclick="addGoal()">Add Goal</button>
-<ul id="goalList"></ul>
-</div>
-</div>
-</section>
-
-<!-- ===== 6. Contact & Networking ===== -->
-<section id="contact" class="reveal">
-<h2>আমার সাথে যোগাযোগ করুন</h2>
-<div class="features">
-<div class="card"><p>LinkedIn: <a href="#" style="color:#0ff;">Click Here</a></p></div>
-<div class="card"><p>GitHub: <a href="#" style="color:#0ff;">Click Here</a></p></div>
-<div class="card"><p>Email: <span onclick="copyEmail()" style="cursor:pointer;color:#0ff;">Click to copy</span></p></div>
-<div id="contactResult" class="result"></div>
-</div>
-</section>
-
-<!-- ===== 7. Live Projects Showcase ===== -->
-<section id="projects" class="reveal">
-<h2>আমার প্রোজেক্টসমূহ</h2>
-<div class="features">
-<div class="card"><h3>Mahi’s Dream App</h3><p>Creative interactive website with fun features.</p></div>
-<div class="card"><h3>Learning Zone Platform</h3><p>Interactive Lessons, Quizzes এবং Stylish UI Features।</p></div>
-<div class="card"><h3>Mini Games Hub</h3><p>Small fun interactive web games for users.</p></div>
-</div>
-</section>
-
-<!-- ===== 8. Testimonials / Feedback Carousel ===== -->
-<section id="testimonials" class="reveal">
-<h2>যারা আমাকে চেনে তাদের মন্তব্য</h2>
-<div class="carousel">
-<div class="card"><p>“Mahi is a very talented developer!” – Rony</p></div>
-<div class="card"><p>“His websites are amazing and interactive.” – Sarah</p></div>
-<div class="card"><p>“Creative, fast, and reliable!” – Alex</p></div>
-</div>
-</section>
-
-<!-- ===== 9. Interactive Map / Location ===== -->
-<section id="map" class="reveal">
-<h2>কোথায় কাজ করেছি / প্রোজেক্ট লোকেশন</h2>
-<div class="features">
-<div class="card"><p>Location 1: Dhaka, Bangladesh</p></div>
-<div class="card"><p>Location 2: Chittagong, Bangladesh</p></div>
-</div>
-</section>
-
-<!-- ===== 10. Daily Insight / Tip ===== -->
-<section id="tip" class="reveal">
-<h2>আজকের উপদেশ / মটিভেশনাল টিপ</h2>
-<div class="features">
-<div class="card">
-<p id="dailyTip">“আজ একটি সুন্দর দিন শুরু করুন এবং নতুন কিছু শিখুন।”</p>
-<button onclick="newTip()">নতুন টিপ দেখুন</button>
-</div>
-</div>
-</section>
-
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script>
-// ===== Floating Particles =====
-const particleCount = 50;
-const particleContainer = document.getElementById('particles');
-for(let i=0;i<particleCount;i++){
-  const p=document.createElement('div');
-  p.classList.add('particle');
-  p.style.width=p.style.height=Math.random()*4+2+'px';
-  p.style.left=Math.random()*100+'%';
-  p.style.top=Math.random()*100+'%';
-  p.style.animationDuration=5+Math.random()*15+'s';
-  particleContainer.appendChild(p);
+const OPENAI_API_KEY = "YOUR_OPENAI_API_KEY_HERE"; // তোমার API Key বসাও
+
+// ===== AI Chat =====
+async function askAssistant() {
+  const prompt = document.getElementById('assistantInput').value;
+  const output = document.getElementById('assistantOutput');
+  if(!prompt) return;
+  output.innerHTML = "AI is thinking...";
+  try {
+    const res = await axios.post("https://api.openai.com/v1/chat/completions", {
+      model: "gpt-4",
+      messages: [{role:"user", content: prompt}],
+      max_tokens: 200
+    }, {
+      headers: {"Authorization": `Bearer ${OPENAI_API_KEY}`, "Content-Type": "application/json"}
+    });
+    output.innerHTML = res.data.choices[0].message.content;
+  } catch(err) {
+    console.error(err);
+    output.innerHTML = "Error fetching AI response.";
+  }
 }
 
-// ===== Scroll Reveal =====
-const revealSections = document.querySelectorAll('.reveal');
-window.addEventListener('scroll', () => {
-  const triggerBottom = window.innerHeight / 1.1;
-  revealSections.forEach(section => {
-    const sectionTop = section.getBoundingClientRect().top;
-    if(sectionTop < triggerBottom){section.classList.add('visible');}
-  });
+// ===== Dream Board / Goal Tracker =====
+function addDream() {
+  const input = document.getElementById('dreamInput');
+  const list = document.getElementById('dreamList');
+  const val = input.value.trim();
+  if(!val) return;
+  const li = document.createElement('li');
+  li.textContent = val;
+  li.onclick = ()=> li.remove();
+  list.appendChild(li);
+  input.value = '';
+}
 
-  // Timeline reveal
-  document.querySelectorAll('.timeline div').forEach(el=>{
-    const top = el.getBoundingClientRect().top;
-    if(top < window.innerHeight - 100){el.classList.add('visible');}
-  });
-});
+// ===== Dream Image Generator =====
+async function generateDreamImage() {
+  const prompt = document.getElementById('dreamImgInput').value;
+  const output = document.getElementById('dreamImgOutput');
+  if(!prompt) return;
+  output.innerHTML = "Generating image...";
+  try {
+    const res = await axios.post("https://api.openai.com/v1/images/generations", {
+      prompt: prompt,
+      n:1,
+      size:"512x512"
+    }, {
+      headers: {"Authorization": `Bearer ${OPENAI_API_KEY}`, "Content-Type": "application/json"}
+    });
+    const imgUrl = res.data.data[0].url;
+    output.innerHTML = `<img src="${imgUrl}" alt="Dream Image" style="max-width:100%;border-radius:12px;margin-top:10px;box-shadow:0 0 20px #0ff;">`;
+  } catch(err) {
+    console.error(err);
+    output.innerHTML = "Error generating image.";
+  }
+}
+</script>
 
-// ===== AI Q&A =====
-function askAI() {
-  const question = document.getElementById('aiInput').value.toLowerCase();
-  let answer = "দুঃখিত,
+<style>
+/* ===== Dream Zone Styling ===== */
+.features {display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;}
+.card {background: rgba(0,0,0,0.2);padding:25px;border-radius:20px;text-align:left;cursor:pointer;transition: all 0.5s;position:relative;overflow:hidden;border:2px solid rgba(0,255,255,0.5);box-shadow:0 0 20px rgba(0,255,255,0.3);}
+.card h3 {color:#0ff;text-shadow:0 0 8px #0ff;margin-top:0;font-size:24px;}
+.card input[type=text]{width:100%;padding:10px;margin-top:8px;border-radius:10px;border:none;}
+.card button{margin-top:8px;padding:10px 14px;border-radius:10px;border:none;background:#0ff;color:#000;font-weight:bold;cursor:pointer;transition:0.3s;text-shadow:0 0 5px #0ff;}
+.card button:hover{background:#0fa;}
+.result{margin-top:10px;color:#0f0;font-weight:bold;}
+ul#dreamList{list-style:none;padding-left:0;margin-top:10px;}
+ul#dreamList li{padding:8px;background:rgba(0,255,255,0.1);border-radius:10px;margin-bottom:6px;cursor:pointer;transition:0.3s;}
+ul#dreamList li:hover{background:#0ff;color:#000;}
+</style>
