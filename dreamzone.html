@@ -3,110 +3,293 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dream Zone Live 1-20</title>
+<title>Dream Zone – Ultimate</title>
 <style>
-body {
-  margin: 0; font-family: Arial, sans-serif; background: #111; color: #fff; scroll-behavior: smooth;
+/* ===== General ===== */
+* {margin:0;padding:0;box-sizing:border-box;font-family:'Arial',sans-serif;}
+body {background:#111;color:#fff;overflow-x:hidden;scroll-behavior:smooth;position:relative;}
+
+/* ===== Floating Particles ===== */
+#particles {
+  position:fixed;top:0;left:0;width:100%;height:100%;z-index:-2;
+  pointer-events:none;
 }
-/* Navbar */
-.navbar {position: fixed; top:0; width:100%; background: linear-gradient(90deg, red, orange, yellow, green, blue, indigo, violet); display:flex; justify-content:center; flex-wrap:wrap; gap:10px; padding:10px; z-index:999;}
-.navbar a {color:#fff; font-weight:bold; text-decoration:none; padding:6px 12px;}
-.navbar a:hover {background: rgba(255,255,255,0.2); border-radius:6px;}
-/* Sections */
-section {min-height:100vh; padding:100px 20px 40px;}
-section h2 {text-align:center; margin-bottom:30px; font-size:32px; background: linear-gradient(90deg, cyan, magenta, yellow); -webkit-background-clip:text; color:transparent;}
-.features {display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:20px;}
-.card {background: rgba(255,255,255,0.08); padding:20px; border-radius:12px; text-align:center; cursor:pointer; transition: transform 0.3s;}
-.card:hover {transform: scale(1.05); background: rgba(255,255,255,0.15);}
-.result {margin-top:20px; text-align:center; font-size:18px; color:#0f0;}
+.particle {
+  position:absolute;background:#0ff;border-radius:50%;
+  opacity:0.7;animation:float 10s linear infinite;
+}
+@keyframes float {
+  0%{transform:translateY(0) translateX(0) scale(0.5);}
+  50%{transform:translateY(-50vh) translateX(50vw) scale(1);}
+  100%{transform:translateY(-100vh) translateX(-50vw) scale(0.5);}
+}
+
+/* ===== Rainbow Animated Background ===== */
+body::before {
+  content:"";position:fixed;top:0;left:0;width:100%;height:100%;z-index:-1;
+  background: linear-gradient(270deg, red, orange, yellow, green, blue, indigo, violet);
+  background-size: 1400% 1400%;animation: rainbowBG 30s ease infinite;
+}
+@keyframes rainbowBG {
+  0%{background-position:0% 50%}
+  50%{background-position:100% 50%}
+  100%{background-position:0% 50%}
+}
+
+/* ===== Navbar ===== */
+.navbar {
+  position:fixed;top:0;width:100%;background:rgba(0,0,0,0.5);
+  display:flex;justify-content:center;flex-wrap:wrap;gap:10px;padding:12px;
+  backdrop-filter:blur(8px);z-index:999;
+}
+.navbar a {
+  color:#fff;font-weight:bold;text-decoration:none;padding:8px 14px;border-radius:8px;transition:0.3s;
+}
+.navbar a:hover {background:rgba(0,255,255,0.2);}
+
+/* ===== Sections ===== */
+section {min-height:100vh;padding:140px 20px 40px;position:relative;}
+section h2 {
+  text-align:center;margin-bottom:30px;font-size:42px;
+  background:linear-gradient(90deg,cyan,magenta,yellow);-webkit-background-clip:text;color:transparent;
+  animation:textGlow 2s ease-in-out infinite alternate;
+}
+@keyframes textGlow {
+  0%{text-shadow:0 0 5px cyan,0 0 10px magenta;}
+  100%{text-shadow:0 0 20px yellow,0 0 40px cyan;}
+}
+
+/* ===== 3D Neon Cards ===== */
+.features {display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;}
+.card {
+  background: rgba(0,0,0,0.2);padding:25px;border-radius:20px;text-align:left;
+  cursor:pointer;transition: all 0.5s;position:relative;overflow:hidden;
+  border:2px solid rgba(0,255,255,0.5);box-shadow:0 0 20px rgba(0,255,255,0.3);
+}
+.card::before {
+  content:"";position:absolute;top:0;left:-100%;width:100%;height:100%;background:rgba(0,255,255,0.05);transition:0.5s;
+}
+.card:hover::before {left:0;}
+.card:hover {transform:translateY(-10px) scale(1.05);box-shadow:0 0 40px #0ff,0 0 60px #0ff;}
+.card h3 {margin-top:0;color:#0ff;font-size:24px;text-shadow:0 0 8px #0ff;}
+.card p {margin:10px 0;color:#fff;opacity:0.85;line-height:1.4;}
+
+/* ===== Input & Buttons ===== */
+input[type=text]{width:100%;padding:12px;border-radius:10px;border:none;margin-top:5px;}
+button{padding:10px 16px;border:none;border-radius:10px;background:#0ff;color:#000;font-weight:bold;cursor:pointer;transition:0.3s;text-shadow:0 0 5px #0ff;}
+button:hover{background:#0fa;}
+
+/* ===== Result ===== */
+.result{text-align:center;margin-top:12px;font-size:18px;color:#0f0;font-weight:bold;}
+
+/* ===== Timeline ===== */
+.timeline{border-left:4px solid #0ff;margin-left:20px;padding-left:20px;}
+.timeline div{margin-bottom:20px;font-size:18px;opacity:0;transform:translateX(-50px);transition:all 0.8s ease;}
+.timeline div.visible{opacity:1;transform:translateX(0);}
+
+/* ===== Skill Bars ===== */
+.skill{background:#222;border-radius:12px;overflow:hidden;margin-bottom:10px;}
+.skill-bar{height:24px;background:#0ff;width:0%;text-align:right;padding-right:5px;color:#000;font-weight:bold;border-radius:12px;transition:width 1.5s ease;}
+
+/* ===== Carousel / Testimonials ===== */
+.carousel{display:flex;overflow-x:auto;gap:20px;scroll-behavior:smooth;padding-bottom:10px;}
+.carousel::-webkit-scrollbar{display:none;}
+
+/* ===== Goal List ===== */
+ul#goalList{list-style:none;margin-top:10px;padding-left:0;}
+ul#goalList li{padding:8px;background:rgba(0,255,255,0.1);border-radius:10px;margin-bottom:6px;cursor:pointer;transition:0.3s;}
+ul#goalList li:hover{background:#0ff;color:#000;}
+
+/* ===== Scroll Reveal ===== */
+section.reveal{opacity:0;transform:translateY(50px);transition:all 1s ease;}
+section.reveal.visible{opacity:1;transform:translateY(0);}
 </style>
 </head>
 <body>
 
+<!-- ===== Particles ===== -->
+<div id="particles"></div>
+
+<!-- ===== Navbar ===== -->
 <div class="navbar">
-<a href="#lifestyle">Lifestyle</a>
-<a href="#education">Education</a>
+<a href="#portfolio">Portfolio</a>
+<a href="#timeline">Timeline</a>
+<a href="#skills">Skills</a>
+<a href="#aiqa">AI Q&A</a>
+<a href="#dreamboard">Dream Board</a>
+<a href="#contact">Contact</a>
+<a href="#projects">Projects</a>
+<a href="#testimonials">Testimonials</a>
+<a href="#map">Map</a>
+<a href="#tip">Daily Tip</a>
 </div>
 
-<!-- Lifestyle 1-10 -->
-<section id="lifestyle">
-<h2>🌱 Lifestyle (১–১০)</h2>
+<!-- ===== 1. Portfolio / Resume ===== -->
+<section id="portfolio" class="reveal">
+<h2>আমার কাজ ও অভিজ্ঞতা</h2>
 <div class="features">
-  <div class="card" onclick="drinkWater()">💧 পানি রিমাইন্ডার</div>
-  <div class="card" onclick="eyeRelax()">👀 চোখ রিল্যাক্স টাইমার</div>
-  <div class="card" onclick="meditate()">🧘 মেডিটেশন গাইড</div>
-  <div class="card" onclick="calorieCounter()">🍎 ক্যালরি কাউন্টার</div>
-  <div class="card" onclick="exerciseTips()">🏃 ব্যায়াম টিপস</div>
-  <div class="card" onclick="bmiCalculator()">⚖️ BMI ক্যালকুলেটর</div>
-  <div class="card">🥤 খাবার ডায়েরি (Coming Soon)</div>
-  <div class="card">❤️ হার্টবিট টেস্ট (Coming Soon)</div>
-  <div class="card">😴 ঘুম ট্র্যাকার (Coming Soon)</div>
-  <div class="card">✅ হ্যাবিট ট্র্যাকার (Coming Soon)</div>
+<div class="card">
+<h3>Dream Website</h3>
+<p>Role: Frontend Developer</p>
+<p>Duration: Jan 2025 – May 2025</p>
+<p>Description: আধুনিক ওয়েবসাইট যেখানে Interactive Features ও Stunning Design আছে।</p>
 </div>
-<div id="lifestyleResult" class="result"></div>
+<div class="card">
+<h3>TalkBox App</h3>
+<p>Role: Full Stack Developer</p>
+<p>Duration: Jun 2024 – Dec 2024</p>
+<p>Description: Chat Application যেখানে Text Messaging এবং Interactive UI রয়েছে।</p>
+</div>
+<div class="card">
+<h3>Portfolio Showcase</h3>
+<p>Role: Web Designer</p>
+<p>Duration: Mar 2023 – Nov 2023</p>
+<p>Description: Creative Interactive Portfolio তৈরি করা।</p>
+</div>
+</div>
 </section>
 
-<!-- Education 11-20 -->
-<section id="education">
-<h2>📚 Education (১১–২০)</h2>
-<div class="features">
-  <div class="card" onclick="quizGame()">র‍্যান্ডম কুইজ</div>
-  <div class="card" onclick="emojiGame()">Guess the Emoji</div>
-  <div class="card" onclick="letterTrace()">অক্ষর ট্রেসিং</div>
-  <div class="card">পতাকা চিনার গেম (Coming Soon)</div>
-  <div class="card">মুদ্রা রূপান্তর (Coming Soon)</div>
-  <div class="card">সায়েন্স টিপস (Coming Soon)</div>
-  <div class="card">কোডিং গেম (Coming Soon)</div>
-  <div class="card">গাণিতিক সূত্র (Coming Soon)</div>
-  <div class="card">ঐতিহাসিক তারিখ (Coming Soon)</div>
-  <div class="card">লাইভ গ্লোব (Coming Soon)</div>
+<!-- ===== 2. Timeline / Story of Life ===== -->
+<section id="timeline" class="reveal">
+<h2>আমার জীবন ও প্রজেক্টের গল্প</h2>
+<div class="timeline">
+<div>2018 – Started learning web development</div>
+<div>2020 – First freelance project completed</div>
+<div>2025 – Dream Zone project launched</div>
 </div>
-<div id="educationResult" class="result"></div>
+</section>
+
+<!-- ===== 3. Skills & Achievements ===== -->
+<section id="skills" class="reveal">
+<h2>আমার দক্ষতা এবং অর্জন</h2>
+<div class="features">
+<div class="card">
+<h3>HTML</h3>
+<div class="skill"><div class="skill-bar" data-width="95%">95%</div></div>
+</div>
+<div class="card">
+<h3>CSS</h3>
+<div class="skill"><div class="skill-bar" data-width="90%">90%</div></div>
+</div>
+<div class="card">
+<h3>JavaScript</h3>
+<div class="skill"><div class="skill-bar" data-width="80%">80%</div></div>
+</div>
+<div class="card">
+<h3>React</h3>
+<div class="skill"><div class="skill-bar" data-width="70%">70%</div></div>
+</div>
+</div>
+</section>
+
+<!-- ===== 4. AI Q&A ===== -->
+<section id="aiqa" class="reveal">
+<h2>আমার সম্পর্কে প্রশ্ন করুন</h2>
+<div class="features">
+<div class="card">
+<p>আপনার প্রশ্ন লিখুন:</p>
+<input type="text" id="aiInput" placeholder="প্রশ্ন লিখুন...">
+<button onclick="askAI()">জিজ্ঞাসা করুন</button>
+<div id="aiResult" class="result"></div>
+</div>
+</div>
+</section>
+
+<!-- ===== 5. Dream Board / Goal Tracker ===== -->
+<section id="dreamboard" class="reveal">
+<h2>আমার স্বপ্ন ও লক্ষ্য</h2>
+<div class="features">
+<div class="card">
+<p>লক্ষ্য লিখুন এবং Add করুন:</p>
+<input type="text" id="goalInput" placeholder="লক্ষ্য লিখুন...">
+<button onclick="addGoal()">Add Goal</button>
+<ul id="goalList"></ul>
+</div>
+</div>
+</section>
+
+<!-- ===== 6. Contact & Networking ===== -->
+<section id="contact" class="reveal">
+<h2>আমার সাথে যোগাযোগ করুন</h2>
+<div class="features">
+<div class="card"><p>LinkedIn: <a href="#" style="color:#0ff;">Click Here</a></p></div>
+<div class="card"><p>GitHub: <a href="#" style="color:#0ff;">Click Here</a></p></div>
+<div class="card"><p>Email: <span onclick="copyEmail()" style="cursor:pointer;color:#0ff;">Click to copy</span></p></div>
+<div id="contactResult" class="result"></div>
+</div>
+</section>
+
+<!-- ===== 7. Live Projects Showcase ===== -->
+<section id="projects" class="reveal">
+<h2>আমার প্রোজেক্টসমূহ</h2>
+<div class="features">
+<div class="card"><h3>Mahi’s Dream App</h3><p>Creative interactive website with fun features.</p></div>
+<div class="card"><h3>Learning Zone Platform</h3><p>Interactive Lessons, Quizzes এবং Stylish UI Features।</p></div>
+<div class="card"><h3>Mini Games Hub</h3><p>Small fun interactive web games for users.</p></div>
+</div>
+</section>
+
+<!-- ===== 8. Testimonials / Feedback Carousel ===== -->
+<section id="testimonials" class="reveal">
+<h2>যারা আমাকে চেনে তাদের মন্তব্য</h2>
+<div class="carousel">
+<div class="card"><p>“Mahi is a very talented developer!” – Rony</p></div>
+<div class="card"><p>“His websites are amazing and interactive.” – Sarah</p></div>
+<div class="card"><p>“Creative, fast, and reliable!” – Alex</p></div>
+</div>
+</section>
+
+<!-- ===== 9. Interactive Map / Location ===== -->
+<section id="map" class="reveal">
+<h2>কোথায় কাজ করেছি / প্রোজেক্ট লোকেশন</h2>
+<div class="features">
+<div class="card"><p>Location 1: Dhaka, Bangladesh</p></div>
+<div class="card"><p>Location 2: Chittagong, Bangladesh</p></div>
+</div>
+</section>
+
+<!-- ===== 10. Daily Insight / Tip ===== -->
+<section id="tip" class="reveal">
+<h2>আজকের উপদেশ / মটিভেশনাল টিপ</h2>
+<div class="features">
+<div class="card">
+<p id="dailyTip">“আজ একটি সুন্দর দিন শুরু করুন এবং নতুন কিছু শিখুন।”</p>
+<button onclick="newTip()">নতুন টিপ দেখুন</button>
+</div>
+</div>
 </section>
 
 <script>
-// Lifestyle Functions
-function drinkWater() {
-  let now = new Date().toLocaleTimeString();
-  document.getElementById('lifestyleResult').innerHTML = `💧 পানির জন্য রিমাইন্ডার! (সময়: ${now})`;
-}
-function eyeRelax() {
-  alert("👀 চোখ রিল্যাক্স: 20 সেকেন্ড চোখ বন্ধ রাখো এবং ধীরে শ্বাস নাও!");
-}
-function meditate() {
-  alert("🧘 মেডিটেশন: গভীর শ্বাস নাও, মনকে শান্ত করো ১ মিনিট।");
-}
-function calorieCounter() {
-  let calories = prompt("আজ আপনি কত ক্যালরি খেয়েছেন?");
-  if(calories) document.getElementById('lifestyleResult').innerHTML = `🍎 আপনি আজ ${calories} ক্যালরি নিয়েছেন।`;
-}
-function exerciseTips() {
-  alert("🏃 ব্যায়াম টিপস: ২০টি স্কোয়াট + ১০ মিনিট হালকা স্ট্রেচিং।");
-}
-function bmiCalculator() {
-  let weight = prompt("ওজন কেজিতে লিখুন:");
-  let height = prompt("উচ্চতা মিটারে লিখুন (যেমন 1.7):");
-  if(weight && height){
-    let bmi = (weight/(height*height)).toFixed(1);
-    document.getElementById('lifestyleResult').innerHTML = `⚖️ আপনার BMI: ${bmi}`;
-  }
+// ===== Floating Particles =====
+const particleCount = 50;
+const particleContainer = document.getElementById('particles');
+for(let i=0;i<particleCount;i++){
+  const p=document.createElement('div');
+  p.classList.add('particle');
+  p.style.width=p.style.height=Math.random()*4+2+'px';
+  p.style.left=Math.random()*100+'%';
+  p.style.top=Math.random()*100+'%';
+  p.style.animationDuration=5+Math.random()*15+'s';
+  particleContainer.appendChild(p);
 }
 
-// Education Functions
-function quizGame() {
-  let ans = prompt("বাংলাদেশের রাজধানী কি?");
-  if(ans.toLowerCase() === "ঢাকা") alert("🎉 সঠিক!");
-  else alert("❌ ভুল, সঠিক উত্তর: ঢাকা");
-}
-function emojiGame() {
-  let ans = prompt("😍 এই emoji এর মানে কি?");
-  if(ans.toLowerCase().includes("love")) alert("🎉 সঠিক!");
-  else alert("❌ ভুল, উত্তর: Love/প্রেম");
-}
-function letterTrace() {
-  alert("✏️ অক্ষর ট্রেসিং: A-Z কে কাগজে অনুশীলন করো।");
-}
-</script>
+// ===== Scroll Reveal =====
+const revealSections = document.querySelectorAll('.reveal');
+window.addEventListener('scroll', () => {
+  const triggerBottom = window.innerHeight / 1.1;
+  revealSections.forEach(section => {
+    const sectionTop = section.getBoundingClientRect().top;
+    if(sectionTop < triggerBottom){section.classList.add('visible');}
+  });
 
-</body>
-</html>
+  // Timeline reveal
+  document.querySelectorAll('.timeline div').forEach(el=>{
+    const top = el.getBoundingClientRect().top;
+    if(top < window.innerHeight - 100){el.classList.add('visible');}
+  });
+});
+
+// ===== AI Q&A =====
+function askAI() {
+  const question = document.getElementById('aiInput').value.toLowerCase();
+  let answer = "দুঃখিত,
