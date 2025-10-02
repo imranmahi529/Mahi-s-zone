@@ -1,260 +1,112 @@
 <!DOCTYPE html>
 <html lang="bn">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dream Zone - All in One</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      scroll-behavior: smooth;
-      background: #111;
-      color: #fff;
-    }
-
-    /* Navbar */
-    .navbar {
-      position: fixed;
-      top: 0;
-      width: 100%;
-      background: linear-gradient(90deg, red, orange, yellow, green, blue, indigo, violet);
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 10px;
-      padding: 10px;
-      z-index: 999;
-    }
-    .navbar a {
-      color: white;
-      font-weight: bold;
-      text-decoration: none;
-      padding: 6px 12px;
-    }
-    .navbar a:hover {
-      background: rgba(255, 255, 255, 0.2);
-      border-radius: 6px;
-    }
-
-    /* Sections */
-    section {
-      min-height: 100vh;
-      padding: 100px 20px 40px;
-    }
-    section h2 {
-      text-align: center;
-      margin-bottom: 30px;
-      font-size: 32px;
-      background: linear-gradient(90deg, cyan, magenta, yellow);
-      -webkit-background-clip: text;
-      color: transparent;
-    }
-
-    /* Cards */
-    .features {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 20px;
-    }
-    .card {
-      background: rgba(255, 255, 255, 0.08);
-      padding: 20px;
-      border-radius: 12px;
-      text-align: center;
-      transition: transform 0.3s;
-    }
-    .card:hover {
-      transform: scale(1.05);
-      background: rgba(255, 255, 255, 0.15);
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dream Zone Live 1-20</title>
+<style>
+body {
+  margin: 0; font-family: Arial, sans-serif; background: #111; color: #fff; scroll-behavior: smooth;
+}
+/* Navbar */
+.navbar {position: fixed; top:0; width:100%; background: linear-gradient(90deg, red, orange, yellow, green, blue, indigo, violet); display:flex; justify-content:center; flex-wrap:wrap; gap:10px; padding:10px; z-index:999;}
+.navbar a {color:#fff; font-weight:bold; text-decoration:none; padding:6px 12px;}
+.navbar a:hover {background: rgba(255,255,255,0.2); border-radius:6px;}
+/* Sections */
+section {min-height:100vh; padding:100px 20px 40px;}
+section h2 {text-align:center; margin-bottom:30px; font-size:32px; background: linear-gradient(90deg, cyan, magenta, yellow); -webkit-background-clip:text; color:transparent;}
+.features {display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:20px;}
+.card {background: rgba(255,255,255,0.08); padding:20px; border-radius:12px; text-align:center; cursor:pointer; transition: transform 0.3s;}
+.card:hover {transform: scale(1.05); background: rgba(255,255,255,0.15);}
+.result {margin-top:20px; text-align:center; font-size:18px; color:#0f0;}
+</style>
 </head>
 <body>
 
-  <!-- Navbar -->
-  <div class="navbar">
-    <a href="#lifestyle">Lifestyle</a>
-    <a href="#education">Education</a>
-    <a href="#fun">Fun & Games</a>
-    <a href="#tools">Tools</a>
-    <a href="#tech">Tech</a>
-    <a href="#social">Social</a>
-    <a href="#travel">Travel</a>
-    <a href="#kids">Kids</a>
-    <a href="#productivity">Productivity</a>
-    <a href="#special">Special</a>
-  </div>
+<div class="navbar">
+<a href="#lifestyle">Lifestyle</a>
+<a href="#education">Education</a>
+</div>
 
-  <!-- Lifestyle 1-10 -->
-  <section id="lifestyle">
-    <h2>🌱 Lifestyle (১–১০)</h2>
-    <div class="features">
-      <div class="card">💧 পানি খাওয়ার রিমাইন্ডার</div>
-      <div class="card">👀 চোখ রিল্যাক্স টাইমার</div>
-      <div class="card">🧘 মেডিটেশন গাইড</div>
-      <div class="card">❤️ হার্টবিট টেস্ট</div>
-      <div class="card">😴 ঘুম ট্র্যাকার</div>
-      <div class="card">🍎 ক্যালরি কাউন্টার</div>
-      <div class="card">🥤 খাবার ডায়েরি</div>
-      <div class="card">⚖️ BMI ক্যালকুলেটর</div>
-      <div class="card">🏃 ব্যায়াম টিপস</div>
-      <div class="card">✅ হ্যাবিট ট্র্যাকার</div>
-    </div>
-  </section>
+<!-- Lifestyle 1-10 -->
+<section id="lifestyle">
+<h2>🌱 Lifestyle (১–১০)</h2>
+<div class="features">
+  <div class="card" onclick="drinkWater()">💧 পানি রিমাইন্ডার</div>
+  <div class="card" onclick="eyeRelax()">👀 চোখ রিল্যাক্স টাইমার</div>
+  <div class="card" onclick="meditate()">🧘 মেডিটেশন গাইড</div>
+  <div class="card" onclick="calorieCounter()">🍎 ক্যালরি কাউন্টার</div>
+  <div class="card" onclick="exerciseTips()">🏃 ব্যায়াম টিপস</div>
+  <div class="card" onclick="bmiCalculator()">⚖️ BMI ক্যালকুলেটর</div>
+  <div class="card">🥤 খাবার ডায়েরি (Coming Soon)</div>
+  <div class="card">❤️ হার্টবিট টেস্ট (Coming Soon)</div>
+  <div class="card">😴 ঘুম ট্র্যাকার (Coming Soon)</div>
+  <div class="card">✅ হ্যাবিট ট্র্যাকার (Coming Soon)</div>
+</div>
+<div id="lifestyleResult" class="result"></div>
+</section>
 
-  <!-- Education 11-20 -->
-  <section id="education">
-    <h2>📚 Education (১১–২০)</h2>
-    <div class="features">
-      <div class="card">শব্দ ভান্ডার শেখা</div>
-      <div class="card">অক্ষর ট্রেসিং</div>
-      <div class="card">র‍্যান্ডম কুইজ</div>
-      <div class="card">পতাকা চিনার গেম</div>
-      <div class="card">মুদ্রা রূপান্তর</div>
-      <div class="card">সায়েন্স টিপস</div>
-      <div class="card">কোডিং গেম</div>
-      <div class="card">গাণিতিক সূত্র</div>
-      <div class="card">ঐতিহাসিক তারিখ</div>
-      <div class="card">লাইভ গ্লোব</div>
-    </div>
-  </section>
+<!-- Education 11-20 -->
+<section id="education">
+<h2>📚 Education (১১–২০)</h2>
+<div class="features">
+  <div class="card" onclick="quizGame()">র‍্যান্ডম কুইজ</div>
+  <div class="card" onclick="emojiGame()">Guess the Emoji</div>
+  <div class="card" onclick="letterTrace()">অক্ষর ট্রেসিং</div>
+  <div class="card">পতাকা চিনার গেম (Coming Soon)</div>
+  <div class="card">মুদ্রা রূপান্তর (Coming Soon)</div>
+  <div class="card">সায়েন্স টিপস (Coming Soon)</div>
+  <div class="card">কোডিং গেম (Coming Soon)</div>
+  <div class="card">গাণিতিক সূত্র (Coming Soon)</div>
+  <div class="card">ঐতিহাসিক তারিখ (Coming Soon)</div>
+  <div class="card">লাইভ গ্লোব (Coming Soon)</div>
+</div>
+<div id="educationResult" class="result"></div>
+</section>
 
-  <!-- Fun & Games 21-30 -->
-  <section id="fun">
-    <h2>🎮 Fun & Games (২১–৩০)</h2>
-    <div class="features">
-      <div class="card">Guess the Emoji</div>
-      <div class="card">লুডো/ক্যারম</div>
-      <div class="card">পাজল সলভার</div>
-      <div class="card">AI চ্যাটবট</div>
-      <div class="card">গল্প জেনারেটর</div>
-      <div class="card">মিম জেনারেটর</div>
-      <div class="card">স্পিন হুইল</div>
-      <div class="card">লাকি গেম</div>
-      <div class="card">অনলাইন আঁকা</div>
-      <div class="card">কালার পিকার</div>
-    </div>
-  </section>
+<script>
+// Lifestyle Functions
+function drinkWater() {
+  let now = new Date().toLocaleTimeString();
+  document.getElementById('lifestyleResult').innerHTML = `💧 পানির জন্য রিমাইন্ডার! (সময়: ${now})`;
+}
+function eyeRelax() {
+  alert("👀 চোখ রিল্যাক্স: 20 সেকেন্ড চোখ বন্ধ রাখো এবং ধীরে শ্বাস নাও!");
+}
+function meditate() {
+  alert("🧘 মেডিটেশন: গভীর শ্বাস নাও, মনকে শান্ত করো ১ মিনিট।");
+}
+function calorieCounter() {
+  let calories = prompt("আজ আপনি কত ক্যালরি খেয়েছেন?");
+  if(calories) document.getElementById('lifestyleResult').innerHTML = `🍎 আপনি আজ ${calories} ক্যালরি নিয়েছেন।`;
+}
+function exerciseTips() {
+  alert("🏃 ব্যায়াম টিপস: ২০টি স্কোয়াট + ১০ মিনিট হালকা স্ট্রেচিং।");
+}
+function bmiCalculator() {
+  let weight = prompt("ওজন কেজিতে লিখুন:");
+  let height = prompt("উচ্চতা মিটারে লিখুন (যেমন 1.7):");
+  if(weight && height){
+    let bmi = (weight/(height*height)).toFixed(1);
+    document.getElementById('lifestyleResult').innerHTML = `⚖️ আপনার BMI: ${bmi}`;
+  }
+}
 
-  <!-- Tools 31-40 -->
-  <section id="tools">
-    <h2>🛠️ Daily Tools (৩১–৪০)</h2>
-    <div class="features">
-      <div class="card">ক্যালকুলেটর</div>
-      <div class="card">টু-ডু লিস্ট</div>
-      <div class="card">ক্যালেন্ডার রিমাইন্ডার</div>
-      <div class="card">নোটবুক</div>
-      <div class="card">স্ক্যানার (ক্যামেরা)</div>
-      <div class="card">QR কোড জেনারেটর</div>
-      <div class="card">বারকোড স্ক্যানার</div>
-      <div class="card">ফাইল কনভার্টার</div>
-      <div class="card">ভয়েস টু টেক্সট</div>
-      <div class="card">টেক্সট টু ভয়েস</div>
-    </div>
-  </section>
-
-  <!-- Tech 41-50 -->
-  <section id="tech">
-    <h2>💻 Tech (৪১–৫০)</h2>
-    <div class="features">
-      <div class="card">ইমেজ ব্যাকগ্রাউন্ড রিমুভার</div>
-      <div class="card">AI প্রোফাইল ছবি জেনারেটর</div>
-      <div class="card">কালার ব্লাইন্ড টেস্ট</div>
-      <div class="card">ওয়েবক্যাম মিরর</div>
-      <div class="card">টাইপিং স্পিড টেস্ট</div>
-      <div class="card">ইন্টারনেট স্পিড টেস্ট</div>
-      <div class="card">কীবোর্ড শর্টকাট গাইড</div>
-      <div class="card">ইউনিক পাসওয়ার্ড জেনারেটর</div>
-      <div class="card">টেক্সট এনক্রিপ্ট/ডিক্রিপ্ট</div>
-      <div class="card">ড্রাফটস/শতরঞ্জ গেম</div>
-    </div>
-  </section>
-
-  <!-- Social 51-60 -->
-  <section id="social">
-    <h2>📱 Social (৫১–৬০)</h2>
-    <div class="features">
-      <div class="card">র‍্যান্ডম জোক জেনারেটর</div>
-      <div class="card">স্ট্যাটাস/ক্যাপশন সাজেশন</div>
-      <div class="card">সেলফি ফিল্টার ক্যামেরা</div>
-      <div class="card">ভোট/পোল সিস্টেম</div>
-      <div class="card">ভার্চুয়াল গিফট সেন্ড</div>
-      <div class="card">বন্ধুর কমপ্যাটিবিলিটি স্কোর</div>
-      <div class="card">মুড-ভিত্তিক মিউজিক সাজেশন</div>
-      <div class="card">রাশিফল ফিচার</div>
-      <div class="card">লাইফপাথ নাম্বার</div>
-      <div class="card">লাকি কালার সাজেস্টর</div>
-    </div>
-  </section>
-
-  <!-- Travel 61-70 -->
-  <section id="travel">
-    <h2>✈️ Travel (৬১–৭০)</h2>
-    <div class="features">
-      <div class="card">আবহাওয়া চেকার</div>
-      <div class="card">লোকেশন ম্যাপ</div>
-      <div class="card">ভ্রমণ খরচ ক্যালকুলেটর</div>
-      <div class="card">টিকিট চেকিং সিস্টেম</div>
-      <div class="card">লাইভ সূর্যোদয়/সূর্যাস্ত</div>
-      <div class="card">হোটেল/রেস্টুরেন্ট সার্চ</div>
-      <div class="card">ট্রাফিক কন্ডিশন ভিউ</div>
-      <div class="card">ভ্রমণ টিপস</div>
-      <div class="card">লোকেশন শেয়ার সিস্টেম</div>
-      <div class="card">ভাষা ট্রান্সলেটর</div>
-    </div>
-  </section>
-
-  <!-- Kids 71-80 -->
-  <section id="kids">
-    <h2>👶 Kids (৭১–৮০)</h2>
-    <div class="features">
-      <div class="card">আঁকাআঁকির ক্যানভাস</div>
-      <div class="card">কার্টুন ভয়েস প্লেয়ার</div>
-      <div class="card">শব্দ মিলানো গেম</div>
-      <div class="card">ছবি দেখে নাম বলা</div>
-      <div class="card">সংখ্যার গেম</div>
-      <div class="card">অ্যানিমেল সাউন্ড গেম</div>
-      <div class="card">কালার লার্নিং</div>
-      <div class="card">ম্যাজিক বাবল পপ</div>
-      <div class="card">পাজল স্লাইডার</div>
-      <div class="card">স্টোরি রিডার</div>
-    </div>
-  </section>
-
-  <!-- Productivity 81-90 -->
-  <section id="productivity">
-    <h2>📈 Productivity (৮১–৯০)</h2>
-    <div class="features">
-      <div class="card">মিটিং রিমাইন্ডার</div>
-      <div class="card">নোট শেয়ার লিংক</div>
-      <div class="card">মাইন্ডম্যাপ টুল</div>
-      <div class="card">Pomodoro Timer</div>
-      <div class="card">টেক্সট সামারি টুল</div>
-      <div class="card">ইমেইল টেমপ্লেট সাজেশন</div>
-      <div class="card">রেজ্যুমে বিল্ডার</div>
-      <div class="card">ডিজিটাল সিগনেচার</div>
-      <div class="card">টাইম জোন কনভার্টার</div>
-      <div class="card">এক্সপেন্স ট্র্যাকার</div>
-    </div>
-  </section>
-
-  <!-- Special 91-100 -->
-  <section id="special">
-    <h2>🌟 Special (৯১–১০০)</h2>
-    <div class="features">
-      <div class="card">ডেইলি চ্যালেঞ্জ</div>
-      <div class="card">কয়েন টস</div>
-      <div class="card">গেসিং গেম</div>
-      <div class="card">মুড ডায়েরি</div>
-      <div class="card">ভয়েস রেকর্ড</div>
-      <div class="card">ফেস ট্র্যাকার</div>
-      <div class="card">ড্রিম বোর্ড</div>
-      <div class="card">আজকের কাজের স্কোর</div>
-      <div class="card">AI ইমেজ ক্যাপশন</div>
-      <div class="card">সিক্রেট চ্যাটবক্স</div>
-    </div>
-  </section>
+// Education Functions
+function quizGame() {
+  let ans = prompt("বাংলাদেশের রাজধানী কি?");
+  if(ans.toLowerCase() === "ঢাকা") alert("🎉 সঠিক!");
+  else alert("❌ ভুল, সঠিক উত্তর: ঢাকা");
+}
+function emojiGame() {
+  let ans = prompt("😍 এই emoji এর মানে কি?");
+  if(ans.toLowerCase().includes("love")) alert("🎉 সঠিক!");
+  else alert("❌ ভুল, উত্তর: Love/প্রেম");
+}
+function letterTrace() {
+  alert("✏️ অক্ষর ট্রেসিং: A-Z কে কাগজে অনুশীলন করো।");
+}
+</script>
 
 </body>
 </html>
