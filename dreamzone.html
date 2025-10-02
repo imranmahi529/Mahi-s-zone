@@ -1,161 +1,260 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="bn">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Dream Zone — Magic Space</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dream Zone - All in One</title>
   <style>
-    html,body{height:100%;margin:0;font-family:'Segoe UI',sans-serif;color:#fff}
-    body{display:flex;align-items:center;justify-content:center;padding:20px;box-sizing:border-box;}
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      scroll-behavior: smooth;
+      background: #111;
+      color: #fff;
+    }
 
-    .rainbow{position:fixed;inset:-20%;z-index:-2;
-      background:linear-gradient(90deg,#ff5f6d,#ff9966,#ffd86b,#88e0a1,#4fd3f4,#6f6fff,#c97bff);
-      background-size:700% 700%;filter:blur(36px);
-      animation:shift 18s linear infinite;}
-    @keyframes shift{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
-    .overlay{position:fixed;inset:0;background:rgba(0,0,0,0.4);z-index:-1}
+    /* Navbar */
+    .navbar {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: linear-gradient(90deg, red, orange, yellow, green, blue, indigo, violet);
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      padding: 10px;
+      z-index: 999;
+    }
+    .navbar a {
+      color: white;
+      font-weight: bold;
+      text-decoration: none;
+      padding: 6px 12px;
+    }
+    .navbar a:hover {
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 6px;
+    }
 
-    .app{width:1000px;max-width:100%;min-height:600px;background:rgba(255,255,255,0.05);
-      border-radius:20px;padding:20px;backdrop-filter:blur(8px);
-      display:grid;grid-template-columns:380px 1fr;gap:18px}
-    .card{background:rgba(255,255,255,0.08);border-radius:14px;padding:14px;margin-bottom:14px}
-    .title{font-size:18px;font-weight:700;margin-bottom:8px}
-    .btn{cursor:pointer;padding:6px 12px;border-radius:8px;border:0;
-      background:rgba(255,255,255,0.15);color:#fff;margin-top:6px}
+    /* Sections */
+    section {
+      min-height: 100vh;
+      padding: 100px 20px 40px;
+    }
+    section h2 {
+      text-align: center;
+      margin-bottom: 30px;
+      font-size: 32px;
+      background: linear-gradient(90deg, cyan, magenta, yellow);
+      -webkit-background-clip: text;
+      color: transparent;
+    }
 
-    textarea{width:100%;min-height:80px;background:transparent;
-      border:1px dashed rgba(255,255,255,0.3);border-radius:8px;color:#fff;padding:8px}
-
-    .todo-item{display:flex;justify-content:space-between;align-items:center;
-      padding:6px;border-radius:8px;background:rgba(255,255,255,0.1);margin-top:6px}
-
-    .magic-area{height:180px;border-radius:16px;background:rgba(255,255,255,0.1);
-      display:flex;flex-direction:column;align-items:center;justify-content:center}
-
-    .quote{padding:6px;border-radius:8px;background:rgba(0,0,0,0.3);margin-top:6px}
-
-    .widgets{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
-    .widget{padding:10px;border-radius:12px;background:rgba(255,255,255,0.08);text-align:center}
-    .clock{font-size:26px;font-weight:bold}
-    input#calcInput{width:90%;margin-top:6px;background:transparent;
-      border:1px solid rgba(255,255,255,0.3);padding:6px;border-radius:6px;color:#fff}
+    /* Cards */
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+    }
+    .card {
+      background: rgba(255, 255, 255, 0.08);
+      padding: 20px;
+      border-radius: 12px;
+      text-align: center;
+      transition: transform 0.3s;
+    }
+    .card:hover {
+      transform: scale(1.05);
+      background: rgba(255, 255, 255, 0.15);
+    }
   </style>
 </head>
 <body>
-  <div class="rainbow"></div>
-  <div class="overlay"></div>
 
-  <div class="app">
-    <!-- Left -->
-    <div>
-      <div class="card">
-        <div class="title">✨ Wish Box</div>
-        <textarea id="wishInput" placeholder="তোমার স্বপ্ন লিখো..."></textarea>
-        <button class="btn" id="saveWish">Save</button>
-        <div id="wishes"></div>
-      </div>
-
-      <div class="card">
-        <div class="title">📝 Todo List</div>
-        <input type="text" id="todoInput" placeholder="নতুন টাস্ক...">
-        <button class="btn" id="addTodo">Add</button>
-        <div id="todoItems"></div>
-      </div>
-    </div>
-
-    <!-- Right -->
-    <div>
-      <div class="magic-area">
-        <h3>🌈 Magic Click</h3>
-        <button class="btn" id="magicBtn">Click Me</button>
-      </div>
-
-      <div class="card">
-        <div class="title">🔮 Fortune Stars</div>
-        <div id="fortuneBox"></div>
-      </div>
-
-      <div class="widgets">
-        <div class="widget">
-          <div class="title">⏰ Clock</div>
-          <div class="clock" id="clock"></div>
-        </div>
-        <div class="widget">
-          <div class="title">💡 Daily Quote</div>
-          <div id="quote"></div>
-        </div>
-        <div class="widget">
-          <div class="title">🔢 Calculator</div>
-          <input id="calcInput" placeholder="2+2*3">
-          <button class="btn" id="calcEval">=</button>
-        </div>
-        <div class="widget">
-          <div class="title">🎶 Music Player</div>
-          <audio id="bgMusic" loop>
-            <source src="music.mp3" type="audio/mpeg">
-          </audio>
-          <button class="btn" id="playBtn">Play</button>
-          <button class="btn" id="pauseBtn">Pause</button>
-        </div>
-      </div>
-    </div>
+  <!-- Navbar -->
+  <div class="navbar">
+    <a href="#lifestyle">Lifestyle</a>
+    <a href="#education">Education</a>
+    <a href="#fun">Fun & Games</a>
+    <a href="#tools">Tools</a>
+    <a href="#tech">Tech</a>
+    <a href="#social">Social</a>
+    <a href="#travel">Travel</a>
+    <a href="#kids">Kids</a>
+    <a href="#productivity">Productivity</a>
+    <a href="#special">Special</a>
   </div>
 
-  <script>
-    // Wish Box
-    document.getElementById('saveWish').onclick=()=>{
-      let val=document.getElementById('wishInput').value.trim();
-      if(val){
-        let d=document.createElement('div');
-        d.className='quote';d.textContent=val;
-        document.getElementById('wishes').appendChild(d);
-        document.getElementById('wishInput').value='';
-      }
-    }
+  <!-- Lifestyle 1-10 -->
+  <section id="lifestyle">
+    <h2>🌱 Lifestyle (১–১০)</h2>
+    <div class="features">
+      <div class="card">💧 পানি খাওয়ার রিমাইন্ডার</div>
+      <div class="card">👀 চোখ রিল্যাক্স টাইমার</div>
+      <div class="card">🧘 মেডিটেশন গাইড</div>
+      <div class="card">❤️ হার্টবিট টেস্ট</div>
+      <div class="card">😴 ঘুম ট্র্যাকার</div>
+      <div class="card">🍎 ক্যালরি কাউন্টার</div>
+      <div class="card">🥤 খাবার ডায়েরি</div>
+      <div class="card">⚖️ BMI ক্যালকুলেটর</div>
+      <div class="card">🏃 ব্যায়াম টিপস</div>
+      <div class="card">✅ হ্যাবিট ট্র্যাকার</div>
+    </div>
+  </section>
 
-    // Todo List
-    document.getElementById('addTodo').onclick=()=>{
-      let val=document.getElementById('todoInput').value.trim();
-      if(val){
-        let d=document.createElement('div');
-        d.className='todo-item';
-        d.innerHTML=`<span>${val}</span><button class='btn'>X</button>`;
-        d.querySelector('button').onclick=()=>d.remove();
-        document.getElementById('todoItems').appendChild(d);
-        document.getElementById('todoInput').value='';
-      }
-    }
+  <!-- Education 11-20 -->
+  <section id="education">
+    <h2>📚 Education (১১–২০)</h2>
+    <div class="features">
+      <div class="card">শব্দ ভান্ডার শেখা</div>
+      <div class="card">অক্ষর ট্রেসিং</div>
+      <div class="card">র‍্যান্ডম কুইজ</div>
+      <div class="card">পতাকা চিনার গেম</div>
+      <div class="card">মুদ্রা রূপান্তর</div>
+      <div class="card">সায়েন্স টিপস</div>
+      <div class="card">কোডিং গেম</div>
+      <div class="card">গাণিতিক সূত্র</div>
+      <div class="card">ঐতিহাসিক তারিখ</div>
+      <div class="card">লাইভ গ্লোব</div>
+    </div>
+  </section>
 
-    // Magic Click
-    document.getElementById('magicBtn').onclick=()=>{
-      document.querySelector('.rainbow').style.filter=`blur(36px) hue-rotate(${Math.random()*360}deg)`;
-    }
+  <!-- Fun & Games 21-30 -->
+  <section id="fun">
+    <h2>🎮 Fun & Games (২১–৩০)</h2>
+    <div class="features">
+      <div class="card">Guess the Emoji</div>
+      <div class="card">লুডো/ক্যারম</div>
+      <div class="card">পাজল সলভার</div>
+      <div class="card">AI চ্যাটবট</div>
+      <div class="card">গল্প জেনারেটর</div>
+      <div class="card">মিম জেনারেটর</div>
+      <div class="card">স্পিন হুইল</div>
+      <div class="card">লাকি গেম</div>
+      <div class="card">অনলাইন আঁকা</div>
+      <div class="card">কালার পিকার</div>
+    </div>
+  </section>
 
-    // Fortune Stars
-    const fortunes=["আজকের দিন নতুন শুরু করার জন্য সেরা!","হাসো, দুনিয়াও হাসবে!","ছোট কাজ থেকেও বড় সাফল্য আসে।"];
-    fortunes.forEach(f=>{
-      let d=document.createElement('div');d.className='quote';d.textContent=f;
-      document.getElementById('fortuneBox').appendChild(d);
-    });
+  <!-- Tools 31-40 -->
+  <section id="tools">
+    <h2>🛠️ Daily Tools (৩১–৪০)</h2>
+    <div class="features">
+      <div class="card">ক্যালকুলেটর</div>
+      <div class="card">টু-ডু লিস্ট</div>
+      <div class="card">ক্যালেন্ডার রিমাইন্ডার</div>
+      <div class="card">নোটবুক</div>
+      <div class="card">স্ক্যানার (ক্যামেরা)</div>
+      <div class="card">QR কোড জেনারেটর</div>
+      <div class="card">বারকোড স্ক্যানার</div>
+      <div class="card">ফাইল কনভার্টার</div>
+      <div class="card">ভয়েস টু টেক্সট</div>
+      <div class="card">টেক্সট টু ভয়েস</div>
+    </div>
+  </section>
 
-    // Clock
-    function updateClock(){document.getElementById('clock').textContent=new Date().toLocaleTimeString();}
-    setInterval(updateClock,1000);updateClock();
+  <!-- Tech 41-50 -->
+  <section id="tech">
+    <h2>💻 Tech (৪১–৫০)</h2>
+    <div class="features">
+      <div class="card">ইমেজ ব্যাকগ্রাউন্ড রিমুভার</div>
+      <div class="card">AI প্রোফাইল ছবি জেনারেটর</div>
+      <div class="card">কালার ব্লাইন্ড টেস্ট</div>
+      <div class="card">ওয়েবক্যাম মিরর</div>
+      <div class="card">টাইপিং স্পিড টেস্ট</div>
+      <div class="card">ইন্টারনেট স্পিড টেস্ট</div>
+      <div class="card">কীবোর্ড শর্টকাট গাইড</div>
+      <div class="card">ইউনিক পাসওয়ার্ড জেনারেটর</div>
+      <div class="card">টেক্সট এনক্রিপ্ট/ডিক্রিপ্ট</div>
+      <div class="card">ড্রাফটস/শতরঞ্জ গেম</div>
+    </div>
+  </section>
 
-    // Daily Quote
-    const quotes=["জীবন সুন্দর।","শিক্ষাই শক্তি।","ধৈর্য্য হলো সফলতার চাবি।"];
-    document.getElementById('quote').textContent=quotes[Math.floor(Math.random()*quotes.length)];
+  <!-- Social 51-60 -->
+  <section id="social">
+    <h2>📱 Social (৫১–৬০)</h2>
+    <div class="features">
+      <div class="card">র‍্যান্ডম জোক জেনারেটর</div>
+      <div class="card">স্ট্যাটাস/ক্যাপশন সাজেশন</div>
+      <div class="card">সেলফি ফিল্টার ক্যামেরা</div>
+      <div class="card">ভোট/পোল সিস্টেম</div>
+      <div class="card">ভার্চুয়াল গিফট সেন্ড</div>
+      <div class="card">বন্ধুর কমপ্যাটিবিলিটি স্কোর</div>
+      <div class="card">মুড-ভিত্তিক মিউজিক সাজেশন</div>
+      <div class="card">রাশিফল ফিচার</div>
+      <div class="card">লাইফপাথ নাম্বার</div>
+      <div class="card">লাকি কালার সাজেস্টর</div>
+    </div>
+  </section>
 
-    // Calculator
-    document.getElementById('calcEval').onclick=()=>{
-      let inp=document.getElementById('calcInput');
-      try{inp.value=eval(inp.value)}catch{inp.value='Error'}
-    }
+  <!-- Travel 61-70 -->
+  <section id="travel">
+    <h2>✈️ Travel (৬১–৭০)</h2>
+    <div class="features">
+      <div class="card">আবহাওয়া চেকার</div>
+      <div class="card">লোকেশন ম্যাপ</div>
+      <div class="card">ভ্রমণ খরচ ক্যালকুলেটর</div>
+      <div class="card">টিকিট চেকিং সিস্টেম</div>
+      <div class="card">লাইভ সূর্যোদয়/সূর্যাস্ত</div>
+      <div class="card">হোটেল/রেস্টুরেন্ট সার্চ</div>
+      <div class="card">ট্রাফিক কন্ডিশন ভিউ</div>
+      <div class="card">ভ্রমণ টিপস</div>
+      <div class="card">লোকেশন শেয়ার সিস্টেম</div>
+      <div class="card">ভাষা ট্রান্সলেটর</div>
+    </div>
+  </section>
 
-    // Music Player
-    const music=document.getElementById('bgMusic');
-    document.getElementById('playBtn').onclick=()=>music.play();
-    document.getElementById('pauseBtn').onclick=()=>music.pause();
-  </script>
+  <!-- Kids 71-80 -->
+  <section id="kids">
+    <h2>👶 Kids (৭১–৮০)</h2>
+    <div class="features">
+      <div class="card">আঁকাআঁকির ক্যানভাস</div>
+      <div class="card">কার্টুন ভয়েস প্লেয়ার</div>
+      <div class="card">শব্দ মিলানো গেম</div>
+      <div class="card">ছবি দেখে নাম বলা</div>
+      <div class="card">সংখ্যার গেম</div>
+      <div class="card">অ্যানিমেল সাউন্ড গেম</div>
+      <div class="card">কালার লার্নিং</div>
+      <div class="card">ম্যাজিক বাবল পপ</div>
+      <div class="card">পাজল স্লাইডার</div>
+      <div class="card">স্টোরি রিডার</div>
+    </div>
+  </section>
+
+  <!-- Productivity 81-90 -->
+  <section id="productivity">
+    <h2>📈 Productivity (৮১–৯০)</h2>
+    <div class="features">
+      <div class="card">মিটিং রিমাইন্ডার</div>
+      <div class="card">নোট শেয়ার লিংক</div>
+      <div class="card">মাইন্ডম্যাপ টুল</div>
+      <div class="card">Pomodoro Timer</div>
+      <div class="card">টেক্সট সামারি টুল</div>
+      <div class="card">ইমেইল টেমপ্লেট সাজেশন</div>
+      <div class="card">রেজ্যুমে বিল্ডার</div>
+      <div class="card">ডিজিটাল সিগনেচার</div>
+      <div class="card">টাইম জোন কনভার্টার</div>
+      <div class="card">এক্সপেন্স ট্র্যাকার</div>
+    </div>
+  </section>
+
+  <!-- Special 91-100 -->
+  <section id="special">
+    <h2>🌟 Special (৯১–১০০)</h2>
+    <div class="features">
+      <div class="card">ডেইলি চ্যালেঞ্জ</div>
+      <div class="card">কয়েন টস</div>
+      <div class="card">গেসিং গেম</div>
+      <div class="card">মুড ডায়েরি</div>
+      <div class="card">ভয়েস রেকর্ড</div>
+      <div class="card">ফেস ট্র্যাকার</div>
+      <div class="card">ড্রিম বোর্ড</div>
+      <div class="card">আজকের কাজের স্কোর</div>
+      <div class="card">AI ইমেজ ক্যাপশন</div>
+      <div class="card">সিক্রেট চ্যাটবক্স</div>
+    </div>
+  </section>
+
 </body>
 </html>
