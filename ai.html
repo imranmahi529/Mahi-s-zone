@@ -74,3 +74,86 @@
     }, 800);
   }
 </script>
+
+IMRAN HUSSAIN MAHI
+
+
+
+<!-- ===== AI Section – Dream Zone Style ===== -->
+<section id="ai" class="reveal">
+  <h2>AI Assistant & Image Generator</h2>
+  <div class="features">
+    <!-- Text Chat Card -->
+    <div class="card">
+      <h3>Chat with AI</h3>
+      <input type="text" id="chatInput" placeholder="প্রশ্ন লিখুন..." />
+      <button onclick="sendChat()">Send</button>
+      <div id="chatOutput" class="result"></div>
+    </div>
+
+    <!-- Image Generation Card -->
+    <div class="card">
+      <h3>Generate Image</h3>
+      <input type="text" id="imgInput" placeholder="ছবির বর্ণনা লিখুন..." />
+      <button onclick="generateImage()">Generate</button>
+      <div id="imgOutput" class="result"></div>
+    </div>
+  </div>
+</section>
+
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script>
+// ===== OpenAI API Config =====
+const OPENAI_API_KEY = "YOUR_OPENAI_API_KEY_HERE"; // এটা তোমার API Key বসাতে হবে
+
+// ===== Text Chat =====
+async function sendChat() {
+  const prompt = document.getElementById('chatInput').value;
+  const output = document.getElementById('chatOutput');
+  if(!prompt) return;
+  output.innerHTML = "AI is thinking...";
+
+  try {
+    const res = await axios.post("https://api.openai.com/v1/chat/completions", {
+      model: "gpt-4",
+      messages: [{role:"user", content: prompt}],
+      max_tokens: 200
+    }, {
+      headers: {
+        "Authorization": `Bearer ${OPENAI_API_KEY}`,
+        "Content-Type": "application/json"
+      }
+    });
+    output.innerHTML = res.data.choices[0].message.content;
+  } catch(err) {
+    console.error(err);
+    output.innerHTML = "Error fetching AI response.";
+  }
+}
+
+// ===== Image Generation =====
+async function generateImage() {
+  const prompt = document.getElementById('imgInput').value;
+  const output = document.getElementById('imgOutput');
+  if(!prompt) return;
+  output.innerHTML = "Generating image...";
+
+  try {
+    const res = await axios.post("https://api.openai.com/v1/images/generations", {
+      prompt: prompt,
+      n:1,
+      size:"512x512"
+    }, {
+      headers: {
+        "Authorization": `Bearer ${OPENAI_API_KEY}`,
+        "Content-Type": "application/json"
+      }
+    });
+    const imgUrl = res.data.data[0].url;
+    output.innerHTML = `<img src="${imgUrl}" alt="AI Generated Image" style="max-width:100%;border-radius:12px;margin-top:10px;box-shadow:0 0 20px #0ff;">`;
+  } catch(err) {
+    console.error(err);
+    output.innerHTML = "Error generating image.";
+  }
+}
+</script>
