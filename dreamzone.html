@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="bn">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Dream Zone — Magic Space</title>
+  <style>
+    html,body{height:100%;margin:0;font-family:'Segoe UI',sans-serif;color:#fff}
+    body{display:flex;align-items:center;justify-content:center;padding:20px;box-sizing:border-box;}
+
+    .rainbow{position:fixed;inset:-20%;z-index:-2;
+      background:linear-gradient(90deg,#ff5f6d,#ff9966,#ffd86b,#88e0a1,#4fd3f4,#6f6fff,#c97bff);
+      background-size:700% 700%;filter:blur(36px);
+      animation:shift 18s linear infinite;}
+    @keyframes shift{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+    .overlay{position:fixed;inset:0;background:rgba(0,0,0,0.4);z-index:-1}
+
+    .app{width:1000px;max-width:100%;min-height:600px;background:rgba(255,255,255,0.05);
+      border-radius:20px;padding:20px;backdrop-filter:blur(8px);
+      display:grid;grid-template-columns:380px 1fr;gap:18px}
+    .card{background:rgba(255,255,255,0.08);border-radius:14px;padding:14px;margin-bottom:14px}
+    .title{font-size:18px;font-weight:700;margin-bottom:8px}
+    .btn{cursor:pointer;padding:6px 12px;border-radius:8px;border:0;
+      background:rgba(255,255,255,0.15);color:#fff;margin-top:6px}
+
+    textarea{width:100%;min-height:80px;background:transparent;
+      border:1px dashed rgba(255,255,255,0.3);border-radius:8px;color:#fff;padding:8px}
+
+    .todo-item{display:flex;justify-content:space-between;align-items:center;
+      padding:6px;border-radius:8px;background:rgba(255,255,255,0.1);margin-top:6px}
+
+    .magic-area{height:180px;border-radius:16px;background:rgba(255,255,255,0.1);
+      display:flex;flex-direction:column;align-items:center;justify-content:center}
+
+    .quote{padding:6px;border-radius:8px;background:rgba(0,0,0,0.3);margin-top:6px}
+
+    .widgets{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+    .widget{padding:10px;border-radius:12px;background:rgba(255,255,255,0.08);text-align:center}
+    .clock{font-size:26px;font-weight:bold}
+    input#calcInput{width:90%;margin-top:6px;background:transparent;
+      border:1px solid rgba(255,255,255,0.3);padding:6px;border-radius:6px;color:#fff}
+  </style>
+</head>
+<body>
+  <div class="rainbow"></div>
+  <div class="overlay"></div>
+
+  <div class="app">
+    <!-- Left -->
+    <div>
+      <div class="card">
+        <div class="title">✨ Wish Box</div>
+        <textarea id="wishInput" placeholder="তোমার স্বপ্ন লিখো..."></textarea>
+        <button class="btn" id="saveWish">Save</button>
+        <div id="wishes"></div>
+      </div>
+
+      <div class="card">
+        <div class="title">📝 Todo List</div>
+        <input type="text" id="todoInput" placeholder="নতুন টাস্ক...">
+        <button class="btn" id="addTodo">Add</button>
+        <div id="todoItems"></div>
+      </div>
+    </div>
+
+    <!-- Right -->
+    <div>
+      <div class="magic-area">
+        <h3>🌈 Magic Click</h3>
+        <button class="btn" id="magicBtn">Click Me</button>
+      </div>
+
+      <div class="card">
+        <div class="title">🔮 Fortune Stars</div>
+        <div id="fortuneBox"></div>
+      </div>
+
+      <div class="widgets">
+        <div class="widget">
+          <div class="title">⏰ Clock</div>
+          <div class="clock" id="clock"></div>
+        </div>
+        <div class="widget">
+          <div class="title">💡 Daily Quote</div>
+          <div id="quote"></div>
+        </div>
+        <div class="widget">
+          <div class="title">🔢 Calculator</div>
+          <input id="calcInput" placeholder="2+2*3">
+          <button class="btn" id="calcEval">=</button>
+        </div>
+        <div class="widget">
+          <div class="title">🎶 Music Player</div>
+          <audio id="bgMusic" loop>
+            <source src="music.mp3" type="audio/mpeg">
+          </audio>
+          <button class="btn" id="playBtn">Play</button>
+          <button class="btn" id="pauseBtn">Pause</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Wish Box
+    document.getElementById('saveWish').onclick=()=>{
+      let val=document.getElementById('wishInput').value.trim();
+      if(val){
+        let d=document.createElement('div');
+        d.className='quote';d.textContent=val;
+        document.getElementById('wishes').appendChild(d);
+        document.getElementById('wishInput').value='';
+      }
+    }
+
+    // Todo List
+    document.getElementById('addTodo').onclick=()=>{
+      let val=document.getElementById('todoInput').value.trim();
+      if(val){
+        let d=document.createElement('div');
+        d.className='todo-item';
+        d.innerHTML=`<span>${val}</span><button class='btn'>X</button>`;
+        d.querySelector('button').onclick=()=>d.remove();
+        document.getElementById('todoItems').appendChild(d);
+        document.getElementById('todoInput').value='';
+      }
+    }
+
+    // Magic Click
+    document.getElementById('magicBtn').onclick=()=>{
+      document.querySelector('.rainbow').style.filter=`blur(36px) hue-rotate(${Math.random()*360}deg)`;
+    }
+
+    // Fortune Stars
+    const fortunes=["আজকের দিন নতুন শুরু করার জন্য সেরা!","হাসো, দুনিয়াও হাসবে!","ছোট কাজ থেকেও বড় সাফল্য আসে।"];
+    fortunes.forEach(f=>{
+      let d=document.createElement('div');d.className='quote';d.textContent=f;
+      document.getElementById('fortuneBox').appendChild(d);
+    });
+
+    // Clock
+    function updateClock(){document.getElementById('clock').textContent=new Date().toLocaleTimeString();}
+    setInterval(updateClock,1000);updateClock();
+
+    // Daily Quote
+    const quotes=["জীবন সুন্দর।","শিক্ষাই শক্তি।","ধৈর্য্য হলো সফলতার চাবি।"];
+    document.getElementById('quote').textContent=quotes[Math.floor(Math.random()*quotes.length)];
+
+    // Calculator
+    document.getElementById('calcEval').onclick=()=>{
+      let inp=document.getElementById('calcInput');
+      try{inp.value=eval(inp.value)}catch{inp.value='Error'}
+    }
+
+    // Music Player
+    const music=document.getElementById('bgMusic');
+    document.getElementById('playBtn').onclick=()=>music.play();
+    document.getElementById('pauseBtn').onclick=()=>music.pause();
+  </script>
+</body>
+</html>
