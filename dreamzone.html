@@ -1,106 +1,235 @@
-<!-- ===== Dream Zone – AI Personal Assistant + Dream Creator ===== -->
-<section id="dreamAssistant" class="reveal">
-  <h2>Dream Zone AI Personal Assistant</h2>
-  <div class="features">
+<!doctype html>
 
-    <!-- 1️⃣ AI Chat Card -->
-    <div class="card">
-      <h3>Ask Your AI</h3>
-      <input type="text" id="assistantInput" placeholder="প্রশ্ন লিখুন..." />
-      <button onclick="askAssistant()">Ask</button>
-      <div id="assistantOutput" class="result"></div>
-    </div>
+<html lang="bn">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Dream Zone — Graphics Demo (No AI)</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    :root{--bg:#071029;--card:#081226;--muted:#9fb0bf;--accent1:#6ee7b7;--accent2:#60a5fa}
+    *{box-sizing:border-box;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,'Helvetica Neue',Arial}
+    body{margin:0;background:linear-gradient(180deg,#020617 0%, #071029 100%);color:#eaf6f8;padding:28px}
+    .wrap{max-width:1100px;margin:0 auto}
+    header{display:flex;gap:14px;align-items:center;margin-bottom:18px}
+    .logo{width:64px;height:64px;border-radius:12px;background:linear-gradient(135deg,var(--accent1),var(--accent2));display:flex;align-items:center;justify-content:center;font-weight:800;color:#042}
+    h1{margin:0;font-size:20px}
+    p.lead{margin:0;color:var(--muted)}/* grid */
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin-top:18px}
+.card{background:linear-gradient(180deg,rgba(255,255,255,.02),rgba(255,255,255,.01));border:1px solid rgba(255,255,255,.04);padding:16px;border-radius:12px;box-shadow:0 8px 30px rgba(2,6,23,.6);transform-style:preserve-3d}
+.card h2{margin:0 0 8px 0;font-size:16px}
+.muted{color:var(--muted);font-size:13px}
 
-    <!-- 2️⃣ Dream Board / Goal Tracker -->
-    <div class="card">
-      <h3>My Dream Board</h3>
-      <input type="text" id="dreamInput" placeholder="লক্ষ্য/স্বপ্ন লিখুন..." />
-      <button onclick="addDream()">Add Dream</button>
-      <ul id="dreamList"></ul>
-    </div>
+/* Hero image with 3D + 1s color change */
+.hero{display:flex;gap:16px;align-items:center;padding:18px;border-radius:14px;background:linear-gradient(120deg, rgba(96,165,250,.06), rgba(110,231,183,.04));border:1px solid rgba(255,255,255,.04);box-shadow:0 20px 50px rgba(3,7,18,.6);perspective:1000px}
+.hero .img-wrap{width:260px;height:160px;border-radius:12px;overflow:hidden;transform:rotateX(8deg) rotateY(-12deg) translateZ(12px);box-shadow:0 18px 40px rgba(4,10,25,.6);transition:transform .4s cubic-bezier(.2,.9,.2,1)}
+.hero .img-wrap:hover{transform:rotateX(0deg) rotateY(0deg) translateZ(30px)}
+.hero img{width:100%;height:100%;object-fit:cover;display:block;filter:saturate(1) contrast(1.03);animation:colorShift 1s infinite alternate}
+@keyframes colorShift{from{filter:hue-rotate(0deg) saturate(1)} to{filter:hue-rotate(60deg) saturate(1.15)}}
 
-    <!-- 3️⃣ Image Generator for Dream -->
-    <div class="card">
-      <h3>Generate Dream Image</h3>
-      <input type="text" id="dreamImgInput" placeholder="ছবির বর্ণনা লিখুন..." />
-      <button onclick="generateDreamImage()">Generate</button>
-      <div id="dreamImgOutput" class="result"></div>
-    </div>
+/* subtle 3D card tilt */
+.card--3d{transform:translateZ(0);transition:transform .25s ease, box-shadow .25s ease}
+.card--3d:hover{transform:translateY(-6px) translateZ(8px);box-shadow:0 30px 60px rgba(3,7,18,.7)}
 
+/* board pins */
+#board{min-height:140px;border-radius:10px;padding:12px;display:flex;flex-wrap:wrap;gap:12px}
+.pin{background:linear-gradient(180deg,#0b1624,#071126);padding:10px;border-radius:10px;min-width:120px;max-width:220px;border-left:4px solid var(--accent1);cursor:grab;box-shadow:0 8px 18px rgba(2,6,23,.6)}
+
+/* progress */
+.progress{height:10px;background:rgba(255,255,255,.03);border-radius:8px;overflow:hidden}
+.progress > i{display:block;height:100%;background:linear-gradient(90deg,var(--accent2),var(--accent1))}
+
+/* responsive */
+@media(max-width:980px){.grid{grid-template-columns:1fr}.hero{flex-direction:column;align-items:flex-start}.hero .img-wrap{width:100%;height:200px}}
+
+/* small helpers */
+input,textarea,button{font-family:inherit}
+input,textarea{background:transparent;border:1px solid rgba(255,255,255,.04);padding:8px;border-radius:8px;color:inherit}
+.btn{background:var(--accent1);color:#042;padding:8px 12px;border-radius:8px;border:none;cursor:pointer;font-weight:700}
+.small{padding:6px 10px;font-size:13px}
+
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="logo">DZ</div>
+      <div>
+        <h1>Dream Zone — ৫টি গ্রাফিক্যাল ড্রিম ফিচার (No AI)</h1>
+        <p class="lead muted">প্রথমে প্রদত্ত ছবি ব্যবহার করে, প্রতিটি এলিমেন্টে 3D ইফেক্ট ও ১ সেকেন্ডের রঙ পরিবর্তন অ্যানিমেশন।</p>
+      </div>
+    </header><!-- HERO with provided image (corrected to .png) -->
+<section class="hero card card--3d">
+  <div class="img-wrap">
+    <img src="https://raw.githubusercontent.com/imranmahi529/Mahi-s-zone/refs/heads/main/Gemini_Generated_Image_1boe9n1boe9n1boe.png" alt="Dream Hero">
+  </div>
+  <div style="flex:1">
+    <h2 style="margin:0 0 6px 0">Graphics First — 3D Effects & 1s Color Shift</h2>
+    <p class="muted">এই পেজে AI ফিচার বাদ দিয়ে ৫টি ইন্টারঅ্যাকটিভ গ্রাফিক্স ফিচার তৈরি করা হলো — প্রত্যেকটি স্টাইলিশ, আধুনিক এবং লোকাল-ডেমো হিসেবে কাজ করে।</p>
+    <p style="margin-top:8px" class="muted"><strong>Image:</strong> আমি URL-এ থাকা শেষ অংশ `.পং` -> `.png` ধরে নিয়েছি; যদি অন্য ফাইল থাকে বলো, বদলে দেব।</p>
   </div>
 </section>
 
-<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-<script>
-const OPENAI_API_KEY = "YOUR_OPENAI_API_KEY_HERE"; // তোমার API Key বসাও
+<div class="grid" style="margin-top:20px">
+  <!-- 1. Virtual Dream Board -->
+  <section class="card card--3d">
+    <h2><i class="fa-regular fa-images"></i> Virtual Dream Board</h2>
+    <p class="muted">ড্রিম ছবি, লিঙ্ক বা লেখা পিন করে কোলাজ তৈরি করো — ড্র্যাগ, রিমুভ।</p>
+    <div id="board"></div>
+    <div style="margin-top:10px;display:flex;gap:8px;align-items:center">
+      <input id="pinText" placeholder="নতুন ড্রিম লিখো...">
+      <button class="btn small" onclick="addPin()">Add</button>
+    </div>
+  </section>
 
-// ===== AI Chat =====
-async function askAssistant() {
-  const prompt = document.getElementById('assistantInput').value;
-  const output = document.getElementById('assistantOutput');
-  if(!prompt) return;
-  output.innerHTML = "AI is thinking...";
-  try {
-    const res = await axios.post("https://api.openai.com/v1/chat/completions", {
-      model: "gpt-4",
-      messages: [{role:"user", content: prompt}],
-      max_tokens: 200
-    }, {
-      headers: {"Authorization": `Bearer ${OPENAI_API_KEY}`, "Content-Type": "application/json"}
-    });
-    output.innerHTML = res.data.choices[0].message.content;
-  } catch(err) {
-    console.error(err);
-    output.innerHTML = "Error fetching AI response.";
-  }
-}
+  <!-- 2. Dream → Reality Tracker -->
+  <section class="card card--3d">
+    <h2><i class="fa-solid fa-chart-line"></i> Dream → Reality Tracker</h2>
+    <p class="muted">লক্ষ্য যোগ করো, progress আপডেট করো — progress বার সহ।</p>
+    <div id="trackerList"></div>
+    <div style="margin-top:10px;display:flex;gap:8px;align-items:center">
+      <input id="goalName" placeholder="Goal নাম" style="flex:1">
+      <button class="btn small" onclick="addGoal()">Add</button>
+    </div>
+  </section>
 
-// ===== Dream Board / Goal Tracker =====
-function addDream() {
-  const input = document.getElementById('dreamInput');
-  const list = document.getElementById('dreamList');
-  const val = input.value.trim();
-  if(!val) return;
-  const li = document.createElement('li');
-  li.textContent = val;
-  li.onclick = ()=> li.remove();
-  list.appendChild(li);
-  input.value = '';
-}
+  <!-- 3. World Dream Map (simple) -->
+  <section class="card card--3d">
+    <h2><i class="fa-solid fa-map-location-dot"></i> World Dream Map</h2>
+    <p class="muted">দেশ পিন করে দেখাও; ডেমো হিসেবে country name নেয়া হবে — প্রোডাকশনে map API লাগবে।</p>
+    <div class="map card" id="map" style="height:160px;display:flex;align-items:center;justify-content:center;border-radius:10px;">Click to add a pin</div>
+    <div style="margin-top:8px"><small class="muted">Pins:</small><ul id="pins" class="muted"></ul></div>
+  </section>
 
-// ===== Dream Image Generator =====
-async function generateDreamImage() {
-  const prompt = document.getElementById('dreamImgInput').value;
-  const output = document.getElementById('dreamImgOutput');
-  if(!prompt) return;
-  output.innerHTML = "Generating image...";
-  try {
-    const res = await axios.post("https://api.openai.com/v1/images/generations", {
-      prompt: prompt,
-      n:1,
-      size:"512x512"
-    }, {
-      headers: {"Authorization": `Bearer ${OPENAI_API_KEY}`, "Content-Type": "application/json"}
-    });
-    const imgUrl = res.data.data[0].url;
-    output.innerHTML = `<img src="${imgUrl}" alt="Dream Image" style="max-width:100%;border-radius:12px;margin-top:10px;box-shadow:0 0 20px #0ff;">`;
-  } catch(err) {
-    console.error(err);
-    output.innerHTML = "Error generating image.";
-  }
-}
-</script>
+  <!-- 4. Dream Journal (graphical entries) -->
+  <section class="card card--3d">
+    <h2><i class="fa-regular fa-book-open"></i> Dream Journal</h2>
+    <p class="muted">দৈনন্দিন লিখে রাখো — প্রতিটি এন্ট্রির সাথে থাম্বনেইল বা লাইট গ্রাফিক্স যুক্ত করা যায়।</p>
+    <textarea id="journalText" placeholder="আজকের ড্রিম লিখো..."></textarea>
+    <div style="display:flex;gap:8px;margin-top:8px">
+      <button class="btn" onclick="saveJournal()">Save Entry</button>
+      <button class="small" onclick="clearJournal()">Clear</button>
+    </div>
+    <div id="journalList" style="margin-top:10px;color:var(--muted)"></div>
+  </section>
 
-<style>
-/* ===== Dream Zone Styling ===== */
-.features {display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;}
-.card {background: rgba(0,0,0,0.2);padding:25px;border-radius:20px;text-align:left;cursor:pointer;transition: all 0.5s;position:relative;overflow:hidden;border:2px solid rgba(0,255,255,0.5);box-shadow:0 0 20px rgba(0,255,255,0.3);}
-.card h3 {color:#0ff;text-shadow:0 0 8px #0ff;margin-top:0;font-size:24px;}
-.card input[type=text]{width:100%;padding:10px;margin-top:8px;border-radius:10px;border:none;}
-.card button{margin-top:8px;padding:10px 14px;border-radius:10px;border:none;background:#0ff;color:#000;font-weight:bold;cursor:pointer;transition:0.3s;text-shadow:0 0 5px #0ff;}
-.card button:hover{background:#0fa;}
-.result{margin-top:10px;color:#0f0;font-weight:bold;}
-ul#dreamList{list-style:none;padding-left:0;margin-top:10px;}
-ul#dreamList li{padding:8px;background:rgba(0,255,255,0.1);border-radius:10px;margin-bottom:6px;cursor:pointer;transition:0.3s;}
-ul#dreamList li:hover{background:#0ff;color:#000;}
-</style>
+  <!-- 5. Dream Challenges (graphical badges) -->
+  <section class="card card--3d">
+    <h2><i class="fa-solid fa-medal"></i> Dream Challenges</h2>
+    <p class="muted">মাসিক চ্যালেঞ্জ ও গ্রাফিক্যাল ব্যাজ — সম্পন্ন করলে ব্যাজ আনলক হবে।</p>
+    <ul id="challengeList" class="muted"></ul>
+    <div style="margin-top:8px"><button class="btn small" onclick="seedChallenges()">Load Sample Challenges</button></div>
+  </section>
+
+</div>
+
+<footer style="margin-top:18px;color:var(--muted)">লোকাল ডেমো — যদি প্রোডাকশনে নিতে চাও আমি API (maps, image upload) ও auth কনফিগার করে দেব।</footer>
+
+  </div>  <script>
+    /* ---------- Helpers: Pins + Storage (no AI) ---------- */
+    const board = document.getElementById('board');
+    function createPin(text){
+      const el = document.createElement('div');
+      el.className = 'pin';
+      el.draggable = true;
+      el.ondragstart = (e)=> e.dataTransfer.setData('text/plain', text);
+      el.innerHTML = `<strong>${text}</strong><div class='muted' style='margin-top:6px;font-size:12px;'>double-click to remove</div>`;
+      el.ondblclick = ()=>{el.remove(); saveBoard()};
+      return el;
+    }
+    function addPin(){
+      const t = document.getElementById('pinText').value.trim();
+      if(!t) return;
+      board.appendChild(createPin(t));
+      document.getElementById('pinText').value=''; saveBoard();
+    }
+    function saveBoard(){
+      const pins = Array.from(board.querySelectorAll('.pin strong')).map(s=>s.textContent);
+      localStorage.setItem('dream_board', JSON.stringify(pins));
+    }
+    function loadBoard(){
+      const pins = JSON.parse(localStorage.getItem('dream_board')||'[]');
+      pins.forEach(t=>board.appendChild(createPin(t)));
+    }
+
+    /* Tracker */
+    function addGoal(){
+      const name = document.getElementById('goalName').value.trim(); if(!name) return;
+      const goals = JSON.parse(localStorage.getItem('dream_goals')||'[]');
+      goals.push({name,progress:0}); localStorage.setItem('dream_goals', JSON.stringify(goals)); document.getElementById('goalName').value=''; renderGoals();
+    }
+    function renderGoals(){
+      const list = document.getElementById('trackerList'); list.innerHTML='';
+      const goals = JSON.parse(localStorage.getItem('dream_goals')||'[]');
+      goals.forEach((g, idx)=>{
+        const row = document.createElement('div'); row.style.marginTop='10px';
+        row.innerHTML = `<div style='display:flex;justify-content:space-between;align-items:center'><strong>${g.name}</strong>
+          <div style='display:flex;gap:8px;align-items:center'>
+            <button class='small' onclick='updateProgress(${idx}, -10)'>-</button>
+            <div style='width:160px'><div class='progress'><i style='width:${g.progress}%'></i></div></div>
+            <button class='small' onclick='updateProgress(${idx}, 10)'>+</button>
+            <button class='small' onclick='removeGoal(${idx})'>Remove</button>
+          </div></div>`;
+        list.appendChild(row);
+      });
+    }
+    function updateProgress(i, delta){
+      const goals = JSON.parse(localStorage.getItem('dream_goals')||'[]');
+      goals[i].progress = Math.max(0, Math.min(100, goals[i].progress + delta));
+      localStorage.setItem('dream_goals', JSON.stringify(goals)); renderGoals();
+    }
+    function removeGoal(i){const goals = JSON.parse(localStorage.getItem('dream_goals')||'[]');goals.splice(i,1);localStorage.setItem('dream_goals', JSON.stringify(goals));renderGoals();}
+
+    /* Map (simple) */
+    const map = document.getElementById('map');
+    map.onclick = ()=>{
+      const country = prompt('Country name লিখো যেখানে তোমার ড্রিম— উদাহরণ: Japan, Bangladesh');
+      if(!country) return; addPinToMap(country);
+    }
+    function addPinToMap(country){
+      const pins = JSON.parse(localStorage.getItem('dream_pins')||'[]');
+      pins.push({country,when:new Date().toLocaleDateString()});
+      localStorage.setItem('dream_pins', JSON.stringify(pins)); renderPins();
+    }
+    function renderPins(){
+      const ul = document.getElementById('pins'); ul.innerHTML='';
+      const pins = JSON.parse(localStorage.getItem('dream_pins')||'[]');
+      pins.forEach((p, i)=>{const li=document.createElement('li'); li.textContent = `${p.country} — ${p.when}`; ul.appendChild(li)});
+    }
+
+    /* Journal */
+    function saveJournal(){
+      const t = document.getElementById('journalText').value.trim(); if(!t) return;
+      const entries = JSON.parse(localStorage.getItem('dream_journal')||'[]');
+      entries.unshift({text:t,when:new Date().toLocaleString()});
+      localStorage.setItem('dream_journal', JSON.stringify(entries)); document.getElementById('journalText').value=''; renderJournal();
+    }
+    function clearJournal(){ if(confirm('Clear all journal entries?')){localStorage.removeItem('dream_journal');renderJournal();} }
+    function renderJournal(){
+      const out = document.getElementById('journalList'); out.innerHTML='';
+      const entries = JSON.parse(localStorage.getItem('dream_journal')||'[]');
+      entries.forEach(e=>{const d=document.createElement('div');d.style.marginTop='8px';d.innerHTML=`<strong>${e.when}</strong><div class='muted'>${e.text}</div>`;out.appendChild(d)});
+    }
+
+    /* Challenges */
+    function seedChallenges(){
+      const sample = [
+        {title:'Learn a new skill for 14 days',done:false},
+        {title:'Read one inspiring article this week',done:false},
+        {title:'Record a 1-minute dream journal video',done:false}
+      ];
+      localStorage.setItem('dream_challenges', JSON.stringify(sample)); renderChallenges();
+    }
+    function renderChallenges(){
+      const list = document.getElementById('challengeList'); list.innerHTML='';
+      const items = JSON.parse(localStorage.getItem('dream_challenges')||'[]');
+      items.forEach((c,i)=>{const li=document.createElement('li'); li.style.marginTop='8px'; li.innerHTML = `<label><input type='checkbox' ${c.done? 'checked':''} onchange='toggleChallenge(${i})'> ${c.title}</label>`; list.appendChild(li)});
+    }
+    function toggleChallenge(i){const items = JSON.parse(localStorage.getItem('dream_challenges')||'[]'); items[i].done = !items[i].done; localStorage.setItem('dream_challenges', JSON.stringify(items)); renderChallenges();}
+
+    /* init */
+    function init(){ loadBoard(); renderGoals(); renderPins(); renderJournal(); renderChallenges(); }
+    init();
+  </script></body>
+</html>
