@@ -1,148 +1,129 @@
 <!DOCTYPE html>
 <html lang="bn">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Job & Circular Universe — Real Edition</title>
-<script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
-<style>
-:root{
-  --bg1:#02031a; --bg2:#061733;
-  --accent1:#6ee7b7; --accent2:#60a5fa; --accent3:#ff9aa2;
-  --soft-shadow:0 12px 40px rgba(2,6,23,0.6);
-  --muted:#9fb1c0;
-}
-*{box-sizing:border-box;font-family:Inter,sans-serif;margin:0;padding:0}
-html,body{height:100%;background:linear-gradient(180deg,var(--bg1),var(--bg2));color:#eaf6f8;overflow-x:hidden}
-body{padding:20px;display:flex;justify-content:center}
-.container{max-width:1300px;width:100%}
-
-/* BACKGROUND */
-.bg-wrap{position:fixed;top:0;left:0;width:100%;height:100%;z-index:-100;overflow:hidden}
-.bg-hero{
-  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) scale(1.05);
-  width:1400px;height:900px;
-  background-image:url('https://imranmahi529.github.io/Mahi-s-zone/');
-  background-size:cover;background-position:center;
-  filter:blur(20px) brightness(.55) saturate(1.2);
-  border-radius:20px;
-  transition:transform 1.2s ease;
-}
-.bg-gradient-rings{position:absolute;inset:0;mix-blend-mode:screen;opacity:0.9}
-.bg-gradient-rings::before{
-  content:'';position:absolute;left:50%;top:50%;width:1200px;height:1200px;
-  transform:translate(-50%,-50%);
-  background:conic-gradient(from 90deg at 50% 50%, rgba(110,231,183,0.06), rgba(96,165,250,0.06), rgba(255,154,162,0.06));
-  filter:blur(60px);animation:rotateRings 40s linear infinite;
-}
-@keyframes rotateRings{to{transform:translate(-50%,-50%) rotate(360deg)}}
-
-/* HEADER */
-.header{display:flex;gap:12px;align-items:center;margin-bottom:18px}
-.logo{width:74px;height:74px;border-radius:14px;background:linear-gradient(135deg,var(--accent1),var(--accent2));display:flex;align-items:center;justify-content:center;font-weight:900;color:#032}
-.title h1{margin:0;font-size:22px}
-.title p{margin:4px 0 0 0;color:var(--muted);font-size:13px}
-
-/* GRID */
-.grid{display:grid;grid-template-columns:1fr 420px;gap:18px}
-.job-area{padding:14px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));box-shadow:var(--soft-shadow);border:1px solid rgba(255,255,255,0.03);overflow:hidden}
-.search-row{display:flex;gap:8px;margin-bottom:12px}
-.search-row input, .search-row select{flex:1;padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:inherit}
-.job-list{display:grid;gap:12px}
-.job-card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:12px;padding:12px;display:flex;gap:12px;align-items:center;transform-style:preserve-3d;transition:transform .3s, box-shadow .3s;box-shadow:0 10px 30px rgba(0,0,0,0.5)}
-.job-card:hover{transform:translateY(-8px) rotateX(4deg) rotateY(-6deg);box-shadow:0 28px 80px rgba(0,0,0,0.7)}
-.logo-mini{width:64px;height:64px;border-radius:10px;background:linear-gradient(135deg,var(--accent2),var(--accent1));display:flex;align-items:center;justify-content:center;font-weight:800;color:#032}
-.job-meta{flex:1}
-.job-meta h3{margin:0;font-size:16px}
-.job-meta p{margin:6px 0 0 0;color:var(--muted);font-size:13px}
-.apply-btn{padding:8px 12px;border-radius:10px;background:linear-gradient(90deg,var(--accent2),var(--accent1));color:#032;border:none;font-weight:800;cursor:pointer;box-shadow:0 12px 26px rgba(96,165,250,0.12);transition:transform .18s}
-.apply-btn:hover{transform:translateY(-4px)}
-
-/* MODAL */
-.modal{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%) scale(0.9);background:linear-gradient(180deg,rgba(255,255,255,0.02),rgba(255,255,255,0.01));backdrop-filter: blur(6px);border-radius:12px;padding:18px;box-shadow:0 30px 80px rgba(0,0,0,0.7);z-index:9999;opacity:0;transition:opacity .18s, transform .18s}
-.modal.show{opacity:1;transform:translate(-50%,-50%) scale(1)}
-.modal h3{margin:0 0 8px 0}
-.modal .actions{display:flex;gap:8px;margin-top:12px;justify-content:flex-end}
-
-/* RESPONSIVE */
-@media(max-width:860px){ .grid{grid-template-columns:1fr} }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>চাকরির খবর</title>
+  <style>
+    /* General Styles */
+    body {
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f4;
+      color: #333;
+    }
+    .container {
+      width: 80%;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+      color: #2c3e50;
+    }
+    .job-card {
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      margin-bottom: 20px;
+      padding: 15px;
+      transition: transform 0.3s;
+    }
+    .job-card:hover {
+      transform: translateY(-5px);
+    }
+    .job-card img {
+      width: 100%;
+      height: auto;
+      border-radius: 8px;
+    }
+    .job-details {
+      margin-top: 10px;
+    }
+    .job-details p {
+      margin: 5px 0;
+    }
+    .apply-btn {
+      display: inline-block;
+      background-color: #3498db;
+      color: #fff;
+      padding: 10px 15px;
+      border-radius: 5px;
+      text-decoration: none;
+      margin-top: 10px;
+    }
+    .apply-btn:hover {
+      background-color: #2980b9;
+    }
+  </style>
 </head>
 <body>
 
-<div class="bg-wrap">
-  <div class="bg-hero"></div>
-  <div class="bg-gradient-rings"></div>
-</div>
+  <div class="container">
+    <h1>চাকরির খবর</h1>
 
-<div class="container">
-  <div class="header">
-    <div class="logo">JC</div>
-    <div class="title">
-      <h1>Job & Circular Universe</h1>
-      <p>Real jobs demo — Apply, Explore, Enjoy 9D graphics</p>
-    </div>
-  </div>
-
-  <div class="grid">
-    <div class="job-area">
-      <div class="search-row">
-        <input id="searchBox" placeholder="Search job title or company...">
+    <!-- Grameenphone Software Engineer -->
+    <div class="job-card">
+      <img src="https://example.com/grameenphone.jpg" alt="Grameenphone Software Engineer">
+      <div class="job-details">
+        <h2>পদের নাম: সফটওয়্যার ইঞ্জিনিয়ার</h2>
+        <p><strong>কোম্পানি:</strong> গ্রামীণফোন</p>
+        <p><strong>লোকেশন:</strong> ঢাকা</p>
+        <p><strong>ডেডলাইন:</strong> ২০ অক্টোবর ২০২৫</p>
+        <a href="https://www.grameenphone.com/about/career" class="apply-btn" target="_blank">আবেদন করুন</a>
       </div>
-      <div class="job-list" id="jobList"></div>
     </div>
+
+    <!-- Dutch-Bangla Bank Management Trainee Officer -->
+    <div class="job-card">
+      <img src="https://example.com/dutch-bangla-bank.jpg" alt="Dutch-Bangla Bank Management Trainee Officer">
+      <div class="job-details">
+        <h2>পদের নাম: ম্যানেজমেন্ট ট্রেইনি অফিসার</h2>
+        <p><strong>কোম্পানি:</strong> ডাচ-বাংলা ব্যাংক</p>
+        <p><strong>লোকেশন:</strong> ঢাকা</p>
+        <p><strong>ডেডলাইন:</strong> ৪ অক্টোবর ২০২৫</p>
+        <a href="https://app.dutchbanglabank.com/Online_Job/" class="apply-btn" target="_blank">আবেদন করুন</a>
+      </div>
+    </div>
+
+    <!-- BRAC Senior Officer -->
+    <div class="job-card">
+      <img src="https://example.com/brac.jpg" alt="BRAC Senior Officer">
+      <div class="job-details">
+        <h2>পদের নাম: সিনিয়র অফিসার</h2>
+        <p><strong>কোম্পানি:</strong> ব্র্যাক</p>
+        <p><strong>লোকেশন:</strong> ঢাকা</p>
+        <p><strong>ডেডলাইন:</strong> ১৯ অক্টোবর ২০২৫</p>
+        <a href="https://careers.brac.net/jobs" class="apply-btn" target="_blank">আবেদন করুন</a>
+      </div>
+    </div>
+
+    <!-- Pathao Senior Software Engineer -->
+    <div class="job-card">
+      <img src="https://example.com/pathao.jpg" alt="Pathao Senior Software Engineer">
+      <div class="job-details">
+        <h2>পদের নাম: সিনিয়র সফটওয়্যার ইঞ্জিনিয়ার</h2>
+        <p><strong>কোম্পানি:</strong> পাথাও</p>
+        <p><strong>লোকেশন:</strong> ঢাকা</p>
+        <p><strong>ডেডলাইন:</strong> ৩০ অক্টোবর ২০২৫</p>
+        <a href="https://career.pathao.com/" class="apply-btn" target="_blank">আবেদন করুন</a>
+      </div>
+    </div>
+
+    <!-- Bangladesh Bank Branch Manager -->
+    <div class="job-card">
+      <img src="https://example.com/bangladesh-bank.jpg" alt="Bangladesh Bank Branch Manager">
+      <div class="job-details">
+        <h2>পদের নাম: ব্রাঞ্চ ম্যানেজার</h2>
+        <p><strong>কোম্পানি:</strong> বাংলাদেশ ব্যাংক</p>
+        <p><strong>লোকেশন:</strong> সিলেট</p>
+        <p><strong>ডেডলাইন:</strong> ১০ নভেম্বর ২০২৫</p>
+        <a href="https://www.bb.org.bd/" class="apply-btn" target="_blank">আবেদন করুন</a>
+      </div>
+    </div>
+
   </div>
-</div>
-
-<div class="modal" id="applyModal">
-  <h3>Apply — Quick Apply</h3>
-  <p id="applyMsg">Demo application popup</p>
-  <div class="actions">
-    <button id="closeModal">Close</button>
-    <button id="confirmApply">Confirm</button>
-  </div>
-</div>
-
-<script>
-const jobs = [
-  {title:'Software Engineer', company:'Grameenphone', loc:'Dhaka', deadline:'2025-10-20', link:'#'},
-  {title:'Bank Officer', company:'Dutch-Bangla Bank', loc:'Dhaka', deadline:'2025-10-25', link:'#'},
-  {title:'Field Officer', company:'BRAC', loc:'Chittagong', deadline:'2025-10-22', link:'#'},
-  {title:'IT Support', company:'Pathao', loc:'Dhaka', deadline:'2025-10-28', link:'#'},
-  {title:'Assistant Manager', company:'Bangladesh Bank', loc:'Dhaka', deadline:'2025-10-30', link:'#'}
-];
-
-const jobList = document.getElementById('jobList');
-const applyModal = document.getElementById('applyModal');
-const applyMsg = document.getElementById('applyMsg');
-
-jobs.forEach((job,i)=>{
-  const card = document.createElement('div');
-  card.className='job-card';
-  card.innerHTML=`<div class="logo-mini">${job.company[0]}</div>
-    <div class="job-meta"><h3>${job.title}</h3>
-    <p>${job.company} • ${job.loc} — Apply by ${job.deadline}</p></div>
-    <button class="apply-btn">Apply</button>`;
-  jobList.appendChild(card);
-
-  card.querySelector('.apply-btn').addEventListener('click',()=>{
-    applyMsg.textContent=`Apply to ${job.title} at ${job.company} — demo popup`;
-    applyModal.classList.add('show');
-  });
-
-  card.addEventListener('mousemove', e=>{
-    const rect = card.getBoundingClientRect();
-    const x = e.clientX - rect.left; const y = e.clientY - rect.top;
-    const rx = (y-rect.height/2)/20; const ry=(x-rect.width/2)/-20;
-    card.style.transform=`translateY(-6px) rotateX(${rx}deg) rotateY(${ry}deg)`;
-  });
-  card.addEventListener('mouseleave',()=>{ card.style.transform=''; });
-});
-
-document.getElementById('closeModal').addEventListener('click',()=>{
-  applyModal.classList.remove('show');
-});
-</script>
 
 </body>
 </html>
