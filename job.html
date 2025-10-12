@@ -1,115 +1,427 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="bn">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>আজকের চাকরির বিজ্ঞপ্তি - ১৭ সেপ্টেম্বর ২০২৫</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f4f4f4;
-      margin: 0;
-      padding: 0;
-    }
-    header {
-      background-color: #333;
-      color: white;
-      padding: 20px;
-      text-align: center;
-    }
-    .container {
-      width: 90%;
-      margin: 20px auto;
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-    }
-    .job-card {
-      background-color: white;
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      width: 30%;
-      margin-bottom: 20px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      transition: transform 0.3s ease-in-out;
-    }
-    .job-card:hover {
-      transform: translateY(-5px);
-    }
-    .job-card img {
-      width: 100%;
-      border-top-left-radius: 8px;
-      border-top-right-radius: 8px;
-    }
-    .job-card-content {
-      padding: 15px;
-    }
-    .job-card-content h3 {
-      margin-top: 0;
-      color: #333;
-    }
-    .job-card-content p {
-      margin: 5px 0;
-      color: #555;
-    }
-    .apply-btn {
-      display: inline-block;
-      background-color: #28a745;
-      color: white;
-      padding: 10px 20px;
-      text-decoration: none;
-      border-radius: 5px;
-      margin-top: 10px;
-      text-align: center;
-      width: 100%;
-    }
-    .apply-btn:hover {
-      background-color: #218838;
-    }
-  </style>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Job & Circular Universe — Dreamed Up 9D</title>
+
+<!-- Lottie (for confetti/animations) -->
+<script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+
+<style>
+/* ========= THEME & HELPERS ========= */
+:root{
+  --bg1:#02031a; --bg2:#061733;
+  --glass: rgba(255,255,255,0.04);
+  --muted:#9fb1c0;
+  --accent1:#6ee7b7; --accent2:#60a5fa; --accent3:#ff9aa2;
+  --soft-shadow: 0 12px 40px rgba(2,6,23,0.6);
+  --trans: 0.9s;
+}
+*{box-sizing:border-box;font-family:Inter, system-ui, -apple-system, 'Segoe UI', Roboto, Arial;}
+html,body{height:100%;margin:0;background:linear-gradient(180deg,var(--bg1),var(--bg2));color:#eaf6f8;overflow-y:auto}
+body{padding:28px;display:flex;justify-content:center}
+.container{width:100%;max-width:1300px}
+
+/* ====== STUNNING LAYERED BACKGROUND (100x nicer) ======
+   Idea: multiple layers: blurred hero image, animated radial gradients,
+   moving gradient rings, parallax particles, subtle noise.
+===============================================*/
+.bg-wrap{position:fixed;left:0;top:0;width:100%;height:100%;z-index:-100;pointer-events:none;overflow:hidden}
+.bg-hero{
+  position:absolute;left:50%;top:20%;width:1400px;height:900px;transform:translateX(-50%) translateY(-10%) scale(1.05);
+  background-image: url('https://raw.githubusercontent.com/imranmahi529/Mahi-s-zone/refs/heads/main/Gemini_Generated_Image_1boe9n1boe9n1boe.png');
+  background-size:cover;background-position:center;border-radius:18px;filter:blur(18px) brightness(.55) saturate(1.15);
+  opacity:0.55; mix-blend-mode:overlay; transform-origin:center; transition:transform 1.2s ease;
+  box-shadow: 0 80px 180px rgba(0,0,0,0.8);
+}
+.bg-gradient-rings{position:absolute;inset:0;mix-blend-mode:screen;opacity:0.9}
+.bg-gradient-rings::before{
+  content:'';position:absolute;left:50%;top:50%;width:1200px;height:1200px;transform:translate(-50%,-50%);
+  background:conic-gradient(from 90deg at 50% 50%, rgba(110,231,183,0.06), rgba(96,165,250,0.06), rgba(255,154,162,0.06));
+  filter:blur(60px);animation:rotateRings 40s linear infinite;
+}
+@keyframes rotateRings{to{transform:translate(-50%,-50%) rotate(360deg)}}
+
+/* animated color pulse overlays */
+.bg-pulse{position:absolute;inset:0;mix-blend-mode:overlay;opacity:0.14;pointer-events:none;
+  background: radial-gradient(circle at 20% 20%, #ffd6a5 0%, transparent 10%),
+              radial-gradient(circle at 80% 80%, #dbeafe 0%, transparent 12%);}
+@keyframes pulseBG{0%{opacity:.12}50%{opacity:.22}100%{opacity:.12}}
+.bg-pulse{animation:pulseBG 6s ease-in-out infinite}
+
+/* parallax particles (svg) */
+.particles-svg{position:absolute;inset:0;pointer-events:none;opacity:0.95;mix-blend-mode:screen}
+
+/* subtle grain */
+.noise{position:absolute;inset:0;background-image:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40"><filter id="n"><feTurbulence baseFrequency="0.8" numOctaves="1" stitchTiles="stitch"></feTurbulence><feColorMatrix type="saturate" values="0"/></filter><rect width="100%" height="100%" filter="url(%23n)" opacity="0.03" /></svg>');opacity:0.25;mix-blend-mode:overlay;pointer-events:none}
+
+/* ============ PAGE LAYOUT ============ */
+.header{display:flex;gap:12px;align-items:center}
+.logo{width:74px;height:74px;border-radius:14px;background:linear-gradient(135deg,var(--accent1),var(--accent2));display:flex;align-items:center;justify-content:center;font-weight:900;color:#032;box-shadow:0 18px 60px rgba(0,0,0,0.6)}
+.title{flex:1}
+.title h1{margin:0;font-size:22px}
+.title p{margin:4px 0 0 0;color:var(--muted);font-size:13px}
+
+/* controls row */
+.controls{display:flex;gap:8px;align-items:center;margin-top:10px;flex-wrap:wrap}
+
+/* main content grid */
+.grid{display:grid;grid-template-columns: 1fr 420px; gap:18px; margin-top:18px}
+.left{min-width:0}
+.right{}
+
+/* job feed area */
+.job-area{padding:14px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));box-shadow:var(--soft-shadow);border:1px solid rgba(255,255,255,0.03);overflow:hidden}
+.search-row{display:flex;gap:8px;align-items:center;margin-bottom:12px}
+.search-row input{flex:1;padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:inherit}
+.filter-chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+.chip{padding:8px 12px;border-radius:999px;border:1px solid rgba(255,255,255,0.04);cursor:pointer;background:linear-gradient(90deg, rgba(255,255,255,0.01), transparent);transition:transform .18s, box-shadow .18s}
+.chip:hover{transform:translateY(-4px);box-shadow:0 14px 40px rgba(0,0,0,0.6)}
+
+/* job cards (3D tilt + neon) */
+.job-list{display:grid;gap:12px}
+.job-card{
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  border-radius:12px;padding:12px;border:1px solid rgba(255,255,255,0.04);display:flex;gap:12px;align-items:center;
+  transform-style:preserve-3d; transition:transform .3s cubic-bezier(.2,.9,.2,1), box-shadow .3s;
+  box-shadow:0 10px 30px rgba(0,0,0,0.5);
+}
+.job-card:hover{transform:translateY(-8px) rotateX(4deg) rotateY(-6deg);box-shadow:0 28px 80px rgba(0,0,0,0.7);border-color:rgba(96,165,250,0.18)}
+.logo-mini{width:64px;height:64px;border-radius:10px;background:linear-gradient(135deg,var(--accent2),var(--accent1));display:flex;align-items:center;justify-content:center;font-weight:800;color:#032}
+.job-meta{flex:1}
+.job-meta h3{margin:0;font-size:16px}
+.job-meta p{margin:6px 0 0 0;color:var(--muted);font-size:13px}
+.job-actions{display:flex;flex-direction:column;gap:8px}
+.apply-btn{padding:8px 12px;border-radius:10px;background:linear-gradient(90deg,var(--accent2),var(--accent1));color:#032;border:none;font-weight:800;cursor:pointer;box-shadow:0 12px 26px rgba(96,165,250,0.12);transition:transform .18s}
+.apply-btn:hover{transform:translateY(-4px)}
+
+/* ticker / circular feed */
+.ticker{margin-top:12px;padding:10px;border-radius:10px;background:linear-gradient(90deg, rgba(255,255,255,0.01), rgba(255,255,255,0.005));overflow:hidden;white-space:nowrap}
+.ticker .item{display:inline-block;margin-right:36px;color:var(--muted);font-weight:700}
+
+/* right panel */
+.side-card{padding:12px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));box-shadow:var(--soft-shadow);border:1px solid rgba(255,255,255,0.03)}
+.side-card h3{margin:0 0 8px 0}
+.icon-3d{width:88px;height:88px;border-radius:14px;background:linear-gradient(135deg,var(--accent3),var(--accent2));display:flex;align-items:center;justify-content:center;font-weight:900;color:#032;box-shadow:0 20px 50px rgba(0,0,0,0.6);transform-style:preserve-3d;animation:iconFloat 6s ease-in-out infinite}
+@keyframes iconFloat{0%{transform:translateY(0)}50%{transform:translateY(-14px)}100%{transform:translateY(0)}}
+
+/* small helpers */
+.small-muted{color:var(--muted);font-size:13px}
+.badge{padding:6px 10px;border-radius:999px;background:linear-gradient(90deg,var(--accent2),var(--accent1));color:#032;font-weight:800}
+
+/* popup apply modal */
+.modal{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%) scale(0.9);background:linear-gradient(180deg,rgba(255,255,255,0.02),rgba(255,255,255,0.01));backdrop-filter: blur(6px);border-radius:12px;padding:18px;box-shadow:0 30px 80px rgba(0,0,0,0.7);z-index:9999;opacity:0;transition:opacity .18s, transform .18s}
+.modal.show{opacity:1;transform:translate(-50%,-50%) scale(1)}
+.modal h3{margin:0 0 8px 0}
+.modal .actions{display:flex;gap:8px;margin-top:12px;justify-content:flex-end}
+
+/* responsive */
+@media(max-width:1100px){ .grid{grid-template-columns:1fr 360px} }
+@media(max-width:860px){ .grid{grid-template-columns:1fr} .right{order:2} .left{order:1} .hero-right{display:none} .header{flex-direction:column;align-items:flex-start} }
+
+</style>
 </head>
 <body>
-
-<header>
-  <h1>আজকের চাকরির বিজ্ঞপ্তি - ১৭ সেপ্টেম্বর ২০২৫</h1>
-</header>
-
-<div class="container">
-
-  <!-- Job Card 1 -->
-  <div class="job-card">
-    <img src="https://via.placeholder.com/300x200" alt="জব ১">
-    <div class="job-card-content">
-      <h3>বাংলাদেশ সেনাবাহিনী</h3>
-      <p><strong>পদ:</strong> ৪২তম (এএফএনএস) কমিশন</p>
-      <p><strong>আবেদন শেষ:</strong> ২ আগস্ট ২০২৫</p>
-      <a href="https://www.army.mil.bd/" class="apply-btn" target="_blank">আবেদন করুন</a>
-    </div>
+  <!-- BACKGROUND LAYERS -->
+  <div class="bg-wrap" aria-hidden="true">
+    <div class="bg-hero" id="bgHero"></div>
+    <div class="bg-gradient-rings"></div>
+    <div class="bg-pulse"></div>
+    <svg class="particles-svg" viewBox="0 0 800 600" preserveAspectRatio="none" id="svgParticles">
+      <!-- will be manipulated by JS for floating shapes -->
+      <defs>
+        <radialGradient id="g1"><stop offset="0" stop-color="#60a5fa" stop-opacity="0.9"/><stop offset="1" stop-color="#60a5fa" stop-opacity="0"/></radialGradient>
+      </defs>
+      <circle cx="120" cy="80" r="40" fill="url(#g1)"></circle>
+      <circle cx="600" cy="480" r="28" fill="rgba(255,154,162,0.14)"></circle>
+      <circle cx="420" cy="160" r="20" fill="rgba(110,231,183,0.12)"></circle>
+    </svg>
+    <div class="noise"></div>
   </div>
 
-  <!-- Job Card 2 -->
-  <div class="job-card">
-    <img src="https://via.placeholder.com/300x200" alt="জব ২">
-    <div class="job-card-content">
-      <h3>ঢাকা ম্যাস ট্রানজিট কোম্পানি লিমিটেড (DMTCL)</h3>
-      <p><strong>পদ:</strong> সহকারী ব্যবস্থাপক (রাজস্ব)</p>
-      <p><strong>আবেদন শেষ:</strong> ১৫ অক্টোবর ২০২৩</p>
-      <a href="https://dmtcl.gov.bd/" class="apply-btn" target="_blank">আবেদন করুন</a>
+  <!-- PAGE -->
+  <div class="container">
+    <div class="header">
+      <div class="logo">JC</div>
+      <div class="title">
+        <h1>Job & Circular Universe</h1>
+        <p>High-graphics job feed — 9D visuals, animated cards, and live circulars</p>
+        <div class="controls">
+          <button class="chip" id="toggleSound">🔔 Sound: Off</button>
+          <button class="chip" id="toggleRings">⭮ Rings: On</button>
+          <button class="chip" id="toggleParallax">✦ Parallax: On</button>
+        </div>
+      </div>
+      <div style="margin-left:12px">
+        <div class="icon-3d" id="notifyIcon" title="Notifications">🔔</div>
+      </div>
     </div>
+
+    <div class="grid">
+      <!-- LEFT: job feed -->
+      <div class="left">
+        <div class="job-area">
+          <div class="search-row">
+            <input id="searchBox" placeholder="Search job title, company or location...">
+            <select id="categorySelect" class="btn">
+              <option value="all">All Categories</option>
+              <option value="govt">Govt</option>
+              <option value="bank">Bank</option>
+              <option value="it">IT</option>
+              <option value="ngo">NGO</option>
+              <option value="private">Private</option>
+            </select>
+            <button id="refreshBtn" class="btn">Refresh</button>
+          </div>
+
+          <div class="filter-chips" id="filters">
+            <div class="chip" data-cat="govt">🏛 Govt</div>
+            <div class="chip" data-cat="bank">🏦 Bank</div>
+            <div class="chip" data-cat="it">💻 IT</div>
+            <div class="chip" data-cat="ngo">🤝 NGO</div>
+            <div class="chip" data-cat="private">🏢 Private</div>
+          </div>
+
+          <div class="ticker" id="ticker" aria-live="polite">
+            <span class="item">Latest: Government Circular — 2000+ posts this month!</span>
+            <span class="item">Bank Jobs: Apply by Sep 30</span>
+            <span class="item">IT: Remote Developer roles — 150 openings</span>
+            <span class="item">NGO: Field Officers required across regions</span>
+          </div>
+
+          <div class="job-list" id="jobList" style="margin-top:12px">
+            <!-- Job cards injected by JS -->
+          </div>
+
+        </div>
+      </div>
+
+      <!-- RIGHT: sidebar -->
+      <div class="right">
+        <div class="side-card">
+          <h3>Featured Circulars</h3>
+          <p class="small-muted">Hand-picked, high-priority openings</p>
+          <div style="display:flex;gap:10px;margin-top:12px;align-items:center">
+            <div class="icon-3d">★</div>
+            <div style="flex:1">
+              <strong>National Recruit 2025</strong>
+              <div class="small-muted">Apply by Oct 15</div>
+            </div>
+          </div>
+
+          <div style="margin-top:12px">
+            <h3>Top Contributors</h3>
+            <div id="leaderboard"></div>
+          </div>
+        </div>
+
+        <div class="side-card" style="margin-top:14px">
+          <h3>Quick Actions</h3>
+          <p class="small-muted">Fast filters & shortcuts</p>
+          <div style="display:flex;flex-direction:column;gap:8px;margin-top:10px">
+            <button id="postJob" class="btn accent">Post Circular</button>
+            <button id="subscribe" class="btn">Subscribe</button>
+            <button id="themeDemo" class="btn">Try 9D Theme</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODAL APPLY -->
+    <div class="modal" id="applyModal" role="dialog" aria-modal="true" aria-hidden="true">
+      <h3>Apply — Quick Apply</h3>
+      <p class="small-muted" id="applyMsg">You're one step away — confirm to submit a simulated application.</p>
+      <div class="actions" style="display:flex;justify-content:flex-end;margin-top:12px">
+        <button id="closeModal" class="btn">Close</button>
+        <button id="confirmApply" class="btn accent">Confirm</button>
+      </div>
+    </div>
+
+    <!-- CONFETTI LOTTIE (hidden until triggered) -->
+    <lottie-player id="confettiPlayer"
+      src="https://assets8.lottiefiles.com/packages/lf20_touohxv0.json"
+      background="transparent" speed="1" style="width:0;height:0;position:fixed;left:0;top:0;z-index:9999" autoplay loop></lottie-player>
+
   </div>
 
-  <!-- Job Card 3 -->
-  <div class="job-card">
-    <img src="https://via.placeholder.com/300x200" alt="জব ৩">
-    <div class="job-card-content">
-      <h3>জাপান ইন্টারন্যাশনাল কো-অপারেশন এজেন্সি (JICA)</h3>
-      <p><strong>পদ:</strong> প্রশাসনিক কর্মকর্তা</p>
-      <p><strong>আবেদন শেষ:</strong> ২৩ সেপ্টেম্বর ২০২৪</p>
-      <a href="https://www.jica.go.jp/bangladesh/english/office/others/recruitment.html" class="apply-btn" target="_blank">আবেদন করুন</a>
-    </div>
-  </div>
+<!-- ========== SCRIPTS: ALL ANIMATIONS & BEHAVIOR ========= -->
+<script>
+/* ========= Utility & small data ========= */
+const sampleJobs = [
+  {id:1,title:'Junior Software Engineer',company:'NovaTech',loc:'Dhaka',cat:'it',desc:'Full-time, Remote friendly',logo:'NT'},
+  {id:2,title:'Assistant Manager (Banking)',company:'FirstBank',loc:'Chittagong',cat:'bank',desc:'Branch operations',logo:'FB'},
+  {id:3,title:'Field Officer',company:'CareNGO',loc:'Sylhet',cat:'ngo',desc:'Community programs',logo:'CG'},
+  {id:4,title:'Govt Office Assistant',company:'PublicWorks',loc:'Rajshahi',cat:'govt',desc:'Clerical role',logo:'PW'},
+  {id:5,title:'UX Designer',company:'Studio9',loc:'Remote',cat:'it',desc:'Product team',logo:'S9'}
+];
+const leaderboardSample = [{n:'Ali',c:120},{n:'Bela',c:98},{n:'Rafi',c:72}];
 
-</div>
+/* ========= Background Parallax & Particles (SVG manipulation) ========= */
+const svg = document.getElementById('svgParticles');
+let svgW = 800, svgH = 600;
+function resizeSVG(){ const r = svg.getBoundingClientRect(); svgW = r.width; svgH = r.height; }
+window.addEventListener('resize', resizeSVG); resizeSVG();
+
+function floatParticles(){
+  // animate transform of circles, simple loop
+  const circles = svg.querySelectorAll('circle');
+  circles.forEach((c,i)=>{
+    const dx = Math.sin(Date.now()/3000 + i) * 40;
+    const dy = Math.cos(Date.now()/2500 + i*1.2) * 30;
+    c.setAttribute('cx', 120 + dx + (i*80));
+    c.setAttribute('cy', 80 + dy + (i*60));
+  });
+  requestAnimationFrame(floatParticles);
+}
+floatParticles();
+
+/* ========== Ticker ========== */
+const ticker = document.getElementById('ticker');
+function startTicker(){
+  let shift = 0;
+  setInterval(()=> {
+    shift -= 1.2;
+    ticker.scrollLeft = shift;
+    if(Math.abs(shift) > ticker.scrollWidth/2) shift = 0;
+  }, 40);
+}
+startTicker();
+
+/* ========== Job cards rendering (with 3D tilt on mouse) ========== */
+const jobList = document.getElementById('jobList');
+function renderJobs(jobs){
+  jobList.innerHTML = '';
+  jobs.forEach(j=>{
+    const card = document.createElement('div'); card.className = 'job-card';
+    card.innerHTML = `<div class="logo-mini">${j.logo}</div>
+      <div class="job-meta"><h3>${j.title}</h3><p>${j.company} • ${j.loc} — ${j.desc}</p></div>
+      <div class="job-actions"><button class="apply-btn" data-id="${j.id}">Apply</button><div class="small-muted" style="text-align:right">#${j.cat.toUpperCase()}</div></div>`;
+    jobList.appendChild(card);
+
+    // 3D tilt effect
+    card.addEventListener('mousemove', e=> {
+      const rect = card.getBoundingClientRect();
+      const x = e.clientX - rect.left; const y = e.clientY - rect.top;
+      const rx = (y - rect.height/2) / 20; const ry = (x - rect.width/2) / -20;
+      card.style.transform = `translateY(-6px) rotateX(${rx}deg) rotateY(${ry}deg)`;
+    });
+    card.addEventListener('mouseleave', ()=> { card.style.transform = ''; });
+
+    // hover glow accent
+    card.addEventListener('mouseenter', ()=> { card.style.boxShadow = '0 34px 90px rgba(0,0,0,0.75)'; });
+    card.addEventListener('mouseleave', ()=> { card.style.boxShadow = ''; });
+
+    // Apply button
+    card.querySelector('.apply-btn').addEventListener('click', (ev)=>{
+      ev.stopPropagation();
+      openModal(j.id);
+      // small confetti
+      playConfetti();
+    });
+  });
+}
+renderJobs(sampleJobs);
+
+/* ========== Filters & search ========= */
+document.getElementById('filters').addEventListener('click', e=>{
+  const chip = e.target.closest('.chip');
+  if(!chip) return;
+  const cat = chip.dataset.cat;
+  const filtered = sampleJobs.filter(s=> s.cat===cat );
+  renderJobs(filtered.length ? filtered : sampleJobs);
+});
+document.getElementById('refreshBtn').addEventListener('click', ()=> renderJobs(sampleJobs));
+document.getElementById('searchBox').addEventListener('input', e=>{
+  const q = e.target.value.toLowerCase();
+  const res = sampleJobs.filter(s=> (s.title+s.company+s.loc).toLowerCase().includes(q));
+  renderJobs(res);
+});
+
+/* ========== Leaderboard ========== */
+const lb = document.getElementById('leaderboard');
+leaderboardSample.forEach(p => {
+  const r = document.createElement('div'); r.style.display='flex'; r.style.gap='10px'; r.style.alignItems='center';
+  r.innerHTML = `<div style="width:44px;height:44px;border-radius:10px;background:linear-gradient(135deg,var(--accent2),var(--accent1));display:flex;align-items:center;justify-content:center;font-weight:800;color:#032">${p.n[0]}</div>
+    <div><strong>${p.n}</strong><div class="small-muted">+${p.c} shares</div></div>`;
+  lb.appendChild(r);
+});
+
+/* ========== Modal Apply logic ========= */
+const applyModal = document.getElementById('applyModal');
+const applyMsg = document.getElementById('applyMsg');
+function openModal(id){
+  const job = sampleJobs.find(s=>s.id===id);
+  if(job) applyMsg.textContent = `Apply to ${job.title} at ${job.company} — This is a demo 'quick apply'.`;
+  applyModal.classList.add('show'); applyModal.setAttribute('aria-hidden','false');
+}
+document.getElementById('closeModal').addEventListener('click', ()=>{ applyModal.classList.remove('show'); applyModal.setAttribute('aria-hidden','true'); });
+document.getElementById('confirmApply').addEventListener('click', ()=> {
+  applyModal.classList.remove('show'); applyModal.setAttribute('aria-hidden','true');
+  // small success toast
+  toast('Application submitted (demo). Good luck!');
+});
+
+/* ========== Toast helper ========= */
+function toast(msg){
+  const t = document.createElement('div'); t.textContent = msg; t.style.position='fixed'; t.style.right='20px'; t.style.bottom='30px';
+  t.style.background='linear-gradient(90deg,var(--accent2),var(--accent1))'; t.style.color='#032'; t.style.padding='10px 14px'; t.style.borderRadius='12px';
+  t.style.boxShadow='0 20px 60px rgba(0,0,0,0.6)'; document.body.appendChild(t);
+  setTimeout(()=> t.style.opacity='0',1800); setTimeout(()=> t.remove(),2400);
+}
+
+/* ========== Confetti via Lottie ========= */
+const confetti = document.getElementById('confettiPlayer');
+function playConfetti(){
+  confetti.style.width='480px'; confetti.style.height='480px'; confetti.style.left='calc(50% - 240px)'; confetti.style.top='10%'; confetti.style.position='fixed';
+  confetti.play();
+  setTimeout(()=>{ try{ confetti.stop() }catch(e){} confetti.style.width='0'; confetti.style.height='0'; },1800);
+}
+document.getElementById('confettiBtn')?.addEventListener('click', playConfetti);
+
+/* ========== Background hero subtle parallax on mouse ========== */
+const bgHero = document.getElementById('bgHero');
+let parallaxOn = true;
+document.getElementById('toggleParallax').addEventListener('click', (e)=>{ parallaxOn = !parallaxOn; e.target.textContent = '✦ Parallax: ' + (parallaxOn ? 'On' : 'Off'); });
+document.addEventListener('mousemove', e=>{
+  if(!parallaxOn) return;
+  const x = (e.clientX / window.innerWidth - 0.5) * 8; const y = (e.clientY / window.innerHeight - 0.5) * 6;
+  bgHero.style.transform = `translateX(${x}px) translateY(${y}px) scale(1.03)`;
+});
+
+/* ========== Rings toggle ========== */
+let ringsOn = true;
+document.getElementById('toggleRings').addEventListener('click', (e)=>{ ringsOn = !ringsOn; document.querySelector('.bg-gradient-rings').style.display = ringsOn ? 'block' : 'none'; e.target.textContent = '⭮ Rings: ' + (ringsOn ? 'On' : 'Off'); });
+
+/* ========== Notification & Sound (simple tone) ========= */
+let soundOn = false, audioCtx=null, osc=null;
+document.getElementById('toggleSound').addEventListener('click', function(){
+  soundOn = !soundOn; this.textContent = '🔔 Sound: ' + (soundOn ? 'On' : 'Off');
+  if(soundOn && !audioCtx){ audioCtx = new (window.AudioContext || window.webkitAudioContext)(); }
+});
+document.getElementById('notifyIcon').addEventListener('click', ()=>{ toast('No new notifications — demo.'); if(soundOn){ osc = audioCtx.createOscillator(); const g = audioCtx.createGain(); osc.type='sine'; osc.frequency.value=432; g.gain.value=0.02; osc.connect(g); g.connect(audioCtx.destination); osc.start(); setTimeout(()=>{ osc.stop(); }, 220); } });
+
+/* ========== PostJob / Subscribe (mock) ========= */
+document.getElementById('postJob').addEventListener('click', ()=> toast('Post form would open (demo)'));
+document.getElementById('subscribe').addEventListener('click', ()=> toast('Subscribed (demo)'));
+
+/* ========== Image controls - size & position ========== */
+const mainImg = document.getElementById('bgHero'); // using background hero image
+// There are no explicit sliders on this page; you can toggle features using controls above
+
+/* ========== Init: populate jobs & other UI ========== */
+renderJobs(sampleJobs);
+
+/* ========== Final small animation loops ========== */
+(function animateBackgroundGlow(){
+  // a subtle loop to slightly scale bgHero
+  let t=0;
+  setInterval(()=>{ t += 0.016; const s = 1 + 0.004 * Math.sin(t*1.2); mainImg.style.transform = `translateX(-50%) translateY(-10%) scale(${s})`; }, 60);
+})();
+
+/* ========= Console note ========= */
+console.log('Job & Circular Universe loaded — enjoy the 9D vibes!');
+</script>
 
 </body>
 </html>
