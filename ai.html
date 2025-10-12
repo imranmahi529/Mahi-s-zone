@@ -1,172 +1,151 @@
 <!DOCTYPE html>
 <html lang="bn">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Hyper 3D Photo Editor & Booth</title>
-  <style>
-    body, html {
-      margin: 0;
-      padding: 0;
-      height: 100%;
-      font-family: Arial, sans-serif;
-      overflow: hidden;
-      background: #02031a;
-      color: #fff;
-    }
-    h1 {
-      text-align: center;
-      margin: 20px 0;
-      color: #6ee7b7;
-      font-size: 2.5em;
-    }
-    .container {
-      width: 90%;
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 10px;
-      position: relative;
-      z-index: 2;
-    }
-    #video, #canvas {
-      border-radius: 20px;
-      display: block;
-      margin: 0 auto;
-      margin-bottom: 20px;
-    }
-    .controls {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 10px;
-      margin-bottom: 20px;
-    }
-    .controls button {
-      padding: 10px 15px;
-      background: linear-gradient(90deg, #60a5fa, #6ee7b7);
-      border: none;
-      border-radius: 10px;
-      color: #02031a;
-      font-weight: 600;
-      cursor: pointer;
-      transition: 0.3s;
-    }
-    .controls button:hover {
-      transform: scale(1.05);
-      box-shadow: 0 0 20px #6ee7b7;
-    }
-    #textInput {
-      padding: 8px 10px;
-      border-radius: 8px;
-      border: none;
-      width: 200px;
-      font-size: 1em;
-    }
-    .bg-wrap {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: -1;
-      overflow: hidden;
-    }
-    .bg-cube, .bg-particle {
-      position: absolute;
-      border-radius: 50%;
-      opacity: 0.7;
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hyper 3D Mega Photo Editor</title>
+<style>
+body, html {margin:0;padding:0;height:100%;overflow:hidden;font-family:Arial,sans-serif;background:#02031a;color:#fff;}
+h1{text-align:center;margin:20px 0;font-size:2.5em;color:#6ee7b7;}
+.container{width:90%;max-width:1200px;margin:0 auto;padding:10px;position:relative;z-index:2;}
+#canvas{border-radius:20px;display:block;margin:0 auto;margin-bottom:20px;background:#111;}
+.controls{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-bottom:20px;}
+.controls button, .controls input[type=file], .controls input[type=text]{padding:10px 15px;border:none;border-radius:10px;font-weight:600;cursor:pointer;transition:0.3s;}
+.controls button{background:linear-gradient(90deg,#60a5fa,#6ee7b7);color:#02031a;}
+.controls button:hover{transform:scale(1.05);box-shadow:0 0 20px #6ee7b7;}
+.controls input[type=file]{background:#6ee7b7;color:#02031a;}
+.controls input[type=text]{width:200px;}
+#threejs-container{position:fixed;top:0;left:0;width:100%;height:100%;z-index:-1;}
+</style>
 </head>
 <body>
 
-  <div class="bg-wrap" id="bgWrap"></div>
+<div id="threejs-container"></div>
 
-  <div class="container">
-    <h1>Hyper 3D Photo Editor & Booth</h1>
+<div class="container">
+<h1>Hyper 3D Mega Photo Editor</h1>
 
-    <video id="video" width="640" height="480" autoplay></video>
-    <canvas id="canvas" width="640" height="480"></canvas>
+<canvas id="canvas" width="800" height="600"></canvas>
 
-    <div class="controls">
-      <button onclick="applyFilter('none')">Normal</button>
-      <button onclick="applyFilter('grayscale(100%)')">B&W</button>
-      <button onclick="applyFilter('sepia(100%)')">Sepia</button>
-      <button onclick="applyFilter('contrast(150%) brightness(120%)')">Bright</button>
-      <button onclick="applyFilter('hue-rotate(90deg) saturate(150%)')">Neon</button>
-      <input type="text" id="textInput" placeholder="Type text">
-      <button onclick="addText()">Add Text</button>
-      <button onclick="takeSnapshot()">Snapshot</button>
-    </div>
+<div class="controls">
+<input type="file" id="imageUpload" accept="image/*">
+<button onclick="applyFilter('none')">Normal</button>
+<button onclick="applyFilter('grayscale(100%)')">B&W</button>
+<button onclick="applyFilter('sepia(100%)')">Sepia</button>
+<button onclick="applyFilter('contrast(150%) brightness(120%)')">Bright</button>
+<button onclick="applyFilter('hue-rotate(90deg) saturate(150%)')">Neon</button>
+<input type="text" id="textInput" placeholder="Type text">
+<button onclick="addText()">Add Text</button>
+<button onclick="enableDraw()">Draw</button>
+<button onclick="takeSnapshot()">Download</button>
+</div>
+</div>
 
-  </div>
+<!-- Three.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r152/three.min.js"></script>
 
-  <script>
-    const video = document.getElementById('video');
-    const canvas = document.getElementById('canvas');
-    const ctx = canvas.getContext('2d');
-    navigator.mediaDevices.getUserMedia({ video: true }).then(stream => { video.srcObject = stream; });
+<script>
+const canvas=document.getElementById('canvas');
+const ctx=canvas.getContext('2d');
+let img=new Image();
+let drawing=false;
 
-    function draw() {
-      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-      requestAnimationFrame(draw);
+// Upload image
+document.getElementById('imageUpload').addEventListener('change',function(e){
+  const file=e.target.files[0];
+  if(file){
+    const reader=new FileReader();
+    reader.onload=function(ev){
+      img.src=ev.target.result;
+      img.onload=function(){ctx.drawImage(img,0,0,canvas.width,canvas.height);}
     }
-    draw();
+    reader.readAsDataURL(file);
+  }
+});
 
-    function applyFilter(filter) {
-      canvas.style.filter = filter;
-    }
+// Filters
+function applyFilter(filter){canvas.style.filter=filter;}
 
-    function addText() {
-      const text = document.getElementById('textInput').value;
-      if (text) {
-        ctx.fillStyle = 'white';
-        ctx.font = '30px Arial';
-        ctx.fillText(text, 50, 50);
-      }
-    }
+// Text overlay
+function addText(){
+  const text=document.getElementById('textInput').value;
+  if(text){
+    ctx.font='40px Arial';
+    ctx.fillStyle='white';
+    ctx.fillText(text,50,50);
+  }
+}
 
-    function takeSnapshot() {
-      const link = document.createElement('a');
-      link.download = 'photo.png';
-      link.href = canvas.toDataURL('image/png');
-      link.click();
-      confetti();
-    }
+// Draw tool
+function enableDraw(){
+  canvas.addEventListener('mousedown',()=>{drawing=true;});
+  canvas.addEventListener('mouseup',()=>{drawing=false;ctx.beginPath();});
+  canvas.addEventListener('mousemove',drawBrush);
+}
+function drawBrush(e){
+  if(!drawing)return;
+  ctx.lineWidth=5;
+  ctx.strokeStyle='cyan';
+  ctx.lineCap='round';
+  ctx.lineTo(e.offsetX,e.offsetY);
+  ctx.stroke();
+  ctx.beginPath();
+  ctx.moveTo(e.offsetX,e.offsetY);
+}
 
-    function confetti() {
-      for (let i = 0; i < 50; i++) {
-        const c = document.createElement('div');
-        c.style.position = 'fixed';
-        c.style.width = '6px';
-        c.style.height = '6px';
-        c.style.background = ['#6ee7b7', '#60a5fa', '#ff9aa2', '#ffdc7f'][Math.floor(Math.random() * 4)];
-        c.style.left = Math.random() * 100 + 'vw';
-        c.style.top = Math.random() * 100 + 'vh';
-        c.style.borderRadius = '50%';
-        c.style.zIndex = '9999';
-        c.style.pointerEvents = 'none';
-        document.body.appendChild(c);
-        setTimeout(() => { c.remove(); }, 2000);
-      }
-    }
+// Snapshot with watermark
+function takeSnapshot(){
+  ctx.font='20px Arial';
+  ctx.fillStyle='rgba(255,255,255,0.6)';
+  ctx.fillText('Imran Hussain Mahi',canvas.width-220,canvas.height-20);
+  const link=document.createElement('a');
+  link.download='edited_photo.png';
+  link.href=canvas.toDataURL('image/png');
+  link.click();
+}
 
-    const bgWrap = document.getElementById('bgWrap');
-    for (let i = 0; i < 30; i++) {
-      const cube = document.createElement('div');
-      cube.className = 'bg-cube';
-      cube.style.width = cube.style.height = (Math.random() * 50 + 20) + 'px';
-      cube.style.background = ['#6ee7b7', '#60a5fa', '#ff9aa2', '#ffdc7f'][Math.floor(Math.random() * 4)];
-      cube.style.left = Math.random() * 100 + 'vw';
-      cube.style.top = Math.random() * 100 + 'vh';
-      cube.style.animation = `floatCube ${Math.random() * 10 + 5}s linear infinite alternate`;
-      bgWrap.appendChild(cube);
-    }
+// === Three.js Hyper 3D Background ===
+const container=document.getElementById('threejs-container');
+const scene=new THREE.Scene();
+const camera=new THREE.PerspectiveCamera(75,window.innerWidth/window.innerHeight,0.1,1000);
+const renderer=new THREE.WebGLRenderer({alpha:true});
+renderer.setSize(window.innerWidth,window.innerHeight);
+container.appendChild(renderer.domElement);
 
-    const style = document.createElement('style');
-    style.innerHTML = `@keyframes floatCube { 0% { transform: translateY(0px) rotateX(0deg); } 100% { transform: translateY(-200px) rotateX(360deg) rotateY(360deg); } }`;
-    document.head.appendChild(style);
-  </script>
+const geometry=new THREE.TorusKnotGeometry(10,3,100,16);
+const material=new THREE.MeshStandardMaterial({color:0x6ee7b7,wireframe:false,emissive:0x00ffff,emissiveIntensity:0.5});
+const torusKnot=new THREE.Mesh(geometry,material);
+scene.add(torusKnot);
+
+const ambientLight=new THREE.AmbientLight(0xffffff,0.5);
+scene.add(ambientLight);
+const pointLight=new THREE.PointLight(0x60a5fa,1);
+pointLight.position.set(50,50,50);
+scene.add(pointLight);
+
+camera.position.z=50;
+
+// Floating particles
+const particles=new THREE.BufferGeometry();
+const particleCount=500;
+const positions=new Float32Array(particleCount*3);
+for(let i=0;i<particleCount*3;i++){positions[i]=(Math.random()-0.5)*200;}
+particles.setAttribute('position',new THREE.BufferAttribute(positions,3));
+const pMaterial=new THREE.PointsMaterial({color:0xff9aa2,size:1.5});
+const particleSystem=new THREE.Points(particles,pMaterial);
+scene.add(particleSystem);
+
+function animate(){
+  requestAnimationFrame(animate);
+  torusKnot.rotation.x+=0.01;
+  torusKnot.rotation.y+=0.01;
+  particleSystem.rotation.y+=0.002;
+  renderer.render(scene,camera);
+}
+animate();
+
+window.addEventListener('resize',()=>{camera.aspect=window.innerWidth/window.innerHeight;camera.updateProjectionMatrix();renderer.setSize(window.innerWidth,window.innerHeight);});
+</script>
 
 </body>
 </html>
