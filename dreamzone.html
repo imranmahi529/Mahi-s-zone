@@ -1,360 +1,453 @@
 <!doctype html>
-
 <html lang="bn">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Dream Zone — Joy & Peace</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
-  <style>
-    :root{--bg:#071022;--card:#081428;--muted:#a6bac7;--accent:#6ee7b7;--accent2:#60a5fa}
-    *{box-sizing:border-box;font-family:Inter,system-ui,Segoe UI,Roboto,Arial}
-    html,body{height:100%}
-    body{margin:0;background:radial-gradient(circle at 10% 10%, #0b2540 0%, #071022 40%, #020612 100%);color:#eaf6f8;padding:20px}
-    .wrap{max-width:1100px;margin:0 auto}
-    header{display:flex;gap:14px;align-items:center;margin-bottom:18px}
-    .logo{width:64px;height:64px;border-radius:12px;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;font-weight:800;color:#042}
-    h1{margin:0;font-size:20px}
-    p.lead{margin:0;color:var(--muted)}/* hero */
-.hero{display:flex;gap:18px;align-items:center;padding:16px;border-radius:14px;background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.01));border:1px solid rgba(255,255,255,.04);box-shadow:0 18px 40px rgba(1,6,20,.6)}
-.hero .left{width:320px}
-.hero img{width:100%;height:180px;object-fit:cover;border-radius:10px;filter:contrast(1.03) saturate(1.05);transform:translateZ(0);transition:transform .35s ease;box-shadow:0 12px 30px rgba(2,8,20,.6)}
-.hero img:hover{transform:scale(1.03) rotateZ(-1deg)}
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Dream Zone — Full Graphics Pack (All-in-One)</title>
 
-/* layout grid */
-.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin-top:18px}
-.card{background:linear-gradient(180deg,rgba(255,255,255,.02),rgba(255,255,255,.01));border:1px solid rgba(255,255,255,.04);padding:14px;border-radius:12px;box-shadow:0 10px 30px rgba(2,6,23,.5);overflow:hidden}
-.muted{color:var(--muted);font-size:13px}
-h2{margin:0 0 8px 0;font-size:16px}
-
-/* Joy Ride: balloons + mood */
-.sky{position:relative;height:160px;background:linear-gradient(180deg,#07192b,#052033);border-radius:10px;overflow:hidden}
-.balloon{position:absolute;bottom:-120px;width:60px;height:80px;border-radius:50% 50% 50% 50%/60% 60% 40% 40%;display:flex;align-items:center;justify-content:center;font-weight:700;color:#022}
-.string{position:absolute;left:50%;width:2px;height:80px;background:rgba(255,255,255,.06);transform:translateX(-50%);top:80px}
-
-/* Dream Garden */
-.garden{position:relative;height:160px;background:linear-gradient(180deg,#021218,#021826);border-radius:10px;overflow:hidden;cursor:pointer;display:flex;align-items:center;justify-content:center}
-.flower{position:absolute;bottom:12px;transform-origin:center bottom;transition:transform .4s cubic-bezier(.2,.9,.2,1),opacity .4s}
-
-/* Smile Mirror */
-.mirror{height:120px;border-radius:10px;background:linear-gradient(180deg,rgba(255,255,255,.02),transparent);display:flex;align-items:center;justify-content:center;padding:10px;text-align:center}
-
-/* Peace Zone */
-.breath{display:flex;gap:12px;align-items:center}
-.breath-circle{width:120px;height:120px;border-radius:999px;background:linear-gradient(135deg,rgba(110,231,183,.12),rgba(96,165,250,.08));display:flex;align-items:center;justify-content:center;font-weight:700;color:#022;transition:transform 1s ease}
-.breath-controls{display:flex;flex-direction:column;gap:8px}
-
-/* Art Wall */
-.canvas-wrap{border-radius:8px;overflow:hidden;border:1px solid rgba(255,255,255,.04)}
-canvas{display:block;width:100%;height:300px;background:linear-gradient(180deg,#021320,#061826)}
-.tools{display:flex;gap:8px;margin-top:8px;align-items:center}
-
-/* badges */
-.badge{display:inline-block;padding:6px 10px;border-radius:999px;background:linear-gradient(90deg,var(--accent2),var(--accent));color:#022;font-weight:700}
-
-@media(max-width:980px){.grid{grid-template-columns:1fr}.hero{flex-direction:column}.hero .left{width:100%}.canvas-wrap canvas{height:220px}}
-
-  </style>
-</head>
-<body>
-  <div class="wrap">
-    <header>
-      <div class="logo">DZ</div>
-      <div>
-        <h1>Dream Zone — আনন্দ, শান্তি ও মজা</h1>
-        <p class="lead muted">একটা সুন্দর, ইন্টারঅ্যাকটিভ পেজ — ফুল ফুটবে, হাসি ছড়াবে, শ্বাস-প্রশ্বাস শিখাবে, আঁকবে আর মুড বদলে দেবে।</p>
-      </div>
-    </header><!-- HERO with provided image (explicitly included) -->
-<section class="hero card">
-  <div class="left">
-    <img src="https://raw.githubusercontent.com/imranmahi529/Mahi-s-zone/refs/heads/main/Gemini_Generated_Image_1boe9n1boe9n1boe.png" alt="Dream Hero">
-  </div>
-  <div style="flex:1">
-    <h2>স্বাগতম — ঘরোয়া খুশির জায়গা</h2>
-    <p class="muted">এই জায়গায় ঢুকলেই মন হালকা হবে — তুমি চাইলে সাউন্ড চালাতে পারবে, মুড চেঞ্জ করতে পারবে এবং সবকিছু নিজের মতো সাজাতে পারবে।</p>
-    <div style="margin-top:10px;display:flex;gap:8px;align-items:center">
-      <button class="badge" id="toggleSound">🔊 সাউন্ড চালাও</button>
-      <button class="badge" id="resetAll">♻️ Reset</button>
-    </div>
-  </div>
-</section>
-
-<div class="grid">
-  <!-- Joy Ride -->
-  <div class="card">
-    <h2>🎡 Joy Ride — Mood Play</h2>
-    <p class="muted">মুচকি হাওয়া, বেলুন উড়া — মুড সিলেক্ট করলে ব্যাকগ্রাউন্ড রঙ ও এনিমেশন বদলাবে।</p>
-    <div style="margin-top:10px;display:flex;gap:8px;align-items:center">
-      <select id="moodSelect">
-        <option value="happy">😍 Happy</option>
-        <option value="calm">😌 Calm</option>
-        <option value="excited">🤩 Excited</option>
-        <option value="relax">🧘 Relax</option>
-      </select>
-      <button class="badge" id="popBalloons">🎈 Pop 5</button>
-    </div>
-    <div class="sky" id="sky"></div>
-  </div>
-
-  <!-- Dream Garden -->
-  <div class="card">
-    <h2>🌸 Dream Garden</h2>
-    <p class="muted">ক্লিক করলে ফুল ফুটবে। ফুল যত বেশি, তত তোমার "Positive Meter" বাড়বে।</p>
-    <div class="garden" id="garden">Click here to grow a flower</div>
-    <div style="margin-top:10px"><span class="muted">Positive Meter:</span> <span id="meterVal" class="badge">0</span></div>
-  </div>
-
-  <!-- Smile Mirror -->
-  <div class="card">
-    <h2>😁 Smile Mirror</h2>
-    <p class="muted">প্রতি কয়েক সেকেন্ডে মজার লাইনে-লাইনে হাসি ছড়াবে — তোমার হাসি পয়েন্ট জমবে।</p>
-    <div class="mirror" id="mirror">Have a smile — sit back and watch!</div>
-    <div style="margin-top:8px"><small class="muted">Happiness Points: </small> <span id="happyPoints" class="badge">0</span></div>
-  </div>
-
-  <!-- Peace Zone -->
-  <div class="card">
-    <h2>🌿 Peace Zone — Breathe</h2>
-    <p class="muted">একটা সহজ guided breathing exercise — circle ফুলবে/ছোট হবে, ওর সাথে শ্বাস-প্রশ্বাস করো।</p>
-    <div class="breath">
-      <div class="breath-circle" id="breathCircle">Breathe</div>
-      <div class="breath-controls">
-        <button class="badge" id="startBreath">Start</button>
-        <button class="badge" id="stopBreath">Stop</button>
-        <small class="muted">Tempo: <input id="breathSpeed" type="range" min="3" max="8" value="5"></small>
-      </div>
-    </div>
-  </div>
-
-  <!-- Dream Art Wall -->
-  <div class="card" style="grid-column:1/3">
-    <h2>🎨 Dream Art Wall</h2>
-    <p class="muted">কাগজে আঁকার মতো স্ক্রিনে আঁকো — শেষে সেভ করে রাখো।</p>
-    <div class="canvas-wrap">
-      <canvas id="artCanvas"></canvas>
-    </div>
-    <div class="tools">
-      <label class="muted">Color: <input type="color" id="paintColor" value="#ff66a3"></label>
-      <label class="muted">Size: <input type="range" id="paintSize" min="1" max="40" value="8"></label>
-      <button class="badge" id="clearCanvas">Clear</button>
-      <button class="badge" id="saveCanvas">Save Image</button>
-    </div>
-  </div>
-
-</div>
-
-<footer style="margin-top:18px;color:var(--muted)">শুধু মজার জন্য — যদি প্রোডাকশনে নিতে চাও সাউন্ড ফাইল, map API বা গ্যালারি সেভিং যোগ করব।</footer>
-
-  </div>  <script>
-    // Ensure provided image exists: user asked image not to be forgotten
-    // Joy Ride: balloons and mood
-    const sky = document.getElementById('sky');
-    const moods = {
-      happy: {bg:['#ffecd2','#fcb69f'],balloonColors:['#ff9a9e','#ffc3a0','#ffd29a']},
-      calm: {bg:['#dbeafe','#c7f9cc'],balloonColors:['#a7f3d0','#bef264','#86efac']},
-      excited: {bg:['#fff1b6','#ffd6a5'],balloonColors:['#fda4af','#ffd166','#f6d365']},
-      relax: {bg:['#e0f2fe','#e6fffa'],balloonColors:['#9be7ff','#bde0fe','#cfe9ff']}
-    };
-    function setMood(m){
-      const mdata = moods[m]||moods.happy;
-      document.body.style.background = `radial-gradient(circle at 10% 10%, ${mdata.bg[0]} 0%, ${mdata.bg[1]} 40%, #020612 100%)`;
-      // spawn soft balloons
-      sky.innerHTML='';
-      for(let i=0;i<6;i++){
-        const b = document.createElement('div'); b.className='balloon';
-        const left = 8 + i*14 + Math.random()*8; b.style.left = left+'%'; b.style.background = mdata.balloonColors[i % mdata.balloonColors.length];
-        b.style.animation = `float ${6+Math.random()*6}s ease-in infinite`; b.style.transition='transform .4s';
-        const s = document.createElement('div'); s.className='string'; b.appendChild(s);
-        sky.appendChild(b);
-      }
-    }
-    // balloon float animation via CSS inserted dynamically
-    const style = document.createElement('style'); style.textContent = `@keyframes float{0%{transform:translateY(0) }100%{transform:translateY(-380px)}}`; document.head.appendChild(style);
-    document.getElementById('moodSelect').addEventListener('change',e=>setMood(e.target.value));
-    document.getElementById('popBalloons').addEventListener('click',()=>{sky.innerHTML='';});
-    setMood('happy');
-
-    // Dream Garden
-    const garden = document.getElementById('garden'); let meter=0; const meterVal = document.getElementById('meterVal');
-    garden.addEventListener('click',e=>{
-      const x = Math.random()*80+10; const sz = 40 + Math.random()*60; const col = `hsl(${Math.random()*60+260},80%,65%)`;
-      const f = document.createElement('div'); f.className='flower'; f.style.left = x+'%'; f.style.width = sz+'px'; f.style.height = sz+'px'; f.style.opacity=0; f.style.transform='scale(0.3)';
-      f.innerHTML = '🌸'; f.style.fontSize = (sz*0.6)+'px'; garden.appendChild(f);
-      requestAnimationFrame(()=>{f.style.opacity=1; f.style.transform='scale(1)';});
-      meter = Math.min(999, meter+1); meterVal.textContent = meter; saveState();
-    });
-
-    // Smile Mirror
-    const jokes = [
-      'আজ তুমি চেয়ারকে জিজ্ঞেস করো—"কি বলো?" চেয়ার হলো— "সিট-ইডিয়াল!" 😄',
-      'একটি কৌতুক: পেঁচা রাতে বই পড়ল — কারণ সে "বুকওয়ার্ম" ছিল! 😂',
-      'হাসি ছড়াও: ছোট্ট জোক: কেন চাঁদ স্কুলে যায় না? কারণ সে রাতভ্রমি! 🌝'
-    ];
-    const mirror = document.getElementById('mirror'); let happyPoints=0; const happyPointsEl=document.getElementById('happyPoints');
-    function rotateJoke(){ const j = jokes[Math.floor(Math.random()*jokes.length)]; mirror.textContent = j; happyPoints+=5; happyPointsEl.textContent = happyPoints; saveState(); }
-    rotateJoke(); setInterval(rotateJoke,7000);
-
-    // Peace Zone - breathing (visual + audio via WebAudio)
-    let breathInterval=null; const breathCircle=document.getElementById('breathCircle');
-    function startBreath(){ stopBreath(); const speed = Number(document.getElementById('breathSpeed').value); let phase=0; breathInterval = setInterval(()=>{
-        // phase cycles 0..1
-        phase = (phase+1/(speed*2)) % 1;
-        const scale = 1 + 0.6*Math.sin(phase*Math.PI*2);
-        breathCircle.style.transform = `scale(${scale})`;
-      }, 1000/30);
-      // optionally use gentle tone
-      startSoundTone();
-    }
-    function stopBreath(){ if(breathInterval){ clearInterval(breathInterval); breathInterval=null; breathCircle.style.transform='scale(1)'; stopSoundTone(); } }
-    document.getElementById('startBreath').addEventListener('click',startBreath);
-    document.getElementById('stopBreath').addEventListener('click',stopBreath);
-
-    // Art Wall
-    const canvas = document.getElementById('artCanvas'); const ctx = canvas.getContext('2d');
-    function resizeCanvas(){ const r = canvas.getBoundingClientRect(); canvas.width = r.width*devicePixelRatio; canvas.height = r.height*devicePixelRatio; canvas.style.width = r.width+'px'; canvas.style.height = r.height+'px'; ctx.scale(devicePixelRatio,devicePixelRatio); }
-    function clearCanvas(){ ctx.clearRect(0,0,canvas.width,canvas.height); }
-    function saveCanvasImage(){ const data = canvas.toDataURL('image/png'); const a = document.createElement('a'); a.href = data; a.download = 'dream-art.png'; a.click(); }
-    window.addEventListener('resize',resizeCanvas); resizeCanvas(); clearCanvas();
-    let drawing=false; function getPos(e){ const r=canvas.getBoundingClientRect(); const x = (e.clientX||e.touches[0].clientX)-r.left; const y = (e.clientY||e.touches[0].clientY)-r.top; return {x,y}; }
-    canvas.addEventListener('pointerdown',e=>{ drawing=true; const p=getPos(e); ctx.beginPath(); ctx.lineCap='round'; ctx.lineJoin='round'; ctx.moveTo(p.x,p.y); });
-    canvas.addEventListener('pointermove',e=>{ if(!drawing) return; const p=getPos(e); ctx.lineWidth = Number(document.getElementById('paintSize').value); ctx.strokeStyle = document.getElementById('paintColor').value; ctx.lineTo(p.x,p.y); ctx.stroke(); });
-    canvas.addEventListener('pointerup',e=>{ drawing=false; });
-    document.getElementById('clearCanvas').addEventListener('click', ()=>{ if(confirm('Clear drawing?')) clearCanvas(); });
-    document.getElementById('saveCanvas').addEventListener('click', saveCanvasImage);
-
-    // Local state save/load
-    function saveState(){ const state = {meter, happyPoints}; localStorage.setItem('dream_state', JSON.stringify(state)); }
-    function loadState(){ const s = JSON.parse(localStorage.getItem('dream_state')||'{}'); if(s.meter) meter=s.meter; meterVal.textContent=meter; if(s.happyPoints) happyPoints=s.happyPoints; happyPointsEl.textContent=happyPoints; }
-    loadState();
-
-    // Gentle sound engine (simple oscillator) toggled by header button
-    let audioCtx=null; let osc=null; let gain=null; let soundOn=false;
-    function startSoundTone(){ if(!soundOn) return; if(!audioCtx) audioCtx = new (window.AudioContext||window.webkitAudioContext)(); osc = audioCtx.createOscillator(); gain = audioCtx.createGain(); osc.type='sine'; osc.frequency.value = 220; gain.gain.value = 0.02; osc.connect(gain); gain.connect(audioCtx.destination); osc.start(); }
-    function stopSoundTone(){ if(osc){ try{osc.stop(); }catch(e){} osc.disconnect(); osc=null;} if(gain){ gain.disconnect(); gain=null; } }
-    document.getElementById('toggleSound').addEventListener('click', ()=>{
-      soundOn = !soundOn; document.getElementById('toggleSound').textContent = soundOn? '🔈 সাউন্ড বন্ধ কর':'🔊 সাউন্ড চালাও'; if(soundOn){ if(audioCtx && audioCtx.state==='suspended') audioCtx.resume(); startSoundTone(); } else { stopSoundTone(); }
-    });
-
-    // reset
-    document.getElementById('resetAll').addEventListener('click',()=>{ if(confirm('Reset all Dream Zone state?')){ localStorage.removeItem('dream_state'); localStorage.removeItem('dream_journal'); localStorage.removeItem('dream_board'); localStorage.removeItem('dream_pins'); localStorage.removeItem('dream_goals'); location.reload(); } });
-
-<!-- === Dream Zone Graphics Edition === -->
-<!-- Author: Mahi + ChatGPT -->
-
-<!-- Load Lottie and particles.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.7.4/lottie.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+<!-- Lottie for confetti -->
+<script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
 
 <style>
-  /* Smooth color transition */
-  body {
-    animation: colorShift 10s infinite alternate ease-in-out;
+  /* ===== Global theme & helpers ===== */
+  :root{
+    --bg1:#071022; --bg2:#021126;
+    --card: rgba(255,255,255,0.03);
+    --muted:#9fb1c0;
+    --accent1:#60a5fa; --accent2:#6ee7b7;
+    --trans: 1s;
   }
-  @keyframes colorShift {
-    0% { background-color: #060b28; }
-    50% { background-color: #102044; }
-    100% { background-color: #1c1444; }
-  }
+  *{box-sizing:border-box;font-family:Inter,system-ui,Segoe UI,Roboto,Arial}
+  html,body{height:100%;margin:0;background:radial-gradient(circle at 10% 10%, var(--bg1) 0%, var(--bg2) 40%, #000 100%);transition:background var(--trans) ease}
+  body{color:#eaf6f8;padding:18px;display:flex;justify-content:center}
+  .wrap{width:100%;max-width:1250px}
+  header{display:flex;align-items:center;gap:12px}
+  .logo{width:68px;height:68px;border-radius:12px;background:linear-gradient(135deg,var(--accent2),var(--accent1));display:flex;align-items:center;justify-content:center;font-weight:900;color:#032}
+  h1{margin:0;font-size:20px}
+  .muted{color:var(--muted);font-size:13px}
+  .btn{background:transparent;border:1px solid rgba(255,255,255,0.06);padding:8px 12px;border-radius:10px;color:#eaf6f8;cursor:pointer;font-weight:700}
+  .accent{background:linear-gradient(90deg,var(--accent2),var(--accent1));color:#032;border:none}
 
-  /* Neon hover effects */
-  .card:hover {
-    box-shadow: 0 0 20px #00fff2, 0 0 40px #0077ff inset;
-    transform: scale(1.02);
-    transition: all 0.5s ease;
-  }
+  /* ===== hero (image + particle + controls) ===== */
+  .hero{display:flex;gap:18px;align-items:center;margin-top:14px;padding:14px;border-radius:14px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border:1px solid rgba(255,255,255,0.03);position:relative;overflow:hidden}
+  .hero-left{width:420px;min-width:260px;position:relative;display:flex;flex-direction:column;gap:8px}
+  .hero-left .img-wrap{border-radius:12px;overflow:hidden;box-shadow:0 18px 50px rgba(0,0,0,.6);background:linear-gradient(180deg,#022 0%, #001 100%)}
+  .hero-left img{width:100%;height:auto;display:block;transition:transform .6s ease, filter .6s ease}
+  .hero-left .controls{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:6px}
+  .hero-right{flex:1;z-index:3}
 
-  /* 3D rotating badge */
-  #badge3D {
-    width: 100px;
-    height: 100px;
-    margin: 0 auto;
-    background: linear-gradient(135deg, #6ee7b7, #60a5fa);
-    border-radius: 50%;
-    animation: spin 6s linear infinite, glow 1s alternate infinite;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 30px;
-    font-weight: bold;
-    color: #042;
-    text-shadow: 0 0 10px #fff;
-  }
-  @keyframes spin {
-    from { transform: rotateY(0deg); }
-    to { transform: rotateY(360deg); }
-  }
-  @keyframes glow {
-    from { box-shadow: 0 0 10px #6ee7b7; }
-    to { box-shadow: 0 0 30px #60a5fa; }
-  }
+  /* particles canvas sits under hero image */
+  .hero-canvas{position:absolute;left:0;top:0;width:100%;height:100%;pointer-events:none;z-index:0;mix-blend-mode:screen;opacity:0.9}
 
-  /* Particles container */
-  #particles-js {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -1;
-  }
+  /* 3D badge */
+  .badge-wrap{margin-left:auto;display:flex;align-items:center}
+  .badge{width:96px;height:96px;border-radius:18px;background:linear-gradient(135deg,var(--accent1),var(--accent2));display:flex;align-items:center;justify-content:center;font-weight:900;color:#032;transform-style:preserve-3d;animation:badgeRot 10s linear infinite;box-shadow:0 22px 60px rgba(0,0,0,.6)}
+  @keyframes badgeRot{ 0%{transform:rotateX(0) rotateY(0)} 50%{transform:rotateX(18deg) rotateY(180deg)} 100%{transform:rotateX(0) rotateY(360deg)} }
 
-  /* Confetti animation box */
-  #confettiBox {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-  }
+  /* grid layout for core features */
+  .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin-top:18px}
+  .card{background:var(--card);padding:14px;border-radius:12px;border:1px solid rgba(255,255,255,0.03);box-shadow:0 12px 46px rgba(0,0,0,.5);position:relative;overflow:hidden}
+  .card h2{margin:0 0 8px 0}
+  .small-muted{color:var(--muted);font-size:13px}
+
+  /* Joy Ride / Balloons */
+  .sky{height:160px;border-radius:10px;background:linear-gradient(180deg,#04162b,#052033);position:relative;overflow:hidden}
+  .balloon{position:absolute;bottom:-140px;width:56px;height:74px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;color:#032;box-shadow:0 10px 24px rgba(0,0,0,.45);transition:transform .4s}
+  .balloon .string{position:absolute;top:60px;height:80px;width:2px;background:rgba(255,255,255,0.04);left:50%;transform:translateX(-50%)}
+
+  /* Garden */
+  .garden{height:160px;border-radius:10px;background:linear-gradient(180deg,#021219,#021826);display:flex;align-items:center;justify-content:center;cursor:pointer;user-select:none;position:relative}
+  .flower{position:absolute;bottom:12px;transform-origin:center bottom;transition:transform .4s,opacity .4s}
+
+  /* Mirror */
+  .mirror{height:120px;border-radius:10px;background:linear-gradient(180deg,#061826,#052033);display:flex;align-items:center;justify-content:center;padding:12px;text-align:center;font-size:16px}
+
+  /* Peace zone */
+  .breath-wrap{display:flex;gap:12px;align-items:center}
+  .breath-circle{width:110px;height:110px;border-radius:999px;background:radial-gradient(circle at 30% 30%, rgba(110,231,183,0.14), rgba(96,165,250,0.09));display:flex;align-items:center;justify-content:center;font-weight:700;transition:transform 1s ease}
+
+  /* Art canvas */
+  .canvas-wrap{border-radius:10px;overflow:hidden;border:1px solid rgba(255,255,255,0.02)}
+  canvas{display:block;width:100%;height:320px;background:linear-gradient(180deg,#021320,#061826);}
+
+  /* Extended: mosaic, leaderboard, icons */
+  .mosaic{display:grid;grid-template-columns:repeat(8,1fr);gap:6px}
+  .tile{background:#071028;height:60px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:12px;color:var(--muted);cursor:pointer;transition:transform .18s}
+  .tile:hover{transform:scale(1.06)}
+  .leader{display:flex;flex-direction:column;gap:8px}
+  .rank{display:flex;align-items:center;gap:12px;padding:8px;border-radius:10px;background:linear-gradient(180deg,rgba(255,255,255,.02),transparent);box-shadow:0 8px 24px rgba(0,0,0,.4)}
+
+  /* Graphics Library (100 tiles) */
+  .lib{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;margin-top:12px}
+  .lib .g{height:120px;border-radius:10px;background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent);display:flex;align-items:center;justify-content:center;flex-direction:column;padding:8px;cursor:pointer;transition:transform .22s, box-shadow .22s}
+  .g:hover{transform:translateY(-8px);box-shadow:0 30px 60px rgba(0,0,0,.6)}
+  .g .label{font-size:12px;color:var(--muted);margin-top:6px}
+
+  /* neon buttons */
+  .neon{padding:8px 12px;border-radius:10px;background:transparent;border:1px solid rgba(255,255,255,0.06);color:#eaf6f8}
+  .neon:hover{box-shadow:0 12px 30px rgba(96,165,250,0.18), 0 0 12px rgba(110,231,183,0.08);transform:translateY(-4px)}
+
+  @media(max-width:980px){ .grid{grid-template-columns:1fr} .mosaic{grid-template-columns:repeat(4,1fr)} .hero{flex-direction:column} .hero-left{width:100%} }
 </style>
+</head>
+<body>
 
-<!-- Particle background -->
-<div id="particles-js"></div>
+<div class="wrap">
+  <header>
+    <div class="logo">DZ</div>
+    <div>
+      <h1>Dream Zone — Full Graphics Pack</h1>
+      <div class="muted">(আপনি যাঁগুলো চেয়েছিলেন — সবকিছু একসাথে করা হয়েছে।)</div>
+    </div>
+    <div class="badge-wrap" style="margin-left:auto">
+      <div class="badge" title="Dream Zone">DZ</div>
+    </div>
+  </header>
 
-<!-- 3D rotating badge -->
-<div style="text-align:center; margin: 40px 0;">
-  <div id="badge3D">DZ</div>
-  <p style="color:#8ef; font-size:14px;">Dream Zone Live — High Graphics Mode</p>
+  <!-- HERO -->
+  <section class="hero" id="hero">
+    <!-- particles canvas -->
+    <canvas class="hero-canvas" id="heroParticles"></canvas>
+
+    <div class="hero-left">
+      <div class="img-wrap">
+        <!-- USER IMAGE: adjust path / extension if needed -->
+        <img id="mainHeroImg" src="https://raw.githubusercontent.com/imranmahi529/Mahi-s-zone/refs/heads/main/Gemini_Generated_Image_1boe9n1boe9n1boe.png" alt="Dream Hero">
+      </div>
+      <!-- simple controls for image size & position -->
+      <div class="controls" style="display:flex;gap:8px;align-items:center;margin-top:8px;flex-wrap:wrap">
+        <label class="muted">Size: <input id="imgSize" type="range" min="60" max="140" value="100"></label>
+        <label class="muted">Position:
+          <select id="imgPos">
+            <option value="left">Left</option>
+            <option value="top">Top</option>
+            <option value="center">Center</option>
+            <option value="right">Right</option>
+          </select>
+        </label>
+        <button id="fitImg" class="btn">Reset</button>
+      </div>
+    </div>
+
+    <div class="hero-right">
+      <h2 style="margin-top:0">স্বাগতম — আনন্দ ও শান্তির জায়গা</h2>
+      <p class="small-muted">মুড বদলাও, ফুল বাড়াও, হাসো, নিশ্বাস নাও, আঁকো — এবং এক ক্লিকে কনফেটি ছুঁড়ো।</p>
+
+      <div style="margin-top:12px;display:flex;gap:8px;align-items:center">
+        <select id="moodSelect" class="btn neon">
+          <option value="happy">😍 Happy</option>
+          <option value="calm">😌 Calm</option>
+          <option value="excited">🤩 Excited</option>
+          <option value="relax">🧘 Relax</option>
+        </select>
+        <button id="confettiBtn" class="btn accent">🎉 Celebrate</button>
+        <button id="pulseToggle" class="btn">🔁 Color Pulse</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- CORE FEATURES -->
+  <div class="grid">
+    <!-- Joy Ride -->
+    <div class="card">
+      <h2>🎡 Joy Ride — Mood Play</h2>
+      <div class="small-muted">Select mood to change look & spawn balloons.</div>
+      <div style="margin-top:12px" class="sky" id="sky"></div>
+    </div>
+
+    <!-- Dream Garden -->
+    <div class="card">
+      <h2>🌸 Dream Garden</h2>
+      <div class="small-muted">Click to grow a flower. Positive meter increases.</div>
+      <div class="garden" id="garden">Click to grow a flower</div>
+      <div style="margin-top:10px">Positive Meter: <span id="meter" class="small-muted">0</span></div>
+    </div>
+
+    <!-- Smile Mirror -->
+    <div class="card">
+      <h2>😁 Smile Mirror</h2>
+      <div class="small-muted">Rotating jokes and happiness points — click Celebrate for confetti.</div>
+      <div class="mirror" id="mirror">Ready to smile 😊</div>
+      <div style="margin-top:10px">Happiness Points: <span id="hp" class="small-muted">0</span></div>
+    </div>
+
+    <!-- Peace Zone -->
+    <div class="card">
+      <h2>🌿 Peace Zone — Breathe</h2>
+      <div class="small-muted">Start guided breathing and follow expanding circle.</div>
+      <div style="margin-top:12px" class="breath-wrap">
+        <div class="breath-circle" id="breathCircle">Breathe</div>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <button class="btn" id="startBreath">Start</button>
+          <button class="btn" id="stopBreath">Stop</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Dream Art Wall -->
+    <div class="card" style="grid-column:1/3">
+      <h2>🎨 Dream Art Wall</h2>
+      <div class="small-muted">Draw freely and save your artwork.</div>
+      <div class="canvas-wrap" style="margin-top:12px">
+        <canvas id="artCanvas"></canvas>
+      </div>
+      <div style="margin-top:8px;display:flex;gap:8px;align-items:center">
+        <label style="color:var(--muted)">Color: <input type="color" id="paintColor" value="#ff66a3"></label>
+        <label style="color:var(--muted)">Size: <input type="range" id="paintSize" min="1" max="40" value="8"></label>
+        <button class="btn accent" id="clearArt">Clear</button>
+        <button class="btn accent" id="saveArt">Save</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Extended widgets: mosaic + leaderboard + quick effects -->
+  <div style="margin-top:18px;display:grid;grid-template-columns:2fr 1fr;gap:18px">
+    <div class="card">
+      <h2>🧩 Collaborative Mosaic (mock)</h2>
+      <div class="small-muted">Click tiles to color them. In production, accept uploads + moderation.</div>
+      <div class="mosaic" id="mosaic"></div>
+      <div style="margin-top:8px;display:flex;gap:8px;align-items:center">
+        <input type="file" id="mosaicFile" accept="image/*"><button class="btn accent" id="uploadTile">Contribute</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>🏆 Community Leaderboard</h2>
+      <div class="small-muted">Top contributors & badges</div>
+      <div class="leader" id="leaderboard"></div>
+    </div>
+  </div>
+
+  <!-- Graphics Library (100 demos) -->
+  <div style="margin-top:18px" class="card">
+    <h2>🔧 Graphics Library — 100 Demo Tiles</h2>
+    <div class="small-muted">এই লাইব্রেরি থেকে তুমি যে কোন গ্রাফিক্স স্টাইল কপি করে ব্যবহার করতে পারবে।</div>
+    <div class="lib" id="graphicsLib"></div>
+  </div>
+
+  <footer style="margin-top:18px;color:var(--muted)">Notes: সবকিছু ক্লায়েন্ট-সাইড ডেমো। প্রোডাকশনে চালাতে চাইলে ইউজার কন্ট্রিবিউশন স্টোরিং, মডারেশন, এবং media hosting লাগবে।</footer>
 </div>
 
-<!-- Confetti container -->
-<div id="confettiBox"></div>
+<!-- Lottie confetti hidden player -->
+<lottie-player id="confettiPlayer"
+  src="https://assets8.lottiefiles.com/packages/lf20_touohxv0.json"
+  background="transparent" speed="1" style="width:0;height:0;position:fixed;left:0;top:0;z-index:9999" autoplay loop></lottie-player>
 
 <script>
-  // === Lottie Confetti ===
-  const confettiContainer = document.getElementById('confettiBox');
-  const anim = lottie.loadAnimation({
-    container: confettiContainer,
-    renderer: 'svg',
-    loop: false,
-    autoplay: false,
-    path: 'https://assets9.lottiefiles.com/packages/lf20_jcikwtux.json'
+/* ===========================
+   Utility & initial setup
+   =========================== */
+const dpr = Math.max(1, window.devicePixelRatio || 1);
+
+/* = Hero particles = */
+const heroCanvas = document.getElementById('heroParticles');
+const heroCtx = heroCanvas.getContext('2d');
+function resizeHero(){
+  const r = document.getElementById('hero').getBoundingClientRect();
+  heroCanvas.width = r.width * dpr;
+  heroCanvas.height = r.height * dpr;
+  heroCanvas.style.width = r.width + 'px';
+  heroCanvas.style.height = r.height + 'px';
+  heroCtx.setTransform(dpr,0,0,dpr,0,0);
+}
+let particles = [];
+function initHeroParticles(){
+  particles = [];
+  const W = heroCanvas.clientWidth;
+  const H = heroCanvas.clientHeight;
+  for(let i=0;i<80;i++){
+    particles.push({x:Math.random()*W, y:Math.random()*H, vx:(Math.random()-0.5)*0.6, vy:(Math.random()-0.5)*0.6, r:1+Math.random()*3, hue: Math.random()*360});
+  }
+}
+function drawHeroParticles(){
+  heroCtx.clearRect(0,0,heroCanvas.width,heroCanvas.height);
+  const W = heroCanvas.clientWidth, H = heroCanvas.clientHeight;
+  for(const p of particles){
+    p.x += p.vx; p.y += p.vy;
+    if(p.x < -10) p.x = W +10; if(p.x > W+10) p.x = -10;
+    if(p.y < -10) p.y = H +10; if(p.y > H+10) p.y = -10;
+    heroCtx.beginPath();
+    heroCtx.fillStyle = `hsla(${p.hue},80%,60%,0.9)`;
+    heroCtx.arc(p.x,p.y,p.r,0,Math.PI*2);
+    heroCtx.fill();
+  }
+  requestAnimationFrame(drawHeroParticles);
+}
+window.addEventListener('resize', ()=>{ resizeHero(); });
+setTimeout(()=>{ resizeHero(); initHeroParticles(); drawHeroParticles(); },150);
+
+/* = Mood & Balloons = */
+const moods = {
+  happy: {bg1:'#fff1b6', bg2:'#ffd6a5', balloons:['#ff9a9e','#ffc3a0','#ffd29a']},
+  calm: {bg1:'#dbeafe', bg2:'#c7f9cc', balloons:['#a7f3d0','#bef264','#86efac']},
+  excited: {bg1:'#fff1b6', bg2:'#ffd6a5', balloons:['#fda4af','#ffd166','#f6d365']},
+  relax: {bg1:'#e0f2fe', bg2:'#e6fffa', balloons:['#9be7ff','#bde0fe','#cfe9ff']}
+};
+const sky = document.getElementById('sky');
+const moodSelect = document.getElementById('moodSelect');
+function spawnBalloons(mood){
+  sky.innerHTML = '';
+  const data = moods[mood] || moods.happy;
+  for(let i=0;i<8;i++){
+    const b = document.createElement('div');
+    b.className = 'balloon';
+    b.style.left = (6 + i*12 + Math.random()*8) + '%';
+    b.style.width = (46 + Math.random()*30) + 'px';
+    b.style.height = (56 + Math.random()*34) + 'px';
+    b.style.background = data.balloons[i % data.balloons.length];
+    const s = document.createElement('div'); s.className='string'; b.appendChild(s);
+    sky.appendChild(b);
+    // animate upwards
+    const dur = 6000 + Math.random()*6000;
+    b.animate([{transform:'translateY(0px)'},{transform:`translateY(-${400 + Math.random()*300}px)`}], {duration:dur, iterations:1, easing:'linear'});
+    setTimeout(()=>{ b.remove(); }, dur + 1200);
+  }
+  // background change
+  document.body.style.background = `radial-gradient(circle at 10% 10%, ${data.bg1} 0%, ${data.bg2} 40%, #020612 100%)`;
+}
+moodSelect.addEventListener('change', e=> spawnBalloons(e.target.value));
+spawnBalloons('happy');
+
+/* = Dream Garden = */
+const garden = document.getElementById('garden'); let meter = 0; const meterEl = document.getElementById('meter');
+garden.addEventListener('click', ()=>{
+  const f = document.createElement('div'); f.className='flower'; f.textContent = ['🌸','🌼','🌺','🌷'][Math.floor(Math.random()*4)];
+  f.style.fontSize = (18 + Math.random()*42) + 'px';
+  f.style.left = (8 + Math.random()*78) + '%';
+  f.style.opacity = 0; f.style.position='absolute';
+  garden.appendChild(f);
+  requestAnimationFrame(()=>{ f.style.opacity = 1; f.style.transform = 'scale(1)'; });
+  meter = Math.min(9999, meter+1); meterEl.textContent = meter;
+});
+
+/* = Smile Mirror = */
+const jokes = [
+  'একটি কৌতুক: পেঁচা বই পড়ে — কারণ সে "বুকওয়ার্ম"! 😄',
+  'আজ তুমি সুন্দর লাগছো — রোদ লজ্জায় লুকিয়ে যাবে ☀️',
+  'একটা ছোট জোক: মাছ কেন ক্লাস করেনা? কারণ সে সবসময় ওয়াটার-বাবা! 🐟',
+  'হাসো: হাসি হল ছোট্ট হালকা ব্যায়াম — বিনামূল্যের থেরাপি 😁'
+];
+const mirror = document.getElementById('mirror'); let hp = 0; const hpEl = document.getElementById('hp');
+function rotateJoke(){ mirror.textContent = jokes[Math.floor(Math.random()*jokes.length)]; hp+=5; hpEl.textContent = hp; }
+rotateJoke(); setInterval(rotateJoke,7000);
+
+/* = Confetti (Lottie) = */
+const confetti = document.getElementById('confettiPlayer');
+document.getElementById('confettiBtn').addEventListener('click', ()=>{
+  // show and auto-play for a short time
+  confetti.style.width='420px'; confetti.style.height='420px'; confetti.style.left='calc(50% - 210px)'; confetti.style.top='18%'; confetti.style.position='fixed';
+  confetti.play();
+  setTimeout(()=>{ try{ confetti.stop(); }catch(e){} confetti.style.width='0'; confetti.style.height='0'; },2000);
+});
+
+/* = Breathing = */
+let breathInterval=null; const breathCircle = document.getElementById('breathCircle');
+document.getElementById('startBreath').addEventListener('click', ()=>{
+  if(breathInterval) return;
+  let t=0; breathInterval = setInterval(()=>{ t+=0.04; const scale = 1 + 0.55*(0.5 + 0.5*Math.sin(t)); breathCircle.style.transform = `scale(${scale})`; }, 30);
+});
+document.getElementById('stopBreath').addEventListener('click', ()=>{ clearInterval(breathInterval); breathInterval=null; breathCircle.style.transform='scale(1)'; });
+
+/* = Art canvas = */
+const art = document.getElementById('artCanvas'); const aCtx = art.getContext('2d');
+function fitArt(){ const r = art.getBoundingClientRect(); art.width = r.width * dpr; art.height = r.height * dpr; art.style.width = r.width + 'px'; art.style.height = r.height + 'px'; aCtx.setTransform(dpr,0,0,dpr,0,0); aCtx.lineJoin='round'; aCtx.lineCap='round'; }
+window.addEventListener('resize', fitArt); setTimeout(fitArt,120);
+let drawing=false;
+function getPos(el,e){ const r = el.getBoundingClientRect(); return {x:(e.clientX||e.touches[0].clientX)-r.left, y:(e.clientY||e.touches[0].clientY)-r.top}; }
+art.addEventListener('pointerdown', e=>{ drawing=true; const p=getPos(art,e); aCtx.beginPath(); aCtx.moveTo(p.x,p.y); });
+art.addEventListener('pointermove', e=>{ if(!drawing) return; const p=getPos(art,e); aCtx.strokeStyle = document.getElementById('paintColor').value; aCtx.lineWidth = Number(document.getElementById('paintSize').value); aCtx.lineTo(p.x,p.y); aCtx.stroke(); });
+art.addEventListener('pointerup', ()=> drawing=false);
+document.getElementById('clearArt').addEventListener('click', ()=>{ if(confirm('Clear drawing?')) aCtx.clearRect(0,0,art.width,art.height); });
+document.getElementById('saveArt').addEventListener('click', ()=>{ const data = art.toDataURL('image/png'); const a = document.createElement('a'); a.href = data; a.download = 'dream-art.png'; a.click(); });
+
+/* = Mosaic mock = */
+const mosaic = document.getElementById('mosaic');
+for(let i=0;i<64;i++){ const t = document.createElement('div'); t.className='tile'; t.textContent = i+1; t.addEventListener('click', ()=>{ t.style.background = `hsl(${Math.random()*360},70%,60%)`; t.textContent=''; }); mosaic.appendChild(t); }
+document.getElementById('uploadTile').addEventListener('click', ()=>{ const f=document.getElementById('mosaicFile').files[0]; if(!f){ alert('ফাইল সিলেক্ট করো'); return; } const r=new FileReader(); r.onload=e=>{ const tiles=document.querySelectorAll('.mosaic .tile'); for(const tile of tiles){ if(tile.textContent){ tile.style.backgroundImage = `url(${e.target.result})`; tile.style.backgroundSize='cover'; tile.textContent=''; break; } } }; r.readAsDataURL(f); });
+
+/* = Leaderboard mock = */
+const board = document.getElementById('leaderboard'); const sample=[{n:'Ali',c:120},{n:'Bela',c:98},{n:'Chowdhury',c:72}];
+for(const s of sample){ const r = document.createElement('div'); r.className='rank'; r.innerHTML = `<div style="width:48px;height:48px;border-radius:10px;background:linear-gradient(135deg,var(--accent2),var(--accent1));display:flex;align-items:center;justify-content:center;font-weight:800;color:#032">${s.n[0]}</div><div><strong>${s.n}</strong><div class="small-muted">+${s.c} contribs</div></div>`; board.appendChild(r); }
+
+/* = Graphics Library (100 demo tiles) = */
+const lib = document.getElementById('graphicsLib');
+function makeTile(i){
+  const el = document.createElement('div'); el.className='g'; el.dataset.idx = i;
+  // create a small visual element with random demo style
+  const demo = document.createElement('div'); demo.style.width='62px'; demo.style.height='62px'; demo.style.borderRadius='10px'; demo.style.display='flex'; demo.style.alignItems='center'; demo.style.justifyContent='center'; demo.style.fontWeight='700'; demo.style.color='#032';
+  // vary style by index (to give 100 different looks)
+  const styleCase = i % 10;
+  switch(styleCase){
+    case 0: demo.style.background = `linear-gradient(135deg,hsl(${i*3},80%,60%),hsl(${i*3+40},70%,60%))`; demo.textContent='G'+(i+1); break;
+    case 1: demo.style.background = `radial-gradient(circle at 20% 20%, rgba(255,255,255,0.12), rgba(0,0,0,0))`; demo.style.border = `2px solid hsl(${i*2},70%,60%)`; demo.textContent='✨'; break;
+    case 2: demo.style.background = `linear-gradient(90deg,#081124, hsl(${i*4},60%,50%))`; demo.style.boxShadow = '0 10px 30px rgba(0,0,0,.6)'; demo.textContent='3D'; break;
+    case 3: demo.style.background = `conic-gradient(from 90deg, hsl(${i*5},70%,60%), #111)`; demo.textContent='◐'; break;
+    case 4: demo.style.background = `linear-gradient(135deg,#fff2,#0000)`; demo.style.border = `1px dashed hsl(${i*6},70%,50%)`; demo.textContent='Tile'; break;
+    case 5: demo.style.background = `linear-gradient(135deg,hsl(${i*7},70%,55%), hsl(${i*7+20},65%,55%))`; demo.style.transform = `rotate(${(i%6)-3}deg)`; demo.textContent='✦'; break;
+    case 6: demo.style.background = `linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01))`; demo.style.border = `2px solid rgba(255,255,255,0.04)`; demo.textContent='G'+(i+1); break;
+    case 7: demo.style.background = `linear-gradient(135deg,#062, #048)`; demo.style.filter = `drop-shadow(0 8px 18px rgba(0,0,0,.5))`; demo.textContent='★'; break;
+    case 8: demo.style.background = `repeating-linear-gradient(45deg, hsl(${i*9},60%,65%), hsl(${i*9},60%,65%) 6px, #071226 6px, #071226 12px)`; demo.textContent='≋'; break;
+    case 9: demo.style.background = `linear-gradient(90deg, hsl(${i*11},65%,60%), hsl(${i*11+30},65%,60%))`; demo.style.borderRadius='50%'; demo.textContent='●'; break;
+  }
+  // add small animation variants
+  const animCase = i % 5;
+  if(animCase===0){ demo.style.transition='transform .6s'; el.addEventListener('mouseenter',()=> demo.style.transform='scale(1.08) rotate(-3deg)'); el.addEventListener('mouseleave',()=> demo.style.transform=''); }
+  if(animCase===1){ demo.style.animation = `pulse${i} 1.6s infinite alternate`; const style = document.createElement('style'); style.textContent = `@keyframes pulse${i}{from{transform:scale(1)} to{transform:scale(1.06)}}`; document.head.appendChild(style); }
+  if(animCase===2){ demo.style.transition='filter .4s'; el.addEventListener('mouseenter',()=> demo.style.filter='brightness(1.2)'); el.addEventListener('mouseleave',()=> demo.style.filter=''); }
+  if(animCase===3){ demo.style.transition='transform .45s'; el.addEventListener('mouseenter',()=> demo.style.transform='translateY(-6px) rotate(-2deg)'); el.addEventListener('mouseleave',()=> demo.style.transform=''); }
+  if(animCase===4){ demo.style.animation = `hue${i} 1s infinite alternate`; const style = document.createElement('style'); style.textContent = `@keyframes hue${i}{from{filter:hue-rotate(0deg)} to{filter:hue-rotate(90deg)}}`; document.head.appendChild(style); }
+
+  el.appendChild(demo);
+  const lbl = document.createElement('div'); lbl.className='label'; lbl.textContent = 'Graphic ' + (i+1);
+  el.appendChild(lbl);
+
+  // on click copy demo HTML/CSS snippet to clipboard for quick reuse
+  el.addEventListener('click', async ()=> {
+    const snippet = demo.outerHTML + '\\n/* label: ' + lbl.textContent + ' */';
+    try{ await navigator.clipboard.writeText(snippet); alert('Graphic snippet copied to clipboard — paste into your HTML.'); }catch(e){ alert('Clipboard access failed.'); }
   });
 
-  // Trigger confetti on smile or click
-  document.addEventListener('click', () => anim.goToAndPlay(0, true));
+  return el;
+}
+for(let i=0;i<100;i++){ lib.appendChild(makeTile(i)); }
 
-  // === Particles Background ===
-  particlesJS('particles-js', {
-    "particles": {
-      "number": { "value": 90 },
-      "color": { "value": ["#00fff2", "#ff99cc", "#60a5fa", "#6ee7b7"] },
-      "shape": { "type": "circle" },
-      "opacity": { "value": 0.7 },
-      "size": { "value": 4 },
-      "line_linked": { "enable": true, "distance": 130, "color": "#00fff2", "opacity": 0.4, "width": 1 },
-      "move": { "enable": true, "speed": 2 }
-    },
-    "interactivity": {
-      "events": { "onhover": { "enable": true, "mode": "repulse" } },
-      "modes": { "repulse": { "distance": 100, "duration": 0.5 } }
-    },
-    "retina_detect": true
-  });
+/* = Image controls (size, position) = */
+const img = document.getElementById('mainHeroImg');
+const imgSize = document.getElementById('imgSize');
+const imgPos = document.getElementById('imgPos');
+function applyImg(){
+  const scale = Number(imgSize.value)/100;
+  img.style.transform = `scale(${scale})`;
+  const pos = imgPos.value;
+  const container = document.querySelector('.hero-left');
+  container.style.display = 'flex';
+  container.style.flexDirection = (pos==='top'?'column':'row');
+  if(pos==='center'){ container.style.justifyContent='center'; container.style.alignItems='center'; }
+  else if(pos==='right'){ container.style.justifyContent='flex-end'; container.style.alignItems='center'; }
+  else { container.style.justifyContent='flex-start'; container.style.alignItems='center'; }
+}
+imgSize.addEventListener('input', applyImg); imgPos.addEventListener('change', applyImg);
+document.getElementById('fitImg').addEventListener('click', ()=>{ imgSize.value=100; imgPos.value='left'; applyImg(); });
+
+/* = Color pulse toggle = */
+let pulse=false, pulseInt=null;
+document.getElementById('pulseToggle').addEventListener('click', ()=>{
+  pulse = !pulse;
+  if(pulse){ startPulse(); document.getElementById('pulseToggle').textContent='🔁 Stop Pulse'; }
+  else { stopPulse(); document.getElementById('pulseToggle').textContent='🔁 Color Pulse'; }
+});
+function startPulse(){ let i=0; pulseInt = setInterval(()=>{ const arr = [['#fff1b6','#ffd6a5'],['#dbeafe','#c7f9cc'],['#e0f2fe','#e6fffa'],['#fce7f3','#e4f7ff']]; const pair = arr[i%arr.length]; document.body.style.background = `radial-gradient(circle at 10% 10%, ${pair[0]} 0%, ${pair[1]} 40%, #020612 100%)`; i++; }, 1800); }
+function stopPulse(){ clearInterval(pulseInt); pulseInt=null; document.body.style.background = ''; }
+
+/* = Init resize for canvases = */
+setTimeout(()=>{ resizeHero(); initHeroParticles(); drawHeroParticles(); },180);
+
+/* = Accessibility: space triggers confetti = */
+window.addEventListener('keydown', e=>{ if(e.code==='Space'){ e.preventDefault(); document.getElementById('confettiBtn').click(); } });
+
+/* = Final note console log = */
+console.log('Dream Zone Full Loaded — hero image path:', img.src);
 </script>
 
-    // ensure canvas high-dpi ready after potential layout
-    setTimeout(()=>{ resizeCanvas(); },300);
-  </script></body>
+</body>
 </html>
