@@ -1,159 +1,172 @@
-<section id="ai-section" style="padding:50px; background: linear-gradient(135deg,#0f2027,#203a43,#2c5364); color:#fff;">
-  <h1 style="text-align:center; font-size:2.5rem; margin-bottom:30px;">⚡ Auto AI Hub ⚡</h1>
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hyper 3D Photo Editor & Booth</title>
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      font-family: Arial, sans-serif;
+      overflow: hidden;
+      background: #02031a;
+      color: #fff;
+    }
+    h1 {
+      text-align: center;
+      margin: 20px 0;
+      color: #6ee7b7;
+      font-size: 2.5em;
+    }
+    .container {
+      width: 90%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 10px;
+      position: relative;
+      z-index: 2;
+    }
+    #video, #canvas {
+      border-radius: 20px;
+      display: block;
+      margin: 0 auto;
+      margin-bottom: 20px;
+    }
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    .controls button {
+      padding: 10px 15px;
+      background: linear-gradient(90deg, #60a5fa, #6ee7b7);
+      border: none;
+      border-radius: 10px;
+      color: #02031a;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .controls button:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 20px #6ee7b7;
+    }
+    #textInput {
+      padding: 8px 10px;
+      border-radius: 8px;
+      border: none;
+      width: 200px;
+      font-size: 1em;
+    }
+    .bg-wrap {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      overflow: hidden;
+    }
+    .bg-cube, .bg-particle {
+      position: absolute;
+      border-radius: 50%;
+      opacity: 0.7;
+    }
+  </style>
+</head>
+<body>
 
-  <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:20px;">
+  <div class="bg-wrap" id="bgWrap"></div>
 
-    <!-- AI Chat -->
-    <div style="background: rgba(255,255,255,0.05); padding:20px; border-radius:15px;">
-      <h2>🤖 AI Chat</h2>
-      <textarea id="chatInput" placeholder="Type your question..." style="width:100%; padding:10px; border-radius:8px; margin:10px 0;"></textarea>
-      <button onclick="autoAIChat()" style="padding:10px 15px; border:none; border-radius:8px; background: linear-gradient(45deg,#00ff87,#60efff); cursor:pointer;">Send</button>
-      <div id="chatOutput" style="margin-top:10px; background: rgba(0,0,0,0.2); padding:10px; border-radius:8px; min-height:80px;">AI reply here...</div>
-    </div>
+  <div class="container">
+    <h1>Hyper 3D Photo Editor & Booth</h1>
 
-    <!-- AI Image Generator -->
-    <div style="background: rgba(255,255,255,0.05); padding:20px; border-radius:15px;">
-      <h2>🖼️ AI Image Generator</h2>
-      <input id="imgPrompt" type="text" placeholder="Type a scene..." style="width:100%; padding:10px; border-radius:8px; margin:10px 0;">
-      <button onclick="autoAIImage()" style="padding:10px 15px; border:none; border-radius:8px; background: linear-gradient(45deg,#ff6a00,#ee0979); cursor:pointer;">Generate</button>
-      <div id="imgOutput" style="margin-top:10px; min-height:150px;">Image will appear here...</div>
-    </div>
+    <video id="video" width="640" height="480" autoplay></video>
+    <canvas id="canvas" width="640" height="480"></canvas>
 
-    <!-- AI Summarizer -->
-    <div style="background: rgba(255,255,255,0.05); padding:20px; border-radius:15px;">
-      <h2>📰 AI Text Summarizer</h2>
-      <textarea id="textInput" placeholder="Paste your text..." style="width:100%; padding:10px; border-radius:8px; margin:10px 0;"></textarea>
-      <button onclick="autoAISummarize()" style="padding:10px 15px; border:none; border-radius:8px; background: linear-gradient(45deg,#ff00ff,#ff6a00); cursor:pointer;">Summarize</button>
-      <div id="summaryOutput" style="margin-top:10px; min-height:80px; background: rgba(0,0,0,0.2); padding:10px; border-radius:8px;">Summary here...</div>
+    <div class="controls">
+      <button onclick="applyFilter('none')">Normal</button>
+      <button onclick="applyFilter('grayscale(100%)')">B&W</button>
+      <button onclick="applyFilter('sepia(100%)')">Sepia</button>
+      <button onclick="applyFilter('contrast(150%) brightness(120%)')">Bright</button>
+      <button onclick="applyFilter('hue-rotate(90deg) saturate(150%)')">Neon</button>
+      <input type="text" id="textInput" placeholder="Type text">
+      <button onclick="addText()">Add Text</button>
+      <button onclick="takeSnapshot()">Snapshot</button>
     </div>
 
   </div>
-</section>
 
-<script>
-  // Simple Auto AI Demo Functions
+  <script>
+    const video = document.getElementById('video');
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+    navigator.mediaDevices.getUserMedia({ video: true }).then(stream => { video.srcObject = stream; });
 
-  function autoAIChat() {
-    const input = document.getElementById("chatInput").value;
-    const output = document.getElementById("chatOutput");
-    output.innerText = "Thinking...";
+    function draw() {
+      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+      requestAnimationFrame(draw);
+    }
+    draw();
 
-    // Auto Response Logic
-    setTimeout(() => {
-      const replies = [
-        `I see you said: "${input}"!`,
-        `Interesting! "${input}" sounds cool.`,
-        `Hmm... "${input}" 🤔 Let me think.`,
-        `"${input}"? That’s fascinating!`,
-        `Got it! You wrote: "${input}"`
-      ];
-      output.innerText = replies[Math.floor(Math.random() * replies.length)];
-    }, 800);
-  }
+    function applyFilter(filter) {
+      canvas.style.filter = filter;
+    }
 
-  function autoAIImage() {
-    const prompt = document.getElementById("imgPrompt").value;
-    const output = document.getElementById("imgOutput");
-    output.innerHTML = "Generating image...";
-    setTimeout(() => {
-      // Random demo image placeholder
-      const colors = ["ff6a00","00ff87","60efff","ff00ff","ff6a6a"];
-      const color = colors[Math.floor(Math.random() * colors.length)];
-      output.innerHTML = `<img src="https://via.placeholder.com/400x250/${color}/000000?text=${encodeURIComponent(prompt)}" style="width:100%; border-radius:10px;">`;
-    }, 1000);
-  }
-
-  function autoAISummarize() {
-    const text = document.getElementById("textInput").value;
-    const output = document.getElementById("summaryOutput");
-    output.innerText = "Summarizing...";
-    setTimeout(() => {
-      const words = text.split(" ");
-      const summary = words.slice(0, Math.min(20, words.length)).join(" ") + (words.length > 20 ? "..." : "");
-      output.innerText = "📰 Summary: " + summary;
-    }, 800);
-  }
-</script>
-
-IMRAN HUSSAIN MAHI
-
-
-
-<!-- ===== AI Section – Dream Zone Style ===== -->
-<section id="ai" class="reveal">
-  <h2>AI Assistant & Image Generator</h2>
-  <div class="features">
-    <!-- Text Chat Card -->
-    <div class="card">
-      <h3>Chat with AI</h3>
-      <input type="text" id="chatInput" placeholder="প্রশ্ন লিখুন..." />
-      <button onclick="sendChat()">Send</button>
-      <div id="chatOutput" class="result"></div>
-    </div>
-
-    <!-- Image Generation Card -->
-    <div class="card">
-      <h3>Generate Image</h3>
-      <input type="text" id="imgInput" placeholder="ছবির বর্ণনা লিখুন..." />
-      <button onclick="generateImage()">Generate</button>
-      <div id="imgOutput" class="result"></div>
-    </div>
-  </div>
-</section>
-
-<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-<script>
-// ===== OpenAI API Config =====
-const OPENAI_API_KEY = "YOUR_OPENAI_API_KEY_HERE"; // এটা তোমার API Key বসাতে হবে
-
-// ===== Text Chat =====
-async function sendChat() {
-  const prompt = document.getElementById('chatInput').value;
-  const output = document.getElementById('chatOutput');
-  if(!prompt) return;
-  output.innerHTML = "AI is thinking...";
-
-  try {
-    const res = await axios.post("https://api.openai.com/v1/chat/completions", {
-      model: "gpt-4",
-      messages: [{role:"user", content: prompt}],
-      max_tokens: 200
-    }, {
-      headers: {
-        "Authorization": `Bearer ${OPENAI_API_KEY}`,
-        "Content-Type": "application/json"
+    function addText() {
+      const text = document.getElementById('textInput').value;
+      if (text) {
+        ctx.fillStyle = 'white';
+        ctx.font = '30px Arial';
+        ctx.fillText(text, 50, 50);
       }
-    });
-    output.innerHTML = res.data.choices[0].message.content;
-  } catch(err) {
-    console.error(err);
-    output.innerHTML = "Error fetching AI response.";
-  }
-}
+    }
 
-// ===== Image Generation =====
-async function generateImage() {
-  const prompt = document.getElementById('imgInput').value;
-  const output = document.getElementById('imgOutput');
-  if(!prompt) return;
-  output.innerHTML = "Generating image...";
+    function takeSnapshot() {
+      const link = document.createElement('a');
+      link.download = 'photo.png';
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+      confetti();
+    }
 
-  try {
-    const res = await axios.post("https://api.openai.com/v1/images/generations", {
-      prompt: prompt,
-      n:1,
-      size:"512x512"
-    }, {
-      headers: {
-        "Authorization": `Bearer ${OPENAI_API_KEY}`,
-        "Content-Type": "application/json"
+    function confetti() {
+      for (let i = 0; i < 50; i++) {
+        const c = document.createElement('div');
+        c.style.position = 'fixed';
+        c.style.width = '6px';
+        c.style.height = '6px';
+        c.style.background = ['#6ee7b7', '#60a5fa', '#ff9aa2', '#ffdc7f'][Math.floor(Math.random() * 4)];
+        c.style.left = Math.random() * 100 + 'vw';
+        c.style.top = Math.random() * 100 + 'vh';
+        c.style.borderRadius = '50%';
+        c.style.zIndex = '9999';
+        c.style.pointerEvents = 'none';
+        document.body.appendChild(c);
+        setTimeout(() => { c.remove(); }, 2000);
       }
-    });
-    const imgUrl = res.data.data[0].url;
-    output.innerHTML = `<img src="${imgUrl}" alt="AI Generated Image" style="max-width:100%;border-radius:12px;margin-top:10px;box-shadow:0 0 20px #0ff;">`;
-  } catch(err) {
-    console.error(err);
-    output.innerHTML = "Error generating image.";
-  }
-}
-</script>
+    }
+
+    const bgWrap = document.getElementById('bgWrap');
+    for (let i = 0; i < 30; i++) {
+      const cube = document.createElement('div');
+      cube.className = 'bg-cube';
+      cube.style.width = cube.style.height = (Math.random() * 50 + 20) + 'px';
+      cube.style.background = ['#6ee7b7', '#60a5fa', '#ff9aa2', '#ffdc7f'][Math.floor(Math.random() * 4)];
+      cube.style.left = Math.random() * 100 + 'vw';
+      cube.style.top = Math.random() * 100 + 'vh';
+      cube.style.animation = `floatCube ${Math.random() * 10 + 5}s linear infinite alternate`;
+      bgWrap.appendChild(cube);
+    }
+
+    const style = document.createElement('style');
+    style.innerHTML = `@keyframes floatCube { 0% { transform: translateY(0px) rotateX(0deg); } 100% { transform: translateY(-200px) rotateX(360deg) rotateY(360deg); } }`;
+    document.head.appendChild(style);
+  </script>
+
+</body>
+</html>
