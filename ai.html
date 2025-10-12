@@ -3,20 +3,20 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Working Hyper Photo Editor</title>
+<title>I.H MAHI Editor</title>
 <style>
-body, html{margin:0;padding:0;height:100%;overflow:hidden;font-family:Arial,sans-serif;background:#02031a;color:#fff;}
-h1{text-align:center;margin:20px 0;font-size:2.5em;color:#6ee7b7;}
+body, html{margin:0;padding:0;height:100%;overflow:hidden;font-family:Arial,sans-serif;background:#0b0c17;color:#fff;}
+h1{text-align:center;margin:20px 0;font-size:2.5em;color:#00ffff;}
 .container{width:90%;max-width:1000px;margin:0 auto;padding:10px;position:relative;z-index:2;}
 #canvas{border-radius:20px;display:block;margin:0 auto;margin-bottom:20px;background:#111;}
 .controls{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-bottom:20px;}
 .controls button, .controls input[type=file], .controls input[type=text]{padding:10px 15px;border:none;border-radius:10px;font-weight:600;cursor:pointer;transition:0.3s;}
-.controls button{background:linear-gradient(90deg,#60a5fa,#6ee7b7);color:#02031a;}
-.controls button:hover{transform:scale(1.05);box-shadow:0 0 20px #6ee7b7;}
+.controls button{background:linear-gradient(90deg,#00ffff,#6ee7b7);color:#02031a;}
+.controls button:hover{transform:scale(1.05);box-shadow:0 0 20px #00ffff;}
 .controls input[type=file]{background:#6ee7b7;color:#02031a;}
 .controls input[type=text]{width:200px;}
 .bg-wrap{position:fixed;top:0;left:0;width:100%;height:100%;z-index:-1;overflow:hidden;}
-.bg-cube{position:absolute;border-radius:50%;opacity:0.7;}
+.bg-particle{position:absolute;border-radius:50%;opacity:0.7;}
 </style>
 </head>
 <body>
@@ -24,7 +24,7 @@ h1{text-align:center;margin:20px 0;font-size:2.5em;color:#6ee7b7;}
 <div class="bg-wrap" id="bgWrap"></div>
 
 <div class="container">
-<h1>Hyper Photo Editor</h1>
+<h1>AI Photo Editor</h1>
 
 <canvas id="canvas" width="800" height="600"></canvas>
 
@@ -64,7 +64,7 @@ document.getElementById('imageUpload').addEventListener('change',function(e){
 // Filters
 function applyFilter(filter){canvas.style.filter=filter;}
 
-// Add Text
+// Text overlay
 function addText(){
   const text=document.getElementById('textInput').value;
   if(text){
@@ -74,7 +74,7 @@ function addText(){
   }
 }
 
-// Draw Tool
+// Draw tool
 function enableDraw(){
   canvas.addEventListener('mousedown',()=>{drawing=true;});
   canvas.addEventListener('mouseup',()=>{drawing=false;ctx.beginPath();});
@@ -91,10 +91,10 @@ function drawBrush(e){
   ctx.moveTo(e.offsetX,e.offsetY);
 }
 
-// Download with Watermark
+// Download with watermark
 function takeSnapshot(){
   ctx.font='20px Arial';
-  ctx.fillStyle='rgba(255,255,255,0.6)';
+  ctx.fillStyle='rgba(0,255,255,0.6)';
   ctx.fillText('Imran Hussain Mahi',canvas.width-220,canvas.height-20);
   const link=document.createElement('a');
   link.download='edited_photo.png';
@@ -102,21 +102,20 @@ function takeSnapshot(){
   link.click();
 }
 
-// Floating Cubes Background
+// Floating particles background
 const bgWrap=document.getElementById('bgWrap');
-for(let i=0;i<30;i++){
-  const cube=document.createElement('div');
-  cube.className='bg-cube';
-  cube.style.width=cube.style.height=(Math.random()*50+20)+'px';
-  cube.style.background=['#6ee7b7','#60a5fa','#ff9aa2','#ffdc7f'][Math.floor(Math.random()*4)];
-  cube.style.left=Math.random()*100+'vw';
-  cube.style.top=Math.random()*100+'vh';
-  cube.style.animation=`floatCube ${Math.random()*10+5}s linear infinite alternate`;
-  bgWrap.appendChild(cube);
+for(let i=0;i<50;i++){
+  const p=document.createElement('div');
+  p.className='bg-particle';
+  p.style.width=p.style.height=(Math.random()*10+5)+'px';
+  p.style.background=['#00ffff','#6ee7b7','#ff9aa2','#ffdc7f'][Math.floor(Math.random()*4)];
+  p.style.left=Math.random()*100+'vw';
+  p.style.top=Math.random()*100+'vh';
+  p.style.animation=`floatParticle ${Math.random()*10+5}s linear infinite alternate`;
+  bgWrap.appendChild(p);
 }
-
 const style=document.createElement('style');
-style.innerHTML=`@keyframes floatCube{0%{transform:translateY(0px) rotate(0deg);}100%{transform:translateY(-200px) rotate(360deg);}}`;
+style.innerHTML=`@keyframes floatParticle{0%{transform:translateY(0px) rotate(0deg);}100%{transform:translateY(-150px) rotate(360deg);}}`;
 document.head.appendChild(style);
 </script>
 
