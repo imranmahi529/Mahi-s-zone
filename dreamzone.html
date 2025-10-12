@@ -238,6 +238,122 @@ canvas{display:block;width:100%;height:300px;background:linear-gradient(180deg,#
     // reset
     document.getElementById('resetAll').addEventListener('click',()=>{ if(confirm('Reset all Dream Zone state?')){ localStorage.removeItem('dream_state'); localStorage.removeItem('dream_journal'); localStorage.removeItem('dream_board'); localStorage.removeItem('dream_pins'); localStorage.removeItem('dream_goals'); location.reload(); } });
 
+<!-- === Dream Zone Graphics Edition === -->
+<!-- Author: Mahi + ChatGPT -->
+
+<!-- Load Lottie and particles.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.7.4/lottie.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+
+<style>
+  /* Smooth color transition */
+  body {
+    animation: colorShift 10s infinite alternate ease-in-out;
+  }
+  @keyframes colorShift {
+    0% { background-color: #060b28; }
+    50% { background-color: #102044; }
+    100% { background-color: #1c1444; }
+  }
+
+  /* Neon hover effects */
+  .card:hover {
+    box-shadow: 0 0 20px #00fff2, 0 0 40px #0077ff inset;
+    transform: scale(1.02);
+    transition: all 0.5s ease;
+  }
+
+  /* 3D rotating badge */
+  #badge3D {
+    width: 100px;
+    height: 100px;
+    margin: 0 auto;
+    background: linear-gradient(135deg, #6ee7b7, #60a5fa);
+    border-radius: 50%;
+    animation: spin 6s linear infinite, glow 1s alternate infinite;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 30px;
+    font-weight: bold;
+    color: #042;
+    text-shadow: 0 0 10px #fff;
+  }
+  @keyframes spin {
+    from { transform: rotateY(0deg); }
+    to { transform: rotateY(360deg); }
+  }
+  @keyframes glow {
+    from { box-shadow: 0 0 10px #6ee7b7; }
+    to { box-shadow: 0 0 30px #60a5fa; }
+  }
+
+  /* Particles container */
+  #particles-js {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+  }
+
+  /* Confetti animation box */
+  #confettiBox {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+  }
+</style>
+
+<!-- Particle background -->
+<div id="particles-js"></div>
+
+<!-- 3D rotating badge -->
+<div style="text-align:center; margin: 40px 0;">
+  <div id="badge3D">DZ</div>
+  <p style="color:#8ef; font-size:14px;">Dream Zone Live — High Graphics Mode</p>
+</div>
+
+<!-- Confetti container -->
+<div id="confettiBox"></div>
+
+<script>
+  // === Lottie Confetti ===
+  const confettiContainer = document.getElementById('confettiBox');
+  const anim = lottie.loadAnimation({
+    container: confettiContainer,
+    renderer: 'svg',
+    loop: false,
+    autoplay: false,
+    path: 'https://assets9.lottiefiles.com/packages/lf20_jcikwtux.json'
+  });
+
+  // Trigger confetti on smile or click
+  document.addEventListener('click', () => anim.goToAndPlay(0, true));
+
+  // === Particles Background ===
+  particlesJS('particles-js', {
+    "particles": {
+      "number": { "value": 90 },
+      "color": { "value": ["#00fff2", "#ff99cc", "#60a5fa", "#6ee7b7"] },
+      "shape": { "type": "circle" },
+      "opacity": { "value": 0.7 },
+      "size": { "value": 4 },
+      "line_linked": { "enable": true, "distance": 130, "color": "#00fff2", "opacity": 0.4, "width": 1 },
+      "move": { "enable": true, "speed": 2 }
+    },
+    "interactivity": {
+      "events": { "onhover": { "enable": true, "mode": "repulse" } },
+      "modes": { "repulse": { "distance": 100, "duration": 0.5 } }
+    },
+    "retina_detect": true
+  });
+</script>
+
     // ensure canvas high-dpi ready after potential layout
     setTimeout(()=>{ resizeCanvas(); },300);
   </script></body>
