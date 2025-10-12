@@ -4,50 +4,55 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Dream Zone — Graphics Demo (No AI)</title>
+  <title>Dream Zone — Joy & Peace</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <style>
-    :root{--bg:#071029;--card:#081226;--muted:#9fb0bf;--accent1:#6ee7b7;--accent2:#60a5fa}
-    *{box-sizing:border-box;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,'Helvetica Neue',Arial}
-    body{margin:0;background:linear-gradient(180deg,#020617 0%, #071029 100%);color:#eaf6f8;padding:28px}
+    :root{--bg:#071022;--card:#081428;--muted:#a6bac7;--accent:#6ee7b7;--accent2:#60a5fa}
+    *{box-sizing:border-box;font-family:Inter,system-ui,Segoe UI,Roboto,Arial}
+    html,body{height:100%}
+    body{margin:0;background:radial-gradient(circle at 10% 10%, #0b2540 0%, #071022 40%, #020612 100%);color:#eaf6f8;padding:20px}
     .wrap{max-width:1100px;margin:0 auto}
     header{display:flex;gap:14px;align-items:center;margin-bottom:18px}
-    .logo{width:64px;height:64px;border-radius:12px;background:linear-gradient(135deg,var(--accent1),var(--accent2));display:flex;align-items:center;justify-content:center;font-weight:800;color:#042}
+    .logo{width:64px;height:64px;border-radius:12px;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;font-weight:800;color:#042}
     h1{margin:0;font-size:20px}
-    p.lead{margin:0;color:var(--muted)}/* grid */
+    p.lead{margin:0;color:var(--muted)}/* hero */
+.hero{display:flex;gap:18px;align-items:center;padding:16px;border-radius:14px;background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.01));border:1px solid rgba(255,255,255,.04);box-shadow:0 18px 40px rgba(1,6,20,.6)}
+.hero .left{width:320px}
+.hero img{width:100%;height:180px;object-fit:cover;border-radius:10px;filter:contrast(1.03) saturate(1.05);transform:translateZ(0);transition:transform .35s ease;box-shadow:0 12px 30px rgba(2,8,20,.6)}
+.hero img:hover{transform:scale(1.03) rotateZ(-1deg)}
+
+/* layout grid */
 .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin-top:18px}
-.card{background:linear-gradient(180deg,rgba(255,255,255,.02),rgba(255,255,255,.01));border:1px solid rgba(255,255,255,.04);padding:16px;border-radius:12px;box-shadow:0 8px 30px rgba(2,6,23,.6);transform-style:preserve-3d}
-.card h2{margin:0 0 8px 0;font-size:16px}
+.card{background:linear-gradient(180deg,rgba(255,255,255,.02),rgba(255,255,255,.01));border:1px solid rgba(255,255,255,.04);padding:14px;border-radius:12px;box-shadow:0 10px 30px rgba(2,6,23,.5);overflow:hidden}
 .muted{color:var(--muted);font-size:13px}
+h2{margin:0 0 8px 0;font-size:16px}
 
-/* Hero image with 3D + 1s color change */
-.hero{display:flex;gap:16px;align-items:center;padding:18px;border-radius:14px;background:linear-gradient(120deg, rgba(96,165,250,.06), rgba(110,231,183,.04));border:1px solid rgba(255,255,255,.04);box-shadow:0 20px 50px rgba(3,7,18,.6);perspective:1000px}
-.hero .img-wrap{width:260px;height:160px;border-radius:12px;overflow:hidden;transform:rotateX(8deg) rotateY(-12deg) translateZ(12px);box-shadow:0 18px 40px rgba(4,10,25,.6);transition:transform .4s cubic-bezier(.2,.9,.2,1)}
-.hero .img-wrap:hover{transform:rotateX(0deg) rotateY(0deg) translateZ(30px)}
-.hero img{width:100%;height:100%;object-fit:cover;display:block;filter:saturate(1) contrast(1.03);animation:colorShift 1s infinite alternate}
-@keyframes colorShift{from{filter:hue-rotate(0deg) saturate(1)} to{filter:hue-rotate(60deg) saturate(1.15)}}
+/* Joy Ride: balloons + mood */
+.sky{position:relative;height:160px;background:linear-gradient(180deg,#07192b,#052033);border-radius:10px;overflow:hidden}
+.balloon{position:absolute;bottom:-120px;width:60px;height:80px;border-radius:50% 50% 50% 50%/60% 60% 40% 40%;display:flex;align-items:center;justify-content:center;font-weight:700;color:#022}
+.string{position:absolute;left:50%;width:2px;height:80px;background:rgba(255,255,255,.06);transform:translateX(-50%);top:80px}
 
-/* subtle 3D card tilt */
-.card--3d{transform:translateZ(0);transition:transform .25s ease, box-shadow .25s ease}
-.card--3d:hover{transform:translateY(-6px) translateZ(8px);box-shadow:0 30px 60px rgba(3,7,18,.7)}
+/* Dream Garden */
+.garden{position:relative;height:160px;background:linear-gradient(180deg,#021218,#021826);border-radius:10px;overflow:hidden;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.flower{position:absolute;bottom:12px;transform-origin:center bottom;transition:transform .4s cubic-bezier(.2,.9,.2,1),opacity .4s}
 
-/* board pins */
-#board{min-height:140px;border-radius:10px;padding:12px;display:flex;flex-wrap:wrap;gap:12px}
-.pin{background:linear-gradient(180deg,#0b1624,#071126);padding:10px;border-radius:10px;min-width:120px;max-width:220px;border-left:4px solid var(--accent1);cursor:grab;box-shadow:0 8px 18px rgba(2,6,23,.6)}
+/* Smile Mirror */
+.mirror{height:120px;border-radius:10px;background:linear-gradient(180deg,rgba(255,255,255,.02),transparent);display:flex;align-items:center;justify-content:center;padding:10px;text-align:center}
 
-/* progress */
-.progress{height:10px;background:rgba(255,255,255,.03);border-radius:8px;overflow:hidden}
-.progress > i{display:block;height:100%;background:linear-gradient(90deg,var(--accent2),var(--accent1))}
+/* Peace Zone */
+.breath{display:flex;gap:12px;align-items:center}
+.breath-circle{width:120px;height:120px;border-radius:999px;background:linear-gradient(135deg,rgba(110,231,183,.12),rgba(96,165,250,.08));display:flex;align-items:center;justify-content:center;font-weight:700;color:#022;transition:transform 1s ease}
+.breath-controls{display:flex;flex-direction:column;gap:8px}
 
-/* responsive */
-@media(max-width:980px){.grid{grid-template-columns:1fr}.hero{flex-direction:column;align-items:flex-start}.hero .img-wrap{width:100%;height:200px}}
+/* Art Wall */
+.canvas-wrap{border-radius:8px;overflow:hidden;border:1px solid rgba(255,255,255,.04)}
+canvas{display:block;width:100%;height:300px;background:linear-gradient(180deg,#021320,#061826)}
+.tools{display:flex;gap:8px;margin-top:8px;align-items:center}
 
-/* small helpers */
-input,textarea,button{font-family:inherit}
-input,textarea{background:transparent;border:1px solid rgba(255,255,255,.04);padding:8px;border-radius:8px;color:inherit}
-.btn{background:var(--accent1);color:#042;padding:8px 12px;border-radius:8px;border:none;cursor:pointer;font-weight:700}
-.small{padding:6px 10px;font-size:13px}
+/* badges */
+.badge{display:inline-block;padding:6px 10px;border-radius:999px;background:linear-gradient(90deg,var(--accent2),var(--accent));color:#022;font-weight:700}
+
+@media(max-width:980px){.grid{grid-template-columns:1fr}.hero{flex-direction:column}.hero .left{width:100%}.canvas-wrap canvas{height:220px}}
 
   </style>
 </head>
@@ -56,180 +61,184 @@ input,textarea{background:transparent;border:1px solid rgba(255,255,255,.04);pad
     <header>
       <div class="logo">DZ</div>
       <div>
-        <h1>Dream Zone — ৫টি গ্রাফিক্যাল ড্রিম ফিচার (No AI)</h1>
-        <p class="lead muted">প্রথমে প্রদত্ত ছবি ব্যবহার করে, প্রতিটি এলিমেন্টে 3D ইফেক্ট ও ১ সেকেন্ডের রঙ পরিবর্তন অ্যানিমেশন।</p>
+        <h1>Dream Zone — আনন্দ, শান্তি ও মজা</h1>
+        <p class="lead muted">একটা সুন্দর, ইন্টারঅ্যাকটিভ পেজ — ফুল ফুটবে, হাসি ছড়াবে, শ্বাস-প্রশ্বাস শিখাবে, আঁকবে আর মুড বদলে দেবে।</p>
       </div>
-    </header><!-- HERO with provided image (corrected to .png) -->
-<section class="hero card card--3d">
-  <div class="img-wrap">
+    </header><!-- HERO with provided image (explicitly included) -->
+<section class="hero card">
+  <div class="left">
     <img src="https://raw.githubusercontent.com/imranmahi529/Mahi-s-zone/refs/heads/main/Gemini_Generated_Image_1boe9n1boe9n1boe.png" alt="Dream Hero">
   </div>
   <div style="flex:1">
-    <h2 style="margin:0 0 6px 0">Graphics First — 3D Effects & 1s Color Shift</h2>
-    <p class="muted">এই পেজে AI ফিচার বাদ দিয়ে ৫টি ইন্টারঅ্যাকটিভ গ্রাফিক্স ফিচার তৈরি করা হলো — প্রত্যেকটি স্টাইলিশ, আধুনিক এবং লোকাল-ডেমো হিসেবে কাজ করে।</p>
-    <p style="margin-top:8px" class="muted"><strong>Image:</strong> আমি URL-এ থাকা শেষ অংশ `.পং` -> `.png` ধরে নিয়েছি; যদি অন্য ফাইল থাকে বলো, বদলে দেব।</p>
+    <h2>স্বাগতম — ঘরোয়া খুশির জায়গা</h2>
+    <p class="muted">এই জায়গায় ঢুকলেই মন হালকা হবে — তুমি চাইলে সাউন্ড চালাতে পারবে, মুড চেঞ্জ করতে পারবে এবং সবকিছু নিজের মতো সাজাতে পারবে।</p>
+    <div style="margin-top:10px;display:flex;gap:8px;align-items:center">
+      <button class="badge" id="toggleSound">🔊 সাউন্ড চালাও</button>
+      <button class="badge" id="resetAll">♻️ Reset</button>
+    </div>
   </div>
 </section>
 
-<div class="grid" style="margin-top:20px">
-  <!-- 1. Virtual Dream Board -->
-  <section class="card card--3d">
-    <h2><i class="fa-regular fa-images"></i> Virtual Dream Board</h2>
-    <p class="muted">ড্রিম ছবি, লিঙ্ক বা লেখা পিন করে কোলাজ তৈরি করো — ড্র্যাগ, রিমুভ।</p>
-    <div id="board"></div>
+<div class="grid">
+  <!-- Joy Ride -->
+  <div class="card">
+    <h2>🎡 Joy Ride — Mood Play</h2>
+    <p class="muted">মুচকি হাওয়া, বেলুন উড়া — মুড সিলেক্ট করলে ব্যাকগ্রাউন্ড রঙ ও এনিমেশন বদলাবে।</p>
     <div style="margin-top:10px;display:flex;gap:8px;align-items:center">
-      <input id="pinText" placeholder="নতুন ড্রিম লিখো...">
-      <button class="btn small" onclick="addPin()">Add</button>
+      <select id="moodSelect">
+        <option value="happy">😍 Happy</option>
+        <option value="calm">😌 Calm</option>
+        <option value="excited">🤩 Excited</option>
+        <option value="relax">🧘 Relax</option>
+      </select>
+      <button class="badge" id="popBalloons">🎈 Pop 5</button>
     </div>
-  </section>
+    <div class="sky" id="sky"></div>
+  </div>
 
-  <!-- 2. Dream → Reality Tracker -->
-  <section class="card card--3d">
-    <h2><i class="fa-solid fa-chart-line"></i> Dream → Reality Tracker</h2>
-    <p class="muted">লক্ষ্য যোগ করো, progress আপডেট করো — progress বার সহ।</p>
-    <div id="trackerList"></div>
-    <div style="margin-top:10px;display:flex;gap:8px;align-items:center">
-      <input id="goalName" placeholder="Goal নাম" style="flex:1">
-      <button class="btn small" onclick="addGoal()">Add</button>
+  <!-- Dream Garden -->
+  <div class="card">
+    <h2>🌸 Dream Garden</h2>
+    <p class="muted">ক্লিক করলে ফুল ফুটবে। ফুল যত বেশি, তত তোমার "Positive Meter" বাড়বে।</p>
+    <div class="garden" id="garden">Click here to grow a flower</div>
+    <div style="margin-top:10px"><span class="muted">Positive Meter:</span> <span id="meterVal" class="badge">0</span></div>
+  </div>
+
+  <!-- Smile Mirror -->
+  <div class="card">
+    <h2>😁 Smile Mirror</h2>
+    <p class="muted">প্রতি কয়েক সেকেন্ডে মজার লাইনে-লাইনে হাসি ছড়াবে — তোমার হাসি পয়েন্ট জমবে।</p>
+    <div class="mirror" id="mirror">Have a smile — sit back and watch!</div>
+    <div style="margin-top:8px"><small class="muted">Happiness Points: </small> <span id="happyPoints" class="badge">0</span></div>
+  </div>
+
+  <!-- Peace Zone -->
+  <div class="card">
+    <h2>🌿 Peace Zone — Breathe</h2>
+    <p class="muted">একটা সহজ guided breathing exercise — circle ফুলবে/ছোট হবে, ওর সাথে শ্বাস-প্রশ্বাস করো।</p>
+    <div class="breath">
+      <div class="breath-circle" id="breathCircle">Breathe</div>
+      <div class="breath-controls">
+        <button class="badge" id="startBreath">Start</button>
+        <button class="badge" id="stopBreath">Stop</button>
+        <small class="muted">Tempo: <input id="breathSpeed" type="range" min="3" max="8" value="5"></small>
+      </div>
     </div>
-  </section>
+  </div>
 
-  <!-- 3. World Dream Map (simple) -->
-  <section class="card card--3d">
-    <h2><i class="fa-solid fa-map-location-dot"></i> World Dream Map</h2>
-    <p class="muted">দেশ পিন করে দেখাও; ডেমো হিসেবে country name নেয়া হবে — প্রোডাকশনে map API লাগবে।</p>
-    <div class="map card" id="map" style="height:160px;display:flex;align-items:center;justify-content:center;border-radius:10px;">Click to add a pin</div>
-    <div style="margin-top:8px"><small class="muted">Pins:</small><ul id="pins" class="muted"></ul></div>
-  </section>
-
-  <!-- 4. Dream Journal (graphical entries) -->
-  <section class="card card--3d">
-    <h2><i class="fa-regular fa-book-open"></i> Dream Journal</h2>
-    <p class="muted">দৈনন্দিন লিখে রাখো — প্রতিটি এন্ট্রির সাথে থাম্বনেইল বা লাইট গ্রাফিক্স যুক্ত করা যায়।</p>
-    <textarea id="journalText" placeholder="আজকের ড্রিম লিখো..."></textarea>
-    <div style="display:flex;gap:8px;margin-top:8px">
-      <button class="btn" onclick="saveJournal()">Save Entry</button>
-      <button class="small" onclick="clearJournal()">Clear</button>
+  <!-- Dream Art Wall -->
+  <div class="card" style="grid-column:1/3">
+    <h2>🎨 Dream Art Wall</h2>
+    <p class="muted">কাগজে আঁকার মতো স্ক্রিনে আঁকো — শেষে সেভ করে রাখো।</p>
+    <div class="canvas-wrap">
+      <canvas id="artCanvas"></canvas>
     </div>
-    <div id="journalList" style="margin-top:10px;color:var(--muted)"></div>
-  </section>
-
-  <!-- 5. Dream Challenges (graphical badges) -->
-  <section class="card card--3d">
-    <h2><i class="fa-solid fa-medal"></i> Dream Challenges</h2>
-    <p class="muted">মাসিক চ্যালেঞ্জ ও গ্রাফিক্যাল ব্যাজ — সম্পন্ন করলে ব্যাজ আনলক হবে।</p>
-    <ul id="challengeList" class="muted"></ul>
-    <div style="margin-top:8px"><button class="btn small" onclick="seedChallenges()">Load Sample Challenges</button></div>
-  </section>
+    <div class="tools">
+      <label class="muted">Color: <input type="color" id="paintColor" value="#ff66a3"></label>
+      <label class="muted">Size: <input type="range" id="paintSize" min="1" max="40" value="8"></label>
+      <button class="badge" id="clearCanvas">Clear</button>
+      <button class="badge" id="saveCanvas">Save Image</button>
+    </div>
+  </div>
 
 </div>
 
-<footer style="margin-top:18px;color:var(--muted)">লোকাল ডেমো — যদি প্রোডাকশনে নিতে চাও আমি API (maps, image upload) ও auth কনফিগার করে দেব।</footer>
+<footer style="margin-top:18px;color:var(--muted)">শুধু মজার জন্য — যদি প্রোডাকশনে নিতে চাও সাউন্ড ফাইল, map API বা গ্যালারি সেভিং যোগ করব।</footer>
 
   </div>  <script>
-    /* ---------- Helpers: Pins + Storage (no AI) ---------- */
-    const board = document.getElementById('board');
-    function createPin(text){
-      const el = document.createElement('div');
-      el.className = 'pin';
-      el.draggable = true;
-      el.ondragstart = (e)=> e.dataTransfer.setData('text/plain', text);
-      el.innerHTML = `<strong>${text}</strong><div class='muted' style='margin-top:6px;font-size:12px;'>double-click to remove</div>`;
-      el.ondblclick = ()=>{el.remove(); saveBoard()};
-      return el;
+    // Ensure provided image exists: user asked image not to be forgotten
+    // Joy Ride: balloons and mood
+    const sky = document.getElementById('sky');
+    const moods = {
+      happy: {bg:['#ffecd2','#fcb69f'],balloonColors:['#ff9a9e','#ffc3a0','#ffd29a']},
+      calm: {bg:['#dbeafe','#c7f9cc'],balloonColors:['#a7f3d0','#bef264','#86efac']},
+      excited: {bg:['#fff1b6','#ffd6a5'],balloonColors:['#fda4af','#ffd166','#f6d365']},
+      relax: {bg:['#e0f2fe','#e6fffa'],balloonColors:['#9be7ff','#bde0fe','#cfe9ff']}
+    };
+    function setMood(m){
+      const mdata = moods[m]||moods.happy;
+      document.body.style.background = `radial-gradient(circle at 10% 10%, ${mdata.bg[0]} 0%, ${mdata.bg[1]} 40%, #020612 100%)`;
+      // spawn soft balloons
+      sky.innerHTML='';
+      for(let i=0;i<6;i++){
+        const b = document.createElement('div'); b.className='balloon';
+        const left = 8 + i*14 + Math.random()*8; b.style.left = left+'%'; b.style.background = mdata.balloonColors[i % mdata.balloonColors.length];
+        b.style.animation = `float ${6+Math.random()*6}s ease-in infinite`; b.style.transition='transform .4s';
+        const s = document.createElement('div'); s.className='string'; b.appendChild(s);
+        sky.appendChild(b);
+      }
     }
-    function addPin(){
-      const t = document.getElementById('pinText').value.trim();
-      if(!t) return;
-      board.appendChild(createPin(t));
-      document.getElementById('pinText').value=''; saveBoard();
-    }
-    function saveBoard(){
-      const pins = Array.from(board.querySelectorAll('.pin strong')).map(s=>s.textContent);
-      localStorage.setItem('dream_board', JSON.stringify(pins));
-    }
-    function loadBoard(){
-      const pins = JSON.parse(localStorage.getItem('dream_board')||'[]');
-      pins.forEach(t=>board.appendChild(createPin(t)));
-    }
+    // balloon float animation via CSS inserted dynamically
+    const style = document.createElement('style'); style.textContent = `@keyframes float{0%{transform:translateY(0) }100%{transform:translateY(-380px)}}`; document.head.appendChild(style);
+    document.getElementById('moodSelect').addEventListener('change',e=>setMood(e.target.value));
+    document.getElementById('popBalloons').addEventListener('click',()=>{sky.innerHTML='';});
+    setMood('happy');
 
-    /* Tracker */
-    function addGoal(){
-      const name = document.getElementById('goalName').value.trim(); if(!name) return;
-      const goals = JSON.parse(localStorage.getItem('dream_goals')||'[]');
-      goals.push({name,progress:0}); localStorage.setItem('dream_goals', JSON.stringify(goals)); document.getElementById('goalName').value=''; renderGoals();
-    }
-    function renderGoals(){
-      const list = document.getElementById('trackerList'); list.innerHTML='';
-      const goals = JSON.parse(localStorage.getItem('dream_goals')||'[]');
-      goals.forEach((g, idx)=>{
-        const row = document.createElement('div'); row.style.marginTop='10px';
-        row.innerHTML = `<div style='display:flex;justify-content:space-between;align-items:center'><strong>${g.name}</strong>
-          <div style='display:flex;gap:8px;align-items:center'>
-            <button class='small' onclick='updateProgress(${idx}, -10)'>-</button>
-            <div style='width:160px'><div class='progress'><i style='width:${g.progress}%'></i></div></div>
-            <button class='small' onclick='updateProgress(${idx}, 10)'>+</button>
-            <button class='small' onclick='removeGoal(${idx})'>Remove</button>
-          </div></div>`;
-        list.appendChild(row);
-      });
-    }
-    function updateProgress(i, delta){
-      const goals = JSON.parse(localStorage.getItem('dream_goals')||'[]');
-      goals[i].progress = Math.max(0, Math.min(100, goals[i].progress + delta));
-      localStorage.setItem('dream_goals', JSON.stringify(goals)); renderGoals();
-    }
-    function removeGoal(i){const goals = JSON.parse(localStorage.getItem('dream_goals')||'[]');goals.splice(i,1);localStorage.setItem('dream_goals', JSON.stringify(goals));renderGoals();}
+    // Dream Garden
+    const garden = document.getElementById('garden'); let meter=0; const meterVal = document.getElementById('meterVal');
+    garden.addEventListener('click',e=>{
+      const x = Math.random()*80+10; const sz = 40 + Math.random()*60; const col = `hsl(${Math.random()*60+260},80%,65%)`;
+      const f = document.createElement('div'); f.className='flower'; f.style.left = x+'%'; f.style.width = sz+'px'; f.style.height = sz+'px'; f.style.opacity=0; f.style.transform='scale(0.3)';
+      f.innerHTML = '🌸'; f.style.fontSize = (sz*0.6)+'px'; garden.appendChild(f);
+      requestAnimationFrame(()=>{f.style.opacity=1; f.style.transform='scale(1)';});
+      meter = Math.min(999, meter+1); meterVal.textContent = meter; saveState();
+    });
 
-    /* Map (simple) */
-    const map = document.getElementById('map');
-    map.onclick = ()=>{
-      const country = prompt('Country name লিখো যেখানে তোমার ড্রিম— উদাহরণ: Japan, Bangladesh');
-      if(!country) return; addPinToMap(country);
-    }
-    function addPinToMap(country){
-      const pins = JSON.parse(localStorage.getItem('dream_pins')||'[]');
-      pins.push({country,when:new Date().toLocaleDateString()});
-      localStorage.setItem('dream_pins', JSON.stringify(pins)); renderPins();
-    }
-    function renderPins(){
-      const ul = document.getElementById('pins'); ul.innerHTML='';
-      const pins = JSON.parse(localStorage.getItem('dream_pins')||'[]');
-      pins.forEach((p, i)=>{const li=document.createElement('li'); li.textContent = `${p.country} — ${p.when}`; ul.appendChild(li)});
-    }
+    // Smile Mirror
+    const jokes = [
+      'আজ তুমি চেয়ারকে জিজ্ঞেস করো—"কি বলো?" চেয়ার হলো— "সিট-ইডিয়াল!" 😄',
+      'একটি কৌতুক: পেঁচা রাতে বই পড়ল — কারণ সে "বুকওয়ার্ম" ছিল! 😂',
+      'হাসি ছড়াও: ছোট্ট জোক: কেন চাঁদ স্কুলে যায় না? কারণ সে রাতভ্রমি! 🌝'
+    ];
+    const mirror = document.getElementById('mirror'); let happyPoints=0; const happyPointsEl=document.getElementById('happyPoints');
+    function rotateJoke(){ const j = jokes[Math.floor(Math.random()*jokes.length)]; mirror.textContent = j; happyPoints+=5; happyPointsEl.textContent = happyPoints; saveState(); }
+    rotateJoke(); setInterval(rotateJoke,7000);
 
-    /* Journal */
-    function saveJournal(){
-      const t = document.getElementById('journalText').value.trim(); if(!t) return;
-      const entries = JSON.parse(localStorage.getItem('dream_journal')||'[]');
-      entries.unshift({text:t,when:new Date().toLocaleString()});
-      localStorage.setItem('dream_journal', JSON.stringify(entries)); document.getElementById('journalText').value=''; renderJournal();
+    // Peace Zone - breathing (visual + audio via WebAudio)
+    let breathInterval=null; const breathCircle=document.getElementById('breathCircle');
+    function startBreath(){ stopBreath(); const speed = Number(document.getElementById('breathSpeed').value); let phase=0; breathInterval = setInterval(()=>{
+        // phase cycles 0..1
+        phase = (phase+1/(speed*2)) % 1;
+        const scale = 1 + 0.6*Math.sin(phase*Math.PI*2);
+        breathCircle.style.transform = `scale(${scale})`;
+      }, 1000/30);
+      // optionally use gentle tone
+      startSoundTone();
     }
-    function clearJournal(){ if(confirm('Clear all journal entries?')){localStorage.removeItem('dream_journal');renderJournal();} }
-    function renderJournal(){
-      const out = document.getElementById('journalList'); out.innerHTML='';
-      const entries = JSON.parse(localStorage.getItem('dream_journal')||'[]');
-      entries.forEach(e=>{const d=document.createElement('div');d.style.marginTop='8px';d.innerHTML=`<strong>${e.when}</strong><div class='muted'>${e.text}</div>`;out.appendChild(d)});
-    }
+    function stopBreath(){ if(breathInterval){ clearInterval(breathInterval); breathInterval=null; breathCircle.style.transform='scale(1)'; stopSoundTone(); } }
+    document.getElementById('startBreath').addEventListener('click',startBreath);
+    document.getElementById('stopBreath').addEventListener('click',stopBreath);
 
-    /* Challenges */
-    function seedChallenges(){
-      const sample = [
-        {title:'Learn a new skill for 14 days',done:false},
-        {title:'Read one inspiring article this week',done:false},
-        {title:'Record a 1-minute dream journal video',done:false}
-      ];
-      localStorage.setItem('dream_challenges', JSON.stringify(sample)); renderChallenges();
-    }
-    function renderChallenges(){
-      const list = document.getElementById('challengeList'); list.innerHTML='';
-      const items = JSON.parse(localStorage.getItem('dream_challenges')||'[]');
-      items.forEach((c,i)=>{const li=document.createElement('li'); li.style.marginTop='8px'; li.innerHTML = `<label><input type='checkbox' ${c.done? 'checked':''} onchange='toggleChallenge(${i})'> ${c.title}</label>`; list.appendChild(li)});
-    }
-    function toggleChallenge(i){const items = JSON.parse(localStorage.getItem('dream_challenges')||'[]'); items[i].done = !items[i].done; localStorage.setItem('dream_challenges', JSON.stringify(items)); renderChallenges();}
+    // Art Wall
+    const canvas = document.getElementById('artCanvas'); const ctx = canvas.getContext('2d');
+    function resizeCanvas(){ const r = canvas.getBoundingClientRect(); canvas.width = r.width*devicePixelRatio; canvas.height = r.height*devicePixelRatio; canvas.style.width = r.width+'px'; canvas.style.height = r.height+'px'; ctx.scale(devicePixelRatio,devicePixelRatio); }
+    function clearCanvas(){ ctx.clearRect(0,0,canvas.width,canvas.height); }
+    function saveCanvasImage(){ const data = canvas.toDataURL('image/png'); const a = document.createElement('a'); a.href = data; a.download = 'dream-art.png'; a.click(); }
+    window.addEventListener('resize',resizeCanvas); resizeCanvas(); clearCanvas();
+    let drawing=false; function getPos(e){ const r=canvas.getBoundingClientRect(); const x = (e.clientX||e.touches[0].clientX)-r.left; const y = (e.clientY||e.touches[0].clientY)-r.top; return {x,y}; }
+    canvas.addEventListener('pointerdown',e=>{ drawing=true; const p=getPos(e); ctx.beginPath(); ctx.lineCap='round'; ctx.lineJoin='round'; ctx.moveTo(p.x,p.y); });
+    canvas.addEventListener('pointermove',e=>{ if(!drawing) return; const p=getPos(e); ctx.lineWidth = Number(document.getElementById('paintSize').value); ctx.strokeStyle = document.getElementById('paintColor').value; ctx.lineTo(p.x,p.y); ctx.stroke(); });
+    canvas.addEventListener('pointerup',e=>{ drawing=false; });
+    document.getElementById('clearCanvas').addEventListener('click', ()=>{ if(confirm('Clear drawing?')) clearCanvas(); });
+    document.getElementById('saveCanvas').addEventListener('click', saveCanvasImage);
 
-    /* init */
-    function init(){ loadBoard(); renderGoals(); renderPins(); renderJournal(); renderChallenges(); }
-    init();
+    // Local state save/load
+    function saveState(){ const state = {meter, happyPoints}; localStorage.setItem('dream_state', JSON.stringify(state)); }
+    function loadState(){ const s = JSON.parse(localStorage.getItem('dream_state')||'{}'); if(s.meter) meter=s.meter; meterVal.textContent=meter; if(s.happyPoints) happyPoints=s.happyPoints; happyPointsEl.textContent=happyPoints; }
+    loadState();
+
+    // Gentle sound engine (simple oscillator) toggled by header button
+    let audioCtx=null; let osc=null; let gain=null; let soundOn=false;
+    function startSoundTone(){ if(!soundOn) return; if(!audioCtx) audioCtx = new (window.AudioContext||window.webkitAudioContext)(); osc = audioCtx.createOscillator(); gain = audioCtx.createGain(); osc.type='sine'; osc.frequency.value = 220; gain.gain.value = 0.02; osc.connect(gain); gain.connect(audioCtx.destination); osc.start(); }
+    function stopSoundTone(){ if(osc){ try{osc.stop(); }catch(e){} osc.disconnect(); osc=null;} if(gain){ gain.disconnect(); gain=null; } }
+    document.getElementById('toggleSound').addEventListener('click', ()=>{
+      soundOn = !soundOn; document.getElementById('toggleSound').textContent = soundOn? '🔈 সাউন্ড বন্ধ কর':'🔊 সাউন্ড চালাও'; if(soundOn){ if(audioCtx && audioCtx.state==='suspended') audioCtx.resume(); startSoundTone(); } else { stopSoundTone(); }
+    });
+
+    // reset
+    document.getElementById('resetAll').addEventListener('click',()=>{ if(confirm('Reset all Dream Zone state?')){ localStorage.removeItem('dream_state'); localStorage.removeItem('dream_journal'); localStorage.removeItem('dream_board'); localStorage.removeItem('dream_pins'); localStorage.removeItem('dream_goals'); location.reload(); } });
+
+    // ensure canvas high-dpi ready after potential layout
+    setTimeout(()=>{ resizeCanvas(); },300);
   </script></body>
 </html>
