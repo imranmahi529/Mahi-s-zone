@@ -1,129 +1,150 @@
 <!DOCTYPE html>
 <html lang="bn">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>চাকরির খবর</title>
-  <style>
-    /* General Styles */
-    body {
-      font-family: 'Arial', sans-serif;
-      margin: 0;
-      padding: 0;
-      background-color: #f4f4f4;
-      color: #333;
-    }
-    .container {
-      width: 80%;
-      margin: 0 auto;
-      padding: 20px;
-    }
-    h1 {
-      text-align: center;
-      color: #2c3e50;
-    }
-    .job-card {
-      background-color: #fff;
-      border-radius: 8px;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-      margin-bottom: 20px;
-      padding: 15px;
-      transition: transform 0.3s;
-    }
-    .job-card:hover {
-      transform: translateY(-5px);
-    }
-    .job-card img {
-      width: 100%;
-      height: auto;
-      border-radius: 8px;
-    }
-    .job-details {
-      margin-top: 10px;
-    }
-    .job-details p {
-      margin: 5px 0;
-    }
-    .apply-btn {
-      display: inline-block;
-      background-color: #3498db;
-      color: #fff;
-      padding: 10px 15px;
-      border-radius: 5px;
-      text-decoration: none;
-      margin-top: 10px;
-    }
-    .apply-btn:hover {
-      background-color: #2980b9;
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Job & Circular Universe - Hyper Graphics</title>
+<style>
+body, html{margin:0;padding:0;height:100%;font-family:Arial,sans-serif;overflow-x:hidden;background:#02031a;color:#fff;}
+h1{text-align:center;margin:20px 0;font-size:2.5em;color:#6ee7b7;}
+.container{width:90%;max-width:1400px;margin:0 auto;padding:20px;position:relative;z-index:2;}
+
+/* BACKGROUND */
+.bg-wrap{position:fixed;top:0;left:0;width:100%;height:100%;z-index:-1;overflow:hidden;}
+.bg-hero{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) scale(1.1);width:1600px;height:1000px;background-image:url('https://raw.githubusercontent.com/imranmahi529/Mahi-s-zone/refs/heads/main/Gemini_Generated_Image_1boe9n1boe9n1boe.png');background-size:cover;background-position:center;filter:blur(25px) brightness(.7) saturate(1.3);border-radius:30px;animation:zoom 20s ease-in-out infinite alternate;}
+@keyframes zoom{0%{transform:translate(-50%,-50%) scale(1.05);}100%{transform:translate(-50%,-50%) scale(1.15);}}
+.bg-rings::before{content:"";position:absolute;inset:0;background:conic-gradient(from 0deg,#6ee7b7 0%,#60a5fa 50%,#ff9aa2 100%);opacity:0.08;filter:blur(120px);animation:rotate 60s linear infinite;}
+@keyframes rotate{to{transform:rotate(360deg);}}
+.particles{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:-1;}
+.particle{position:absolute;width:5px;height:5px;background:rgba(110,231,183,0.7);border-radius:50%;animation:float 12s linear infinite;}
+@keyframes float{0%{transform:translateY(100vh);}100%{transform:translateY(-10vh);}}
+
+/* JOB CARDS */
+.job-card{background:rgba(255,255,255,0.05);border-radius:20px;padding:20px;margin-bottom:25px;display:flex;gap:20px;align-items:center;box-shadow:0 12px 60px rgba(0,0,0,0.6);transition:transform 0.5s,box-shadow 0.5s;}
+.job-card:hover{transform:translateY(-10px) rotateX(5deg) rotateY(-7deg);box-shadow:0 20px 80px rgba(0,0,0,0.8);}
+.job-thumb{width:140px;height:100px;border-radius:15px;object-fit:cover;border:2px solid #6ee7b7;}
+.job-details{flex:1;position:relative;}
+.job-details h2{margin:0 0 6px 0;font-size:1.3em;color:#60a5fa;}
+.job-details p{margin:3px 0;color:#9fb1c0;font-size:0.9em;}
+.apply-btn{padding:10px 15px;background:linear-gradient(90deg,#60a5fa,#6ee7b7);color:#02031a;font-weight:600;border:none;border-radius:12px;cursor:pointer;transition:transform .3s,box-shadow .3s;}
+.apply-btn:hover{transform:translateY(-4px) scale(1.05);box-shadow:0 0 20px #6ee7b7;}
+
+/* Mini icons and shapes for hyper graphics */
+.icon{width:20px;height:20px;position:absolute;border-radius:50%;animation:floatIcon linear infinite;}
+@keyframes floatIcon{0%{transform:translateY(0) rotate(0deg);}100%{transform:translateY(-200px) rotate(360deg);}}
+</style>
 </head>
 <body>
 
-  <div class="container">
-    <h1>চাকরির খবর</h1>
+<div class="bg-wrap">
+  <div class="bg-hero"></div>
+  <div class="bg-rings"></div>
+  <div class="particles"></div>
+</div>
 
-    <!-- Grameenphone Software Engineer -->
-    <div class="job-card">
-      <img src="https://example.com/grameenphone.jpg" alt="Grameenphone Software Engineer">
-      <div class="job-details">
-        <h2>পদের নাম: সফটওয়্যার ইঞ্জিনিয়ার</h2>
-        <p><strong>কোম্পানি:</strong> গ্রামীণফোন</p>
-        <p><strong>লোকেশন:</strong> ঢাকা</p>
-        <p><strong>ডেডলাইন:</strong> ২০ অক্টোবর ২০২৫</p>
-        <a href="https://www.grameenphone.com/about/career" class="apply-btn" target="_blank">আবেদন করুন</a>
-      </div>
-    </div>
+<div class="container">
+<h1>Job & Circular Universe</h1>
 
-    <!-- Dutch-Bangla Bank Management Trainee Officer -->
-    <div class="job-card">
-      <img src="https://example.com/dutch-bangla-bank.jpg" alt="Dutch-Bangla Bank Management Trainee Officer">
-      <div class="job-details">
-        <h2>পদের নাম: ম্যানেজমেন্ট ট্রেইনি অফিসার</h2>
-        <p><strong>কোম্পানি:</strong> ডাচ-বাংলা ব্যাংক</p>
-        <p><strong>লোকেশন:</strong> ঢাকা</p>
-        <p><strong>ডেডলাইন:</strong> ৪ অক্টোবর ২০২৫</p>
-        <a href="https://app.dutchbanglabank.com/Online_Job/" class="apply-btn" target="_blank">আবেদন করুন</a>
-      </div>
-    </div>
-
-    <!-- BRAC Senior Officer -->
-    <div class="job-card">
-      <img src="https://example.com/brac.jpg" alt="BRAC Senior Officer">
-      <div class="job-details">
-        <h2>পদের নাম: সিনিয়র অফিসার</h2>
-        <p><strong>কোম্পানি:</strong> ব্র্যাক</p>
-        <p><strong>লোকেশন:</strong> ঢাকা</p>
-        <p><strong>ডেডলাইন:</strong> ১৯ অক্টোবর ২০২৫</p>
-        <a href="https://careers.brac.net/jobs" class="apply-btn" target="_blank">আবেদন করুন</a>
-      </div>
-    </div>
-
-    <!-- Pathao Senior Software Engineer -->
-    <div class="job-card">
-      <img src="https://example.com/pathao.jpg" alt="Pathao Senior Software Engineer">
-      <div class="job-details">
-        <h2>পদের নাম: সিনিয়র সফটওয়্যার ইঞ্জিনিয়ার</h2>
-        <p><strong>কোম্পানি:</strong> পাথাও</p>
-        <p><strong>লোকেশন:</strong> ঢাকা</p>
-        <p><strong>ডেডলাইন:</strong> ৩০ অক্টোবর ২০২৫</p>
-        <a href="https://career.pathao.com/" class="apply-btn" target="_blank">আবেদন করুন</a>
-      </div>
-    </div>
-
-    <!-- Bangladesh Bank Branch Manager -->
-    <div class="job-card">
-      <img src="https://example.com/bangladesh-bank.jpg" alt="Bangladesh Bank Branch Manager">
-      <div class="job-details">
-        <h2>পদের নাম: ব্রাঞ্চ ম্যানেজার</h2>
-        <p><strong>কোম্পানি:</strong> বাংলাদেশ ব্যাংক</p>
-        <p><strong>লোকেশন:</strong> সিলেট</p>
-        <p><strong>ডেডলাইন:</strong> ১০ নভেম্বর ২০২৫</p>
-        <a href="https://www.bb.org.bd/" class="apply-btn" target="_blank">আবেদন করুন</a>
-      </div>
-    </div>
-
+<!-- Job Cards -->
+<div class="job-card">
+  <img class="job-thumb" src="https://example.com/grameenphone.jpg" alt="Grameenphone">
+  <div class="job-details">
+    <h2>Software Engineer</h2>
+    <p><strong>Company:</strong> Grameenphone</p>
+    <p><strong>Location:</strong> Dhaka</p>
+    <p><strong>Deadline:</strong> 20 Oct 2025</p>
+    <button class="apply-btn" onclick="confetti()">Apply</button>
   </div>
+</div>
+
+<div class="job-card">
+  <img class="job-thumb" src="https://example.com/dutch-bangla-bank.jpg" alt="Dutch-Bangla Bank">
+  <div class="job-details">
+    <h2>Management Trainee Officer</h2>
+    <p><strong>Company:</strong> Dutch-Bangla Bank</p>
+    <p><strong>Location:</strong> Dhaka</p>
+    <p><strong>Deadline:</strong> 4 Oct 2025</p>
+    <button class="apply-btn" onclick="confetti()">Apply</button>
+  </div>
+</div>
+
+<div class="job-card">
+  <img class="job-thumb" src="https://example.com/brac.jpg" alt="BRAC">
+  <div class="job-details">
+    <h2>Senior Officer</h2>
+    <p><strong>Company:</strong> BRAC</p>
+    <p><strong>Location:</strong> Dhaka</p>
+    <p><strong>Deadline:</strong> 19 Oct 2025</p>
+    <button class="apply-btn" onclick="confetti()">Apply</button>
+  </div>
+</div>
+
+<div class="job-card">
+  <img class="job-thumb" src="https://example.com/pathao.jpg" alt="Pathao">
+  <div class="job-details">
+    <h2>Senior Software Engineer</h2>
+    <p><strong>Company:</strong> Pathao</p>
+    <p><strong>Location:</strong> Dhaka</p>
+    <p><strong>Deadline:</strong> 30 Oct 2025</p>
+    <button class="apply-btn" onclick="confetti()">Apply</button>
+  </div>
+</div>
+
+<div class="job-card">
+  <img class="job-thumb" src="https://example.com/bangladesh-bank.jpg" alt="Bangladesh Bank">
+  <div class="job-details">
+    <h2>Branch Manager</h2>
+    <p><strong>Company:</strong> Bangladesh Bank</p>
+    <p><strong>Location:</strong> Sylhet</p>
+    <p><strong>Deadline:</strong> 10 Nov 2025</p>
+    <button class="apply-btn" onclick="confetti()">Apply</button>
+  </div>
+</div>
+
+</div>
+
+<script>
+// Floating particles
+const particlesContainer = document.querySelector('.particles');
+for(let i=0;i<80;i++){
+  let p = document.createElement('div');
+  p.className='particle';
+  p.style.left=Math.random()*100+'vw';
+  p.style.animationDelay=Math.random()*10+'s';
+  p.style.width=p.style.height=(Math.random()*6+3)+'px';
+  particlesContainer.appendChild(p);
+}
+
+// Confetti effect
+function confetti(){
+  for(let i=0;i<120;i++){
+    const c=document.createElement('div');
+    c.style.position='fixed';
+    c.style.width='6px';
+    c.style.height='6px';
+    c.style.background=['#6ee7b7','#60a5fa','#ff9aa2','#ffdc7f'][Math.floor(Math.random()*4)];
+    c.style.left=Math.random()*100+'vw';
+    c.style.top=Math.random()*100+'vh';
+    c.style.borderRadius='50%';
+    c.style.zIndex='9999';
+    c.style.pointerEvents='none';
+    document.body.appendChild(c);
+    setTimeout(()=>{c.remove();},2500);
+  }
+}
+
+// Floating mini icons
+for(let i=0;i<100;i++){
+  let icon = document.createElement('div');
+  icon.className='icon';
+  icon.style.left=Math.random()*100+'vw';
+  icon.style.bottom=Math.random()*-100+'px';
+  icon.style.width=icon.style.height=(Math.random()*10+5)+'px';
+  icon.style.background=['#6ee7b7','#60a5fa','#ff9aa2','#ffdc7f'][Math.floor(Math.random()*4)];
+  icon.style.animationDuration=(Math.random()*15+10)+'s';
+  document.body.appendChild(icon);
+}
+</script>
 
 </body>
 </html>
