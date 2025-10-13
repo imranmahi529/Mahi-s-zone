@@ -1,123 +1,143 @@
 <!DOCTYPE html>
-<html lang="bn">
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>I.H MAHI Editor</title>
-<style>
-body, html{margin:0;padding:0;height:100%;overflow:hidden;font-family:Arial,sans-serif;background:#0b0c17;color:#fff;}
-h1{text-align:center;margin:20px 0;font-size:2.5em;color:#00ffff;}
-.container{width:90%;max-width:1000px;margin:0 auto;padding:10px;position:relative;z-index:2;}
-#canvas{border-radius:20px;display:block;margin:0 auto;margin-bottom:20px;background:#111;}
-.controls{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-bottom:20px;}
-.controls button, .controls input[type=file], .controls input[type=text]{padding:10px 15px;border:none;border-radius:10px;font-weight:600;cursor:pointer;transition:0.3s;}
-.controls button{background:linear-gradient(90deg,#00ffff,#6ee7b7);color:#02031a;}
-.controls button:hover{transform:scale(1.05);box-shadow:0 0 20px #00ffff;}
-.controls input[type=file]{background:#6ee7b7;color:#02031a;}
-.controls input[type=text]{width:200px;}
-.bg-wrap{position:fixed;top:0;left:0;width:100%;height:100%;z-index:-1;overflow:hidden;}
-.bg-particle{position:absolute;border-radius:50%;opacity:0.7;}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Photo Editor</title>
+  <style>
+    body {
+      background-color: #0b0b16;
+      color: white;
+      font-family: "Poppins", sans-serif;
+      text-align: center;
+      margin: 0;
+      padding: 20px;
+    }
+    h1 {
+      color: cyan;
+      font-size: 2rem;
+      margin-bottom: 20px;
+      text-shadow: 0 0 10px cyan;
+    }
+    .editor-box {
+      background: #111;
+      border-radius: 20px;
+      box-shadow: 0 0 20px rgba(0,255,255,0.25);
+      width: 90%;
+      max-width: 500px;
+      margin: auto;
+      padding: 20px;
+    }
+    canvas {
+      width: 100%;
+      border-radius: 15px;
+      margin-top: 10px;
+      background: #000;
+    }
+    input[type="file"] {
+      margin: 15px 0;
+      background: #0ff3;
+      color: #0ff;
+      border: none;
+      cursor: pointer;
+    }
+    .slider-group {
+      margin: 15px 0;
+    }
+    label {
+      display: block;
+      margin-bottom: 5px;
+      color: #0ff;
+      font-weight: bold;
+    }
+    input[type="range"] {
+      width: 80%;
+    }
+    button {
+      background: cyan;
+      border: none;
+      padding: 10px 25px;
+      border-radius: 10px;
+      color: #000;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+    button:hover {
+      background: #00ffaa;
+      box-shadow: 0 0 10px #00ffaa;
+    }
+  </style>
 </head>
 <body>
+  <h1>AI Photo Editor</h1>
 
-<div class="bg-wrap" id="bgWrap"></div>
+  <div class="editor-box">
+    <input type="file" id="upload" accept="image/*"><br>
+    <canvas id="canvas"></canvas>
 
-<div class="container">
-<h1>AI Photo Editor</h1>
+    <div class="slider-group">
+      <label>Brightness</label>
+      <input type="range" id="brightness" min="0" max="200" value="100">
+    </div>
+    <div class="slider-group">
+      <label>Contrast</label>
+      <input type="range" id="contrast" min="0" max="200" value="100">
+    </div>
+    <div class="slider-group">
+      <label>Blur</label>
+      <input type="range" id="blur" min="0" max="10" value="0">
+    </div>
 
-<canvas id="canvas" width="800" height="600"></canvas>
+    <button id="download">Download</button>
+  </div>
 
-<div class="controls">
-<input type="file" id="imageUpload" accept="image/*">
-<button onclick="applyFilter('none')">Normal</button>
-<button onclick="applyFilter('grayscale(100%)')">B&W</button>
-<button onclick="applyFilter('sepia(100%)')">Sepia</button>
-<button onclick="applyFilter('contrast(150%) brightness(120%)')">Bright</button>
-<button onclick="applyFilter('hue-rotate(90deg) saturate(150%)')">Neon</button>
-<input type="text" id="textInput" placeholder="Type text">
-<button onclick="addText()">Add Text</button>
-<button onclick="enableDraw()">Draw</button>
-<button onclick="takeSnapshot()">Download</button>
-</div>
-</div>
+  <script>
+    const upload = document.getElementById("upload");
+    const canvas = document.getElementById("canvas");
+    const ctx = canvas.getContext("2d");
+    let img = new Image();
 
-<script>
-const canvas=document.getElementById('canvas');
-const ctx=canvas.getContext('2d');
-let img=new Image();
-let drawing=false;
+    upload.addEventListener("change", e => {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = () => {
+        img.src = reader.result;
+      };
+      reader.readAsDataURL(file);
+    });
 
-// Image Upload
-document.getElementById('imageUpload').addEventListener('change',function(e){
-  const file=e.target.files[0];
-  if(file){
-    const reader=new FileReader();
-    reader.onload=function(ev){
-      img.src=ev.target.result;
-      img.onload=function(){ctx.drawImage(img,0,0,canvas.width,canvas.height);}
+    img.onload = function() {
+      canvas.width = img.width;
+      canvas.height = img.height;
+      applyFilters();
+    };
+
+    const filters = {
+      brightness: document.getElementById("brightness"),
+      contrast: document.getElementById("contrast"),
+      blur: document.getElementById("blur"),
+    };
+
+    Object.values(filters).forEach(slider => {
+      slider.addEventListener("input", applyFilters);
+    });
+
+    function applyFilters() {
+      const brightness = filters.brightness.value;
+      const contrast = filters.contrast.value;
+      const blur = filters.blur.value;
+      ctx.filter = `brightness(${brightness}%) contrast(${contrast}%) blur(${blur}px)`;
+      ctx.drawImage(img, 0, 0);
     }
-    reader.readAsDataURL(file);
-  }
-});
 
-// Filters
-function applyFilter(filter){canvas.style.filter=filter;}
-
-// Text overlay
-function addText(){
-  const text=document.getElementById('textInput').value;
-  if(text){
-    ctx.font='40px Arial';
-    ctx.fillStyle='white';
-    ctx.fillText(text,50,50);
-  }
-}
-
-// Draw tool
-function enableDraw(){
-  canvas.addEventListener('mousedown',()=>{drawing=true;});
-  canvas.addEventListener('mouseup',()=>{drawing=false;ctx.beginPath();});
-  canvas.addEventListener('mousemove',drawBrush);
-}
-function drawBrush(e){
-  if(!drawing) return;
-  ctx.lineWidth=5;
-  ctx.strokeStyle='cyan';
-  ctx.lineCap='round';
-  ctx.lineTo(e.offsetX,e.offsetY);
-  ctx.stroke();
-  ctx.beginPath();
-  ctx.moveTo(e.offsetX,e.offsetY);
-}
-
-// Download with watermark
-function takeSnapshot(){
-  ctx.font='20px Arial';
-  ctx.fillStyle='rgba(0,255,255,0.6)';
-  ctx.fillText('Imran Hussain Mahi',canvas.width-220,canvas.height-20);
-  const link=document.createElement('a');
-  link.download='edited_photo.png';
-  link.href=canvas.toDataURL('image/png');
-  link.click();
-}
-
-// Floating particles background
-const bgWrap=document.getElementById('bgWrap');
-for(let i=0;i<50;i++){
-  const p=document.createElement('div');
-  p.className='bg-particle';
-  p.style.width=p.style.height=(Math.random()*10+5)+'px';
-  p.style.background=['#00ffff','#6ee7b7','#ff9aa2','#ffdc7f'][Math.floor(Math.random()*4)];
-  p.style.left=Math.random()*100+'vw';
-  p.style.top=Math.random()*100+'vh';
-  p.style.animation=`floatParticle ${Math.random()*10+5}s linear infinite alternate`;
-  bgWrap.appendChild(p);
-}
-const style=document.createElement('style');
-style.innerHTML=`@keyframes floatParticle{0%{transform:translateY(0px) rotate(0deg);}100%{transform:translateY(-150px) rotate(360deg);}}`;
-document.head.appendChild(style);
-</script>
-
+    document.getElementById("download").addEventListener("click", () => {
+      const link = document.createElement("a");
+      link.download = "edited_image.png";
+      link.href = canvas.toDataURL();
+      link.click();
+    });
+  </script>
 </body>
 </html>
