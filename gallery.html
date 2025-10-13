@@ -1,125 +1,139 @@
 <!doctype html>
 <html lang="bn">
 <head>
-<meta charset="utf-8" />
+<meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Mahi — Dream Gallery</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap">
+<title>Mahi — Dream Gallery (High Graphics)</title>
+
+<!-- Three.js CDN -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r152/three.min.js"></script>
+
 <style>
   :root{
-    --bg:#060919; --card: rgba(255,255,255,0.03);
-    --accent: #60a5fa; --accent2:#6ee7b7; --muted:#9fb1c0;
+    --bg1:#020617; --bg2:#071834;
+    --card: rgba(255,255,255,0.03);
+    --accent1:#60a5fa; --accent2:#6ee7b7; --muted:#9fb1c0;
+    --glass: rgba(255,255,255,0.04);
   }
   *{box-sizing:border-box}
-  body{margin:0;min-height:100vh;background:linear-gradient(180deg,#020617 0%, #071834 100%);font-family:Inter,system-ui,Arial;color:#e7f7ff}
-  .wrap{max-width:1200px;margin:30px auto;padding:18px}
-  header{display:flex;align-items:center;gap:12px}
-  .logo{width:64px;height:64px;border-radius:12px;background:linear-gradient(135deg,var(--accent2),var(--accent));display:flex;align-items:center;justify-content:center;font-weight:800;color:#032;font-size:18px}
-  h1{margin:0;font-size:20px}
+  body{margin:0;font-family:Inter,system-ui,Arial;background:linear-gradient(180deg,var(--bg1),var(--bg2));color:#eaf6f8;overflow-x:hidden}
+  .wrap{max-width:1280px;margin:28px auto;padding:18px;position:relative;z-index:5}
+  header{display:flex;gap:12px;align-items:center}
+  .logo{width:64px;height:64px;border-radius:12px;background:linear-gradient(135deg,var(--accent2),var(--accent1));display:flex;align-items:center;justify-content:center;font-weight:800;color:#032;font-size:18px}
+  h1{margin:0;font-size:22px}
   .muted{color:var(--muted);font-size:13px}
 
-  /* tabs */
-  .tabs{display:flex;gap:8px;margin-top:18px}
+  /* Tabs + controls */
+  .topbar{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:18px;flex-wrap:wrap}
+  .tabs{display:flex;gap:8px}
   .tab{padding:8px 12px;border-radius:999px;background:transparent;border:1px solid rgba(255,255,255,0.04);cursor:pointer;color:var(--muted)}
-  .tab.active{background:linear-gradient(90deg,var(--accent2),var(--accent));color:#032;border:none;box-shadow:0 10px 40px rgba(0,0,0,0.6)}
+  .tab.active{background:linear-gradient(90deg,var(--accent2),var(--accent1));color:#032;box-shadow:0 18px 60px rgba(0,0,0,0.6)}
+  .search{padding:10px 12px;border-radius:10px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:inherit;min-width:220px}
 
-  /* grid */
-  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px;margin-top:18px}
-  .card{background:var(--card);border-radius:12px;padding:8px;border:1px solid rgba(255,255,255,0.03);overflow:hidden;position:relative;cursor:pointer;transition:transform .18s, box-shadow .18s}
-  .card:hover{transform:translateY(-6px);box-shadow:0 30px 80px rgba(0,0,0,0.6)}
-  .thumb{width:100%;height:140px;object-fit:cover;border-radius:8px;background:#0b1220;display:block}
-  .meta{padding:8px 6px}
+  /* Grid */
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:18px;margin-top:18px}
+  .card{background:var(--card);border-radius:14px;padding:10px;border:1px solid rgba(255,255,255,0.03);position:relative;overflow:hidden;cursor:pointer;transition:transform .32s cubic-bezier(.2,.9,.2,1), box-shadow .32s}
+  .card:hover{transform:translateY(-10px) rotateX(3deg);box-shadow:0 40px 120px rgba(0,0,0,0.7)}
+  .thumb{width:100%;height:180px;object-fit:cover;border-radius:10px;display:block;transition:transform .45s}
+  .card:hover .thumb{transform:scale(1.05) rotate(-0.5deg)}
+  .meta{padding:10px 4px}
   .meta strong{display:block}
-  .meta .small{color:var(--muted);font-size:13px;margin-top:4px}
+  .meta .small{color:var(--muted);font-size:13px;margin-top:6px}
 
-  /* video badge */
-  .badge{position:absolute;left:10px;top:10px;background:rgba(2,6,23,0.7);padding:6px 8px;border-radius:8px;font-weight:700;color:var(--accent2);font-size:13px}
+  .badge{position:absolute;left:12px;top:12px;background:linear-gradient(90deg,#0008,var(--accent2));padding:6px 8px;border-radius:8px;font-weight:800;color:#032;font-size:13px}
 
-  /* lightbox */
-  .lightbox{position:fixed;inset:0;background:rgba(1,4,9,0.8);display:none;align-items:center;justify-content:center;z-index:9999}
+  /* Lightbox */
+  .lightbox{position:fixed;inset:0;background:rgba(0,0,0,0.8);display:none;align-items:center;justify-content:center;z-index:9999}
   .lightbox.show{display:flex}
-  .lb-inner{max-width:90%;max-height:90%;display:flex;flex-direction:column;gap:10px}
-  .lb-img{max-width:100%;max-height:80vh;border-radius:10px;object-fit:contain}
-  .lb-controls{display:flex;gap:8px;align-items:center;justify-content:center}
-  .btn{padding:8px 12px;border-radius:8px;border:none;background:linear-gradient(90deg,var(--accent2),var(--accent));color:#032;font-weight:800;cursor:pointer}
+  .lb-card{width:92%;max-width:1100px;max-height:90vh;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:12px;padding:12px;display:flex;gap:12px;align-items:center;justify-content:center;flex-direction:column}
+  .lb-img{max-width:100%;max-height:78vh;border-radius:10px;object-fit:contain}
+  .lb-actions{display:flex;gap:10px;margin-top:8px}
 
-  /* modal for youtube */
-  .modal{position:fixed;inset:0;background:rgba(0,0,0,0.8);display:none;align-items:center;justify-content:center;z-index:10000}
+  /* YouTube modal */
+  .modal{position:fixed;inset:0;background:rgba(0,0,0,0.86);display:none;align-items:center;justify-content:center;z-index:10000}
   .modal.show{display:flex}
-  .video-wrap{width:90%;max-width:1000px;height:56.25vw;max-height:640px;background:#000;border-radius:12px;overflow:hidden}
-  iframe{width:100%;height:100%;border:0}
+  .videoWrap{width:90%;max-width:1100px;height:56.25vw;max-height:640px;border-radius:12px;overflow:hidden;background:#000}
 
-  /* top controls / search */
-  .controls{display:flex;gap:10px;align-items:center;margin-top:14px;flex-wrap:wrap}
-  .search{padding:8px 12px;border-radius:10px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:inherit}
-  .downloadTip{color:var(--muted);font-size:13px;margin-left:14px}
-
-  @media (max-width:700px){
-    .thumb{height:110px}
-    .logo{width:52px;height:52px}
-    h1{font-size:18px}
+  /* top animated title */
+  .heroTitle{display:flex;flex-direction:column;gap:6px}
+  .colorPulse{
+    font-size:14px;font-weight:700;
+    animation:colorShift 1s linear infinite;
+    -webkit-animation:colorShift 1s linear infinite;
   }
+  @keyframes colorShift{
+    0%{color: #60a5fa}
+    25%{color:#6ee7b7}
+    50%{color:#ff9aa2}
+    75%{color:#ffd36b}
+    100%{color:#60a5fa}
+  }
+
+  /* fixed small footer hint */
+  .hint{position:fixed;right:18px;bottom:18px;background:linear-gradient(90deg,var(--accent2),var(--accent1));padding:10px 12px;border-radius:10px;color:#032;font-weight:800;box-shadow:0 18px 60px rgba(0,0,0,0.6);z-index:50}
+
+  /* responsive */
+  @media(max-width:800px){ .thumb{height:140px} .grid{gap:12px} .lb-card{width:96%} }
 </style>
 </head>
 <body>
+
+<!-- Three.js canvas container (3D wave + particles background) -->
+<div id="three-root" style="position:fixed;inset:0;z-index:-1;"></div>
 
 <div class="wrap">
   <header>
     <div class="logo">MAHI</div>
     <div>
       <h1>Mahi — Dream Gallery</h1>
-      <div class="muted">Photos, Videos & YouTube — play directly on your site</div>
+      <div class="muted">High-Graphics 3D Gallery — hover for 3D, 1s color change & in-site YouTube playback</div>
     </div>
   </header>
 
-  <div class="controls">
-    <div class="tabs" role="tablist" aria-label="Gallery filters">
+  <div class="topbar">
+    <div class="tabs" role="tablist" aria-label="filters">
       <button class="tab active" data-filter="all">All</button>
       <button class="tab" data-filter="photos">Photos</button>
-      <button class="tab" data-filter="videos">Videos</button>
       <button class="tab" data-filter="youtube">YouTube</button>
     </div>
 
-    <input class="search" id="searchInput" placeholder="Search title or type (e.g. Grameenphone)" />
-    <div class="downloadTip">Click a photo to open → Download inside viewer (watermark added)</div>
+    <div style="display:flex;align-items:center;gap:10px">
+      <input class="search" id="searchInput" placeholder="Search title or type..." />
+      <div class="muted" style="font-size:13px">Click image → open viewer → download (watermark added)</div>
+    </div>
   </div>
 
   <div class="grid" id="grid"></div>
 </div>
 
-<!-- Lightbox for images -->
+<!-- Lightbox -->
 <div class="lightbox" id="lightbox" aria-hidden="true">
-  <div class="lb-inner">
+  <div class="lb-card">
     <img id="lbImg" class="lb-img" src="" alt="preview">
-    <div class="lb-controls">
-      <button class="btn" id="prevBtn">Prev</button>
-      <button class="btn" id="downloadBtn">Download (watermark)</button>
-      <button class="btn" id="nextBtn">Next</button>
-      <button class="btn" id="closeLb">Close</button>
+    <div class="lb-actions">
+      <button class="tab btn" id="prevBtn">Prev</button>
+      <button class="tab btn" id="downloadBtn">Download (watermark)</button>
+      <button class="tab btn" id="nextBtn">Next</button>
+      <button class="tab btn" id="closeLb">Close</button>
     </div>
   </div>
 </div>
 
-<!-- Modal for YouTube -->
-<div class="modal" id="ytModal" aria-hidden="true">
-  <div class="video-wrap" id="videoWrap"></div>
-</div>
+<!-- YouTube modal -->
+<div class="modal" id="ytModal" aria-hidden="true"><div class="videoWrap" id="videoWrap"></div></div>
+
+<div class="hint">Tip: Use arrow keys ← → to navigate lightbox</div>
 
 <script>
 /* -------------------------
-   User-provided assets
+   USER ASSETS (corrected extensions)
    ------------------------- */
 const photos = [
-  { id: 'p1', src: 'https://raw.githubusercontent.com/imranmahi529/Mahi-s-zone/refs/heads/main/retouch_2025100514040064.jpg', title: 'Retouch 2025-10-05' },
-  { id: 'p2', src: 'https://raw.githubusercontent.com/imranmahi529/Mahi-s-zone/refs/heads/main/retouch_2025083123245637.%E0%A6%9C%E0%A6%AA%E0%A6%97', title: 'Retouch 2025-08-31' },
-  { id: 'p3', src: 'https://raw.githubusercontent.com/imranmahi529/Mahi-s-zone/refs/heads/main/retouch_2025081001173296.%E0%A6%9C%E0%A6%AA%E0%A6%97', title: 'Retouch 2025-08-10' },
-  { id: 'p4', src: 'https://raw.githubusercontent.com/imranmahi529/Mahi-s-zone/refs/heads/main/edited_image.%E0%A6%AA%E0%A6%82', title: 'Edited Image (PNG?)' },
-  { id: 'p5', src: 'https://raw.githubusercontent.com/imranmahi529/Mahi-s-zone/refs/heads/main/IMG_6346.JPG', title: 'IMG_6346' }
-];
-
-const localVideos = [
-  // if you have direct video file urls you can add here like:
-  // { id: 'v1', src: 'https://yourhost.com/video1.mp4', title: 'My Clip' }
+  { id:'p1', src:'https://raw.githubusercontent.com/imranmahi529/Mahi-s-zone/refs/heads/main/retouch_2025100514040064.jpg', title:'Retouch 2025-10-05' },
+  { id:'p2', src:'https://raw.githubusercontent.com/imranmahi529/Mahi-s-zone/refs/heads/main/retouch_2025083123245637.jpg', title:'Retouch 2025-08-31' },
+  { id:'p3', src:'https://raw.githubusercontent.com/imranmahi529/Mahi-s-zone/refs/heads/main/retouch_2025081001173296.jpg', title:'Retouch 2025-08-10' },
+  { id:'p4', src:'https://raw.githubusercontent.com/imranmahi529/Mahi-s-zone/refs/heads/main/edited_image.png', title:'Edited image' },
+  { id:'p5', src:'https://raw.githubusercontent.com/imranmahi529/Mahi-s-zone/refs/heads/main/IMG_6346.JPG', title:'IMG_6346' }
 ];
 
 const youtubeLinks = [
@@ -131,7 +145,7 @@ const youtubeLinks = [
 ];
 
 /* -------------------------
-   Helpers
+   Utility funcs
    ------------------------- */
 const grid = document.getElementById('grid');
 const tabs = document.querySelectorAll('.tab');
@@ -142,151 +156,131 @@ function extractYouTubeID(url){
   return m ? m[1] : null;
 }
 
-/* create items list mixing photos, local videos and youtube */
+/* build items array */
 let items = [];
 photos.forEach(p => items.push({...p, type:'photo'}));
-localVideos.forEach(v => items.push({...v, type:'video'}));
 youtubeLinks.forEach((y,i) => {
   const id = extractYouTubeID(y);
-  items.push({ id: 'yt' + (i+1), src: y, title: 'YouTube Video ' + (i+1), ytId: id, type: 'youtube' });
+  items.push({ id:'yt'+(i+1), src:y, ytId:id, title:'YouTube Video '+(i+1), type:'youtube' });
 });
 
-/* render grid */
-function renderGrid(list){
-  grid.innerHTML = '';
-  list.forEach(it=>{
-    const el = document.createElement('div');
-    el.className = 'card';
-    if(it.type === 'photo'){
-      const img = document.createElement('img');
-      img.className='thumb';
-      img.loading='lazy';
-      img.src = it.src;
-      img.alt = it.title;
-      el.appendChild(img);
-      el.innerHTML += `<div class="meta"><strong>${it.title}</strong><div class="small">Photo</div></div>`;
-      el.addEventListener('click', ()=> openLightbox(it));
-    } else if(it.type === 'video'){
-      el.innerHTML = `<div class="badge">VIDEO</div><video class="thumb" src="${it.src}" controls muted preload="metadata"></video><div class="meta"><strong>${it.title}</strong><div class="small">Local Video</div></div>`;
-    } else if(it.type === 'youtube'){
-      const thumb = document.createElement('img');
-      thumb.className='thumb';
-      thumb.loading='lazy';
-      thumb.alt = it.title;
-      // use youtube thumbnail if ytId found
-      thumb.src = it.ytId ? `https://img.youtube.com/vi/${it.ytId}/hqdefault.jpg` : '';
-      el.appendChild(thumb);
-      el.innerHTML += `<div class="badge">YT</div><div class="meta"><strong>${it.title}</strong><div class="small">YouTube</div></div>`;
-      el.addEventListener('click', ()=> openYouTube(it));
-    }
-    grid.appendChild(el);
-  });
+/* -------------------------
+   Render Grid
+   ------------------------- */
+function createPhotoCard(it){
+  const el = document.createElement('div');
+  el.className='card';
+  // image tag (try to load; onerror fallback)
+  const img = document.createElement('img');
+  img.className='thumb';
+  img.loading='lazy';
+  img.alt = it.title;
+  img.src = it.src;
+  // on error — show placeholder & store broken link notice
+  img.onerror = function(){
+    img.src = 'data:image/svg+xml;utf8,' + encodeURIComponent(`<svg xmlns='http://www.w3.org/2000/svg' width='800' height='500'><rect width='100%' height='100%' fill='#0b1220'/><text x='50%' y='50%' fill='#6ee7b7' font-size='20' font-family='Arial' text-anchor='middle'>Image failed to load</text></svg>`);
+    const note = document.createElement('div');
+    note.style.fontSize='12px'; note.style.color='var(--muted)'; note.style.marginTop='8px';
+    note.textContent = 'Image may be blocked by CORS or wrong filename — click to open original';
+    el.appendChild(note);
+    el.addEventListener('click', ()=> window.open(it.src, '_blank'));
+  };
+  el.appendChild(img);
+  el.innerHTML += `<div class="meta"><strong>${it.title}</strong><div class="small">Photo</div></div>`;
+  el.addEventListener('click', ()=> openLightbox(it));
+  return el;
+}
+function createYouTubeCard(it){
+  const el = document.createElement('div'); el.className='card';
+  const thumb = document.createElement('img'); thumb.className='thumb'; thumb.loading='lazy';
+  if(it.ytId) thumb.src = `https://img.youtube.com/vi/${it.ytId}/hqdefault.jpg`;
+  else thumb.src='';
+  el.appendChild(thumb);
+  el.innerHTML += `<div class="badge">YT</div><div class="meta"><strong>${it.title}</strong><div class="small">YouTube</div></div>`;
+  el.addEventListener('click', ()=> openYouTube(it));
+  return el;
 }
 
-/* initial render */
+function renderGrid(list){
+  grid.innerHTML='';
+  list.forEach(it=>{
+    if(it.type==='photo') grid.appendChild(createPhotoCard(it));
+    else if(it.type==='youtube') grid.appendChild(createYouTubeCard(it));
+  });
+}
 renderGrid(items);
 
 /* -------------------------
    Tabs & Search
    ------------------------- */
 tabs.forEach(t=>{
-  t.addEventListener('click', ()=>{
+  t.addEventListener('click',()=>{
     tabs.forEach(x=>x.classList.remove('active'));
     t.classList.add('active');
-    const f = t.dataset.filter;
-    applyFilter(f);
+    const f=t.dataset.filter;
+    if(f==='all') renderGrid(items);
+    else renderGrid(items.filter(i=>i.type===f));
   });
 });
-
-searchInput.addEventListener('input', ()=> {
+searchInput.addEventListener('input', ()=>{
   const q = searchInput.value.trim().toLowerCase();
   if(!q) { renderGrid(items); return; }
-  const filtered = items.filter(i => (i.title && i.title.toLowerCase().includes(q)) || (i.type && i.type.includes(q)));
-  renderGrid(filtered);
+  renderGrid(items.filter(i=> (i.title && i.title.toLowerCase().includes(q)) || (i.type && i.type.includes(q)) ));
 });
 
-function applyFilter(f){
-  if(f === 'all') renderGrid(items);
-  else renderGrid(items.filter(i => i.type === f));
-}
-
 /* -------------------------
-   Lightbox (images)
+   Lightbox functions
    ------------------------- */
 const lightbox = document.getElementById('lightbox');
 const lbImg = document.getElementById('lbImg');
-let currentIndex = -1;
 let photoItems = items.filter(i=>i.type==='photo');
+let currentIndex = 0;
 
 function openLightbox(item){
   photoItems = items.filter(i=>i.type==='photo');
-  currentIndex = photoItems.findIndex(p=>p.id === item.id);
+  currentIndex = photoItems.findIndex(p=>p.id===item.id);
   showImage(photoItems[currentIndex].src);
   lightbox.classList.add('show');
   lightbox.setAttribute('aria-hidden','false');
 }
-
-function showImage(src){
-  lbImg.src = src;
-}
+function showImage(src){ lbImg.src = src; }
 
 document.getElementById('closeLb').addEventListener('click', ()=> {
   lightbox.classList.remove('show');
   lightbox.setAttribute('aria-hidden','true');
 });
-
 document.getElementById('prevBtn').addEventListener('click', ()=> {
-  if(currentIndex > 0){ currentIndex--; showImage(photoItems[currentIndex].src); }
+  if(currentIndex>0){ currentIndex--; showImage(photoItems[currentIndex].src); }
 });
 document.getElementById('nextBtn').addEventListener('click', ()=> {
   if(currentIndex < photoItems.length-1){ currentIndex++; showImage(photoItems[currentIndex].src); }
 });
 
-/* Download with watermark (canvas) */
+/* Download with watermark (attempt canvas, fallback to open) */
 document.getElementById('downloadBtn').addEventListener('click', async ()=>{
   const src = lbImg.src;
   try{
-    // try to load image with crossOrigin anonymous
-    const img = await loadImageWithCORS(src);
-    const canvas2 = document.createElement('canvas');
-    canvas2.width = img.width;
-    canvas2.height = img.height;
-    const c2 = canvas2.getContext('2d');
-    c2.drawImage(img,0,0);
-    // watermark
+    const img = await loadImageCORS(src);
+    const cn = document.createElement('canvas');
+    cn.width = img.width; cn.height = img.height;
+    const c = cn.getContext('2d');
+    c.drawImage(img,0,0);
+    // watermark bottom-right
     const text = 'Imran Hussain Mahi';
-    const fontSize = Math.max(24, Math.round(canvas2.width / 30));
-    c2.font = `${fontSize}px Arial`;
-    c2.fillStyle = 'rgba(255,255,255,0.6)';
-    c2.textBaseline = 'bottom';
-    c2.fillText(text, canvas2.width - c2.measureText(text).width - 20, canvas2.height - 20);
-    const data = canvas2.toDataURL('image/png');
-    triggerDownload(data, 'mahi_edited.png');
+    const fontSize = Math.max(22, Math.round(cn.width/30));
+    c.font = `${fontSize}px Arial`;
+    c.fillStyle = 'rgba(255,255,255,0.7)';
+    c.textBaseline = 'bottom';
+    c.fillText(text, cn.width - c.measureText(text).width - 30, cn.height - 30);
+    const data = cn.toDataURL('image/png');
+    triggerDownload(data, 'mahi_image.png');
   }catch(err){
-    // fallback: open image in new tab so user can save manually
-    window.open(src, '_blank');
-    alert('Direct watermark download failed (CORS). Image opened in a new tab — save manually.');
+    window.open(src,'_blank');
+    alert('Unable to add watermark automatically (CORS). Image opened in new tab — save manually.');
   }
 });
-
-// helper to load image with crossOrigin (may fail if server blocks CORS)
-function loadImageWithCORS(src){
-  return new Promise((res, rej)=>{
-    const i = new Image();
-    i.crossOrigin = 'anonymous';
-    i.onload = ()=> res(i);
-    i.onerror = ()=> rej(new Error('Image load error (CORS?)'));
-    i.src = src;
-  });
-}
-function triggerDownload(dataUrl, filename){
-  const a = document.createElement('a');
-  a.href = dataUrl;
-  a.download = filename;
-  document.body.appendChild(a);
-  a.click();
-  a.remove();
-}
+function loadImageCORS(src){ return new Promise((res,rej)=>{ const i=new Image(); i.crossOrigin='anonymous'; i.onload=()=>res(i); i.onerror=()=>rej(new Error('CORS or load error')); i.src=src; }); }
+function triggerDownload(data,filename){ const a=document.createElement('a'); a.href=data; a.download=filename; document.body.appendChild(a); a.click(); a.remove(); }
 
 /* -------------------------
    YouTube modal
@@ -295,23 +289,84 @@ const ytModal = document.getElementById('ytModal');
 const videoWrap = document.getElementById('videoWrap');
 function openYouTube(item){
   if(!item.ytId){ alert('Invalid YouTube link'); return; }
-  videoWrap.innerHTML = `<iframe src="https://www.youtube.com/embed/${item.ytId}?rel=0&autoplay=1" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+  videoWrap.innerHTML = `<iframe src="https://www.youtube.com/embed/${item.ytId}?autoplay=1&rel=0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
   ytModal.classList.add('show'); ytModal.setAttribute('aria-hidden','false');
 }
-ytModal.addEventListener('click', (e)=>{
-  if(e.target === ytModal){
-    ytModal.classList.remove('show'); videoWrap.innerHTML = '';
-  }
+ytModal.addEventListener('click', (e)=>{ if(e.target===ytModal){ ytModal.classList.remove('show'); videoWrap.innerHTML=''; } });
+
+/* keyboard nav */
+document.addEventListener('keydown', e=>{
+  if(e.key === 'ArrowLeft') document.getElementById('prevBtn').click();
+  if(e.key === 'ArrowRight') document.getElementById('nextBtn').click();
+  if(e.key === 'Escape'){ lightbox.classList.remove('show'); ytModal.classList.remove('show'); videoWrap.innerHTML=''; }
 });
 
 /* -------------------------
-   Utility: If you want to add local video playback or more items, push into items[] then renderGrid(items)
+   THREE.JS: 3D wave background + particles (lightweight)
    ------------------------- */
+const threeRoot = document.getElementById('three-root');
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(45, window.innerWidth/window.innerHeight, 0.1, 2000);
+const renderer = new THREE.WebGLRenderer({antialias:true, alpha:true});
+renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+threeRoot.appendChild(renderer.domElement);
 
-/* Accessibility: close lightbox with Esc */
-document.addEventListener('keydown', e=>{
-  if(e.key === 'Escape'){ lightbox.classList.remove('show'); ytModal.classList.remove('show'); videoWrap.innerHTML=''; }
-});
+// lights
+const ambient = new THREE.AmbientLight(0xffffff, 0.6);
+scene.add(ambient);
+const point = new THREE.PointLight(0x60a5fa, 1.2);
+point.position.set(50,50,50);
+scene.add(point);
+
+// wave plane
+const geom = new THREE.PlaneGeometry(600, 300, 160, 60);
+const mat = new THREE.MeshStandardMaterial({color:0x0b1220, emissive:0x001122, side:THREE.DoubleSide, transparent:true, opacity:0.9, roughness:0.8, metalness:0.1});
+const plane = new THREE.Mesh(geom, mat);
+plane.rotation.x = -Math.PI/2.8;
+plane.position.y = -40;
+scene.add(plane);
+
+// particles
+const pCount = 800;
+const pGeom = new THREE.BufferGeometry();
+const pPos = new Float32Array(pCount * 3);
+for(let i=0;i<pCount;i++){
+  pPos[i*3] = (Math.random()-0.5)*800;
+  pPos[i*3+1] = (Math.random()-0.5)*200;
+  pPos[i*3+2] = (Math.random()-0.5)*600;
+}
+pGeom.setAttribute('position', new THREE.BufferAttribute(pPos, 3));
+const pMat = new THREE.PointsMaterial({size:2.0, color:0xff9aa2, transparent:true, opacity:0.85});
+const particles = new THREE.Points(pGeom, pMat);
+scene.add(particles);
+
+camera.position.set(0,40,160);
+
+let time = 0;
+function animateThree(){
+  requestAnimationFrame(animateThree);
+  time += 0.01;
+  // wave: move vertices
+  const pos = geom.attributes.position.array;
+  const verts = geom.parameters;
+  for(let i=0;i<pos.length;i+=3){
+    const x = pos[i], z = pos[i+2];
+    pos[i+1] = Math.sin((x*0.02) + time*1.2) * 6 + Math.cos((z*0.02) + time*0.9)*4;
+  }
+  geom.attributes.position.needsUpdate = true;
+  geom.computeVertexNormals();
+  plane.rotation.z = Math.sin(time*0.2)*0.02;
+  plane.rotation.x = -Math.PI/2.8 + Math.sin(time*0.07)*0.01;
+  particles.rotation.y += 0.0015;
+  renderer.render(scene, camera);
+}
+animateThree();
+window.addEventListener('resize', ()=>{ camera.aspect = window.innerWidth/window.innerHeight; camera.updateProjectionMatrix(); renderer.setSize(window.innerWidth, window.innerHeight); });
+
+/* -------------------------
+   End of script
+   ------------------------- */
 </script>
 </body>
 </html>
