@@ -1,143 +1,119 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="bn">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AI Photo Editor</title>
-  <style>
-    body {
-      background-color: #0b0b16;
-      color: white;
-      font-family: "Poppins", sans-serif;
-      text-align: center;
-      margin: 0;
-      padding: 20px;
-    }
-    h1 {
-      color: cyan;
-      font-size: 2rem;
-      margin-bottom: 20px;
-      text-shadow: 0 0 10px cyan;
-    }
-    .editor-box {
-      background: #111;
-      border-radius: 20px;
-      box-shadow: 0 0 20px rgba(0,255,255,0.25);
-      width: 90%;
-      max-width: 500px;
-      margin: auto;
-      padding: 20px;
-    }
-    canvas {
-      width: 100%;
-      border-radius: 15px;
-      margin-top: 10px;
-      background: #000;
-    }
-    input[type="file"] {
-      margin: 15px 0;
-      background: #0ff3;
-      color: #0ff;
-      border: none;
-      cursor: pointer;
-    }
-    .slider-group {
-      margin: 15px 0;
-    }
-    label {
-      display: block;
-      margin-bottom: 5px;
-      color: #0ff;
-      font-weight: bold;
-    }
-    input[type="range"] {
-      width: 80%;
-    }
-    button {
-      background: cyan;
-      border: none;
-      padding: 10px 25px;
-      border-radius: 10px;
-      color: #000;
-      font-weight: bold;
-      cursor: pointer;
-      margin-top: 10px;
-    }
-    button:hover {
-      background: #00ffaa;
-      box-shadow: 0 0 10px #00ffaa;
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Photo Editor Pro</title>
+<style>
+body,html{margin:0;padding:0;background:#0d1117;color:#fff;font-family:sans-serif;text-align:center;}
+h1{margin:20px 0;color:#00ffff;text-shadow:0 0 15px #00ffff;}
+.editor{display:flex;flex-direction:column;align-items:center;gap:10px;}
+#canvas{border-radius:20px;background:#111;box-shadow:0 0 20px #00ffff;max-width:90vw;}
+.controls{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-top:15px;}
+.controls label{display:flex;flex-direction:column;align-items:center;color:#00ffff;font-size:14px;}
+.controls input[type=range]{width:100px;}
+button{background:linear-gradient(90deg,#00ffff,#6ee7b7);border:none;padding:10px 15px;border-radius:10px;font-weight:600;cursor:pointer;}
+button:hover{transform:scale(1.05);box-shadow:0 0 15px #00ffff;}
+input[type=file]{background:#00ffff;color:#000;padding:8px;border-radius:8px;}
+</style>
 </head>
 <body>
-  <h1>AI Photo Editor</h1>
+<h1>AI Photo Editor Pro</h1>
 
-  <div class="editor-box">
-    <input type="file" id="upload" accept="image/*"><br>
-    <canvas id="canvas"></canvas>
+<div class="editor">
+<input type="file" id="upload" accept="image/*">
+<canvas id="canvas" width="800" height="500"></canvas>
 
-    <div class="slider-group">
-      <label>Brightness</label>
-      <input type="range" id="brightness" min="0" max="200" value="100">
-    </div>
-    <div class="slider-group">
-      <label>Contrast</label>
-      <input type="range" id="contrast" min="0" max="200" value="100">
-    </div>
-    <div class="slider-group">
-      <label>Blur</label>
-      <input type="range" id="blur" min="0" max="10" value="0">
-    </div>
+<div class="controls">
+  <label>Brightness<input type="range" id="brightness" min="0" max="200" value="100"></label>
+  <label>Contrast<input type="range" id="contrast" min="0" max="200" value="100"></label>
+  <label>Saturation<input type="range" id="saturate" min="0" max="300" value="100"></label>
+  <label>Blur<input type="range" id="blur" min="0" max="20" value="0"></label>
+  <label>Grayscale<input type="range" id="grayscale" min="0" max="100" value="0"></label>
+  <label>Sepia<input type="range" id="sepia" min="0" max="100" value="0"></label>
+  <label>Hue Rotate<input type="range" id="hue" min="0" max="360" value="0"></label>
+  <label>Invert<input type="range" id="invert" min="0" max="100" value="0"></label>
+  <label>Opacity<input type="range" id="opacity" min="0" max="100" value="100"></label>
+  <label>Sharpness<input type="range" id="sharpness" min="0" max="10" value="0"></label>
+  <label>Vignette<input type="range" id="vignette" min="0" max="100" value="0"></label>
+  <label>Pixelate<input type="range" id="pixelate" min="1" max="20" value="1"></label>
+  <label>Glow<input type="range" id="glow" min="0" max="30" value="0"></label>
+  <label>Temperature<input type="range" id="temp" min="-100" max="100" value="0"></label>
+  <label>Exposure<input type="range" id="exposure" min="0" max="200" value="100"></label>
+  <label>Shadow<input type="range" id="shadow" min="0" max="100" value="0"></label>
+  <label>Highlight<input type="range" id="highlight" min="0" max="100" value="0"></label>
+  <label>Background Blur<input type="range" id="bgblur" min="0" max="20" value="0"></label>
+</div>
 
-    <button id="download">Download</button>
-  </div>
+<button id="downloadBtn">📸 Download</button>
+</div>
 
-  <script>
-    const upload = document.getElementById("upload");
-    const canvas = document.getElementById("canvas");
-    const ctx = canvas.getContext("2d");
-    let img = new Image();
+<script>
+const canvas=document.getElementById('canvas');
+const ctx=canvas.getContext('2d');
+let img=new Image();
 
-    upload.addEventListener("change", e => {
-      const file = e.target.files[0];
-      if (!file) return;
-      const reader = new FileReader();
-      reader.onload = () => {
-        img.src = reader.result;
-      };
-      reader.readAsDataURL(file);
-    });
-
-    img.onload = function() {
-      canvas.width = img.width;
-      canvas.height = img.height;
-      applyFilters();
-    };
-
-    const filters = {
-      brightness: document.getElementById("brightness"),
-      contrast: document.getElementById("contrast"),
-      blur: document.getElementById("blur"),
-    };
-
-    Object.values(filters).forEach(slider => {
-      slider.addEventListener("input", applyFilters);
-    });
-
-    function applyFilters() {
-      const brightness = filters.brightness.value;
-      const contrast = filters.contrast.value;
-      const blur = filters.blur.value;
-      ctx.filter = `brightness(${brightness}%) contrast(${contrast}%) blur(${blur}px)`;
-      ctx.drawImage(img, 0, 0);
+document.getElementById('upload').addEventListener('change',function(e){
+  const file=e.target.files[0];
+  if(file){
+    const reader=new FileReader();
+    reader.onload=function(ev){
+      img.src=ev.target.result;
+      img.onload=function(){
+        ctx.drawImage(img,0,0,canvas.width,canvas.height);
+        applyFilters();
+      }
     }
+    reader.readAsDataURL(file);
+  }
+});
 
-    document.getElementById("download").addEventListener("click", () => {
-      const link = document.createElement("a");
-      link.download = "edited_image.png";
-      link.href = canvas.toDataURL();
-      link.click();
-    });
-  </script>
+const filters=["brightness","contrast","saturate","blur","grayscale","sepia","hue","invert","opacity",
+               "sharpness","vignette","pixelate","glow","temp","exposure","shadow","highlight","bgblur"];
+
+filters.forEach(id=>{
+  document.getElementById(id).addEventListener('input',applyFilters);
+});
+
+function applyFilters(){
+  if(!img.src) return;
+  const brightness=document.getElementById('brightness').value;
+  const contrast=document.getElementById('contrast').value;
+  const saturate=document.getElementById('saturate').value;
+  const blur=document.getElementById('blur').value;
+  const grayscale=document.getElementById('grayscale').value;
+  const sepia=document.getElementById('sepia').value;
+  const hue=document.getElementById('hue').value;
+  const invert=document.getElementById('invert').value;
+  const opacity=document.getElementById('opacity').value;
+  const bgblur=document.getElementById('bgblur').value;
+
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+
+  // Background Blur simulation
+  if(bgblur>0){
+    ctx.filter=`blur(${bgblur}px)`;
+    ctx.drawImage(img,0,0,canvas.width,canvas.height);
+  }
+
+  // Foreground (subject)
+  ctx.filter=`brightness(${brightness}%) contrast(${contrast}%) saturate(${saturate}%)
+              grayscale(${grayscale}%) sepia(${sepia}%) hue-rotate(${hue}deg)
+              invert(${invert}%) opacity(${opacity}%) blur(${blur}px)`;
+  ctx.drawImage(img,0,0,canvas.width,canvas.height);
+}
+
+// Download with watermark
+document.getElementById('downloadBtn').addEventListener('click',()=>{
+  ctx.font='22px Arial';
+  ctx.fillStyle='rgba(0,255,255,0.6)';
+  ctx.fillText('Imran Hussain Mahi',canvas.width-240,canvas.height-20);
+  const link=document.createElement('a');
+  link.download='edited_by_mahi.png';
+  link.href=canvas.toDataURL('image/png');
+  link.click();
+});
+</script>
+
 </body>
 </html>
