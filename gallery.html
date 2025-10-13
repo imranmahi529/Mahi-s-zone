@@ -1,1 +1,317 @@
-<img src="https://raw.githubusercontent.com/imranmahi529/Mahi-s-zone/refs/heads/main/retouch_2025100514040064.jpg" alt="বর্ণনা">
+<!doctype html>
+<html lang="bn">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Mahi — Dream Gallery</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap">
+<style>
+  :root{
+    --bg:#060919; --card: rgba(255,255,255,0.03);
+    --accent: #60a5fa; --accent2:#6ee7b7; --muted:#9fb1c0;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;min-height:100vh;background:linear-gradient(180deg,#020617 0%, #071834 100%);font-family:Inter,system-ui,Arial;color:#e7f7ff}
+  .wrap{max-width:1200px;margin:30px auto;padding:18px}
+  header{display:flex;align-items:center;gap:12px}
+  .logo{width:64px;height:64px;border-radius:12px;background:linear-gradient(135deg,var(--accent2),var(--accent));display:flex;align-items:center;justify-content:center;font-weight:800;color:#032;font-size:18px}
+  h1{margin:0;font-size:20px}
+  .muted{color:var(--muted);font-size:13px}
+
+  /* tabs */
+  .tabs{display:flex;gap:8px;margin-top:18px}
+  .tab{padding:8px 12px;border-radius:999px;background:transparent;border:1px solid rgba(255,255,255,0.04);cursor:pointer;color:var(--muted)}
+  .tab.active{background:linear-gradient(90deg,var(--accent2),var(--accent));color:#032;border:none;box-shadow:0 10px 40px rgba(0,0,0,0.6)}
+
+  /* grid */
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px;margin-top:18px}
+  .card{background:var(--card);border-radius:12px;padding:8px;border:1px solid rgba(255,255,255,0.03);overflow:hidden;position:relative;cursor:pointer;transition:transform .18s, box-shadow .18s}
+  .card:hover{transform:translateY(-6px);box-shadow:0 30px 80px rgba(0,0,0,0.6)}
+  .thumb{width:100%;height:140px;object-fit:cover;border-radius:8px;background:#0b1220;display:block}
+  .meta{padding:8px 6px}
+  .meta strong{display:block}
+  .meta .small{color:var(--muted);font-size:13px;margin-top:4px}
+
+  /* video badge */
+  .badge{position:absolute;left:10px;top:10px;background:rgba(2,6,23,0.7);padding:6px 8px;border-radius:8px;font-weight:700;color:var(--accent2);font-size:13px}
+
+  /* lightbox */
+  .lightbox{position:fixed;inset:0;background:rgba(1,4,9,0.8);display:none;align-items:center;justify-content:center;z-index:9999}
+  .lightbox.show{display:flex}
+  .lb-inner{max-width:90%;max-height:90%;display:flex;flex-direction:column;gap:10px}
+  .lb-img{max-width:100%;max-height:80vh;border-radius:10px;object-fit:contain}
+  .lb-controls{display:flex;gap:8px;align-items:center;justify-content:center}
+  .btn{padding:8px 12px;border-radius:8px;border:none;background:linear-gradient(90deg,var(--accent2),var(--accent));color:#032;font-weight:800;cursor:pointer}
+
+  /* modal for youtube */
+  .modal{position:fixed;inset:0;background:rgba(0,0,0,0.8);display:none;align-items:center;justify-content:center;z-index:10000}
+  .modal.show{display:flex}
+  .video-wrap{width:90%;max-width:1000px;height:56.25vw;max-height:640px;background:#000;border-radius:12px;overflow:hidden}
+  iframe{width:100%;height:100%;border:0}
+
+  /* top controls / search */
+  .controls{display:flex;gap:10px;align-items:center;margin-top:14px;flex-wrap:wrap}
+  .search{padding:8px 12px;border-radius:10px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:inherit}
+  .downloadTip{color:var(--muted);font-size:13px;margin-left:14px}
+
+  @media (max-width:700px){
+    .thumb{height:110px}
+    .logo{width:52px;height:52px}
+    h1{font-size:18px}
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header>
+    <div class="logo">MAHI</div>
+    <div>
+      <h1>Mahi — Dream Gallery</h1>
+      <div class="muted">Photos, Videos & YouTube — play directly on your site</div>
+    </div>
+  </header>
+
+  <div class="controls">
+    <div class="tabs" role="tablist" aria-label="Gallery filters">
+      <button class="tab active" data-filter="all">All</button>
+      <button class="tab" data-filter="photos">Photos</button>
+      <button class="tab" data-filter="videos">Videos</button>
+      <button class="tab" data-filter="youtube">YouTube</button>
+    </div>
+
+    <input class="search" id="searchInput" placeholder="Search title or type (e.g. Grameenphone)" />
+    <div class="downloadTip">Click a photo to open → Download inside viewer (watermark added)</div>
+  </div>
+
+  <div class="grid" id="grid"></div>
+</div>
+
+<!-- Lightbox for images -->
+<div class="lightbox" id="lightbox" aria-hidden="true">
+  <div class="lb-inner">
+    <img id="lbImg" class="lb-img" src="" alt="preview">
+    <div class="lb-controls">
+      <button class="btn" id="prevBtn">Prev</button>
+      <button class="btn" id="downloadBtn">Download (watermark)</button>
+      <button class="btn" id="nextBtn">Next</button>
+      <button class="btn" id="closeLb">Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal for YouTube -->
+<div class="modal" id="ytModal" aria-hidden="true">
+  <div class="video-wrap" id="videoWrap"></div>
+</div>
+
+<script>
+/* -------------------------
+   User-provided assets
+   ------------------------- */
+const photos = [
+  { id: 'p1', src: 'https://raw.githubusercontent.com/imranmahi529/Mahi-s-zone/refs/heads/main/retouch_2025100514040064.jpg', title: 'Retouch 2025-10-05' },
+  { id: 'p2', src: 'https://raw.githubusercontent.com/imranmahi529/Mahi-s-zone/refs/heads/main/retouch_2025083123245637.%E0%A6%9C%E0%A6%AA%E0%A6%97', title: 'Retouch 2025-08-31' },
+  { id: 'p3', src: 'https://raw.githubusercontent.com/imranmahi529/Mahi-s-zone/refs/heads/main/retouch_2025081001173296.%E0%A6%9C%E0%A6%AA%E0%A6%97', title: 'Retouch 2025-08-10' },
+  { id: 'p4', src: 'https://raw.githubusercontent.com/imranmahi529/Mahi-s-zone/refs/heads/main/edited_image.%E0%A6%AA%E0%A6%82', title: 'Edited Image (PNG?)' },
+  { id: 'p5', src: 'https://raw.githubusercontent.com/imranmahi529/Mahi-s-zone/refs/heads/main/IMG_6346.JPG', title: 'IMG_6346' }
+];
+
+const localVideos = [
+  // if you have direct video file urls you can add here like:
+  // { id: 'v1', src: 'https://yourhost.com/video1.mp4', title: 'My Clip' }
+];
+
+const youtubeLinks = [
+  'https://youtu.be/rKEens36QKc?si=aSmS1Ce8',
+  'https://youtu.be/MxA0VBDoqck?si=sIqjRF3bHb6',
+  'https://youtu.be/2KwwRT5TV1g?si=fU5fj55eMM55e_',
+  'https://youtu.be/se_LX-YDRBc?si=06pymmre1',
+  'https://youtu.be/efOoQRu-Gxo?si=x1ZiIRoA2cYhvku0'
+];
+
+/* -------------------------
+   Helpers
+   ------------------------- */
+const grid = document.getElementById('grid');
+const tabs = document.querySelectorAll('.tab');
+const searchInput = document.getElementById('searchInput');
+
+function extractYouTubeID(url){
+  const m = url.match(/([A-Za-z0-9_-]{11})/);
+  return m ? m[1] : null;
+}
+
+/* create items list mixing photos, local videos and youtube */
+let items = [];
+photos.forEach(p => items.push({...p, type:'photo'}));
+localVideos.forEach(v => items.push({...v, type:'video'}));
+youtubeLinks.forEach((y,i) => {
+  const id = extractYouTubeID(y);
+  items.push({ id: 'yt' + (i+1), src: y, title: 'YouTube Video ' + (i+1), ytId: id, type: 'youtube' });
+});
+
+/* render grid */
+function renderGrid(list){
+  grid.innerHTML = '';
+  list.forEach(it=>{
+    const el = document.createElement('div');
+    el.className = 'card';
+    if(it.type === 'photo'){
+      const img = document.createElement('img');
+      img.className='thumb';
+      img.loading='lazy';
+      img.src = it.src;
+      img.alt = it.title;
+      el.appendChild(img);
+      el.innerHTML += `<div class="meta"><strong>${it.title}</strong><div class="small">Photo</div></div>`;
+      el.addEventListener('click', ()=> openLightbox(it));
+    } else if(it.type === 'video'){
+      el.innerHTML = `<div class="badge">VIDEO</div><video class="thumb" src="${it.src}" controls muted preload="metadata"></video><div class="meta"><strong>${it.title}</strong><div class="small">Local Video</div></div>`;
+    } else if(it.type === 'youtube'){
+      const thumb = document.createElement('img');
+      thumb.className='thumb';
+      thumb.loading='lazy';
+      thumb.alt = it.title;
+      // use youtube thumbnail if ytId found
+      thumb.src = it.ytId ? `https://img.youtube.com/vi/${it.ytId}/hqdefault.jpg` : '';
+      el.appendChild(thumb);
+      el.innerHTML += `<div class="badge">YT</div><div class="meta"><strong>${it.title}</strong><div class="small">YouTube</div></div>`;
+      el.addEventListener('click', ()=> openYouTube(it));
+    }
+    grid.appendChild(el);
+  });
+}
+
+/* initial render */
+renderGrid(items);
+
+/* -------------------------
+   Tabs & Search
+   ------------------------- */
+tabs.forEach(t=>{
+  t.addEventListener('click', ()=>{
+    tabs.forEach(x=>x.classList.remove('active'));
+    t.classList.add('active');
+    const f = t.dataset.filter;
+    applyFilter(f);
+  });
+});
+
+searchInput.addEventListener('input', ()=> {
+  const q = searchInput.value.trim().toLowerCase();
+  if(!q) { renderGrid(items); return; }
+  const filtered = items.filter(i => (i.title && i.title.toLowerCase().includes(q)) || (i.type && i.type.includes(q)));
+  renderGrid(filtered);
+});
+
+function applyFilter(f){
+  if(f === 'all') renderGrid(items);
+  else renderGrid(items.filter(i => i.type === f));
+}
+
+/* -------------------------
+   Lightbox (images)
+   ------------------------- */
+const lightbox = document.getElementById('lightbox');
+const lbImg = document.getElementById('lbImg');
+let currentIndex = -1;
+let photoItems = items.filter(i=>i.type==='photo');
+
+function openLightbox(item){
+  photoItems = items.filter(i=>i.type==='photo');
+  currentIndex = photoItems.findIndex(p=>p.id === item.id);
+  showImage(photoItems[currentIndex].src);
+  lightbox.classList.add('show');
+  lightbox.setAttribute('aria-hidden','false');
+}
+
+function showImage(src){
+  lbImg.src = src;
+}
+
+document.getElementById('closeLb').addEventListener('click', ()=> {
+  lightbox.classList.remove('show');
+  lightbox.setAttribute('aria-hidden','true');
+});
+
+document.getElementById('prevBtn').addEventListener('click', ()=> {
+  if(currentIndex > 0){ currentIndex--; showImage(photoItems[currentIndex].src); }
+});
+document.getElementById('nextBtn').addEventListener('click', ()=> {
+  if(currentIndex < photoItems.length-1){ currentIndex++; showImage(photoItems[currentIndex].src); }
+});
+
+/* Download with watermark (canvas) */
+document.getElementById('downloadBtn').addEventListener('click', async ()=>{
+  const src = lbImg.src;
+  try{
+    // try to load image with crossOrigin anonymous
+    const img = await loadImageWithCORS(src);
+    const canvas2 = document.createElement('canvas');
+    canvas2.width = img.width;
+    canvas2.height = img.height;
+    const c2 = canvas2.getContext('2d');
+    c2.drawImage(img,0,0);
+    // watermark
+    const text = 'Imran Hussain Mahi';
+    const fontSize = Math.max(24, Math.round(canvas2.width / 30));
+    c2.font = `${fontSize}px Arial`;
+    c2.fillStyle = 'rgba(255,255,255,0.6)';
+    c2.textBaseline = 'bottom';
+    c2.fillText(text, canvas2.width - c2.measureText(text).width - 20, canvas2.height - 20);
+    const data = canvas2.toDataURL('image/png');
+    triggerDownload(data, 'mahi_edited.png');
+  }catch(err){
+    // fallback: open image in new tab so user can save manually
+    window.open(src, '_blank');
+    alert('Direct watermark download failed (CORS). Image opened in a new tab — save manually.');
+  }
+});
+
+// helper to load image with crossOrigin (may fail if server blocks CORS)
+function loadImageWithCORS(src){
+  return new Promise((res, rej)=>{
+    const i = new Image();
+    i.crossOrigin = 'anonymous';
+    i.onload = ()=> res(i);
+    i.onerror = ()=> rej(new Error('Image load error (CORS?)'));
+    i.src = src;
+  });
+}
+function triggerDownload(dataUrl, filename){
+  const a = document.createElement('a');
+  a.href = dataUrl;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+}
+
+/* -------------------------
+   YouTube modal
+   ------------------------- */
+const ytModal = document.getElementById('ytModal');
+const videoWrap = document.getElementById('videoWrap');
+function openYouTube(item){
+  if(!item.ytId){ alert('Invalid YouTube link'); return; }
+  videoWrap.innerHTML = `<iframe src="https://www.youtube.com/embed/${item.ytId}?rel=0&autoplay=1" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+  ytModal.classList.add('show'); ytModal.setAttribute('aria-hidden','false');
+}
+ytModal.addEventListener('click', (e)=>{
+  if(e.target === ytModal){
+    ytModal.classList.remove('show'); videoWrap.innerHTML = '';
+  }
+});
+
+/* -------------------------
+   Utility: If you want to add local video playback or more items, push into items[] then renderGrid(items)
+   ------------------------- */
+
+/* Accessibility: close lightbox with Esc */
+document.addEventListener('keydown', e=>{
+  if(e.key === 'Escape'){ lightbox.classList.remove('show'); ytModal.classList.remove('show'); videoWrap.innerHTML=''; }
+});
+</script>
+</body>
+</html>
